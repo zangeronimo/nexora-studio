@@ -147,4 +147,18 @@ export default [
       'no-undef': 'off',
     },
   },
+  {
+    ignores: [
+      'node_modules/',
+      'dist/',
+      'build/',
+      'coverage/',
+
+      'webpack.*.js',
+      'jest.config.*',
+      'commitlint.config.*',
+      'eslint.config.*',
+      'dump.js',
+    ],
+  },
 ];
