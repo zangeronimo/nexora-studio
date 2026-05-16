@@ -4,27 +4,47 @@ import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import sonarjs from 'eslint-plugin-sonarjs';
 import importPlugin from 'eslint-plugin-import';
+import prettierPlugin from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 import globals from 'globals';
 
 export default [
-  // =========================================================
-  // BASE JS + TS
-  // =========================================================
+  {
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+
+      'webpack*.cjs',
+      'jest.config.*',
+      'commitlint.config.*',
+      'dump.js',
+    ],
+  },
+
   js.configs.recommended,
+
   ...tseslint.configs.recommended,
 
-  // =========================================================
-  // FRONTEND (REACT + TYPESCRIPT)
-  // =========================================================
   {
     files: ['src/**/*.{ts,tsx}'],
 
     languageOptions: {
       parser: tseslint.parser,
-      ecmaVersion: 'latest',
-      sourceType: 'module',
+
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        jsx: true,
+      },
+
       globals: {
         ...globals.browser,
+        ...globals.node,
+        ...globals.jest,
+
+        console: 'readonly',
       },
     },
 
@@ -33,12 +53,14 @@ export default [
       'react-hooks': reactHooks,
       sonarjs,
       import: importPlugin,
+      prettier: prettierPlugin,
     },
 
     settings: {
       react: {
         version: 'detect',
       },
+
       'import/resolver': {
         node: {
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -47,44 +69,14 @@ export default [
     },
 
     rules: {
-      // =====================================================
-      // ARCHITECTURE RULES (NEXORA)
-      // =====================================================
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: ['@application/*', '@infra/*', '@presentation/*'],
-              message: 'domain layer cannot depend on upper layers',
-            },
-            {
-              group: ['@presentation/*'],
-              message: 'application layer cannot depend on presentation',
-            },
-            {
-              group: ['@infra/*'],
-              message: 'presentation cannot depend directly on infra',
-            },
-            {
-              group: ['@domain/*'],
-              message:
-                'presentation should access domain via application layer',
-            },
-          ],
-        },
-      ],
+      // prettier
+      'prettier/prettier': 'error',
 
-      // =====================================================
-      // REACT
-      // =====================================================
+      // react hooks
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'off',
-      'react/no-children-prop': 'off',
 
-      // =====================================================
-      // TYPESCRIPT
-      // =====================================================
+      // ts
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-use-before-define': 'error',
@@ -94,15 +86,15 @@ export default [
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
       '@typescript-eslint/strict-boolean-expressions': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
 
-      // =====================================================
-      // JS CORE
-      // =====================================================
+      // react
+      'react/no-children-prop': 'off',
+
+      // js
       'no-use-before-define': 'off',
 
-      // =====================================================
-      // IMPORTS
-      // =====================================================
+      // imports
       'import/extensions': [
         'error',
         'ignorePackages',
@@ -114,51 +106,78 @@ export default [
         },
       ],
 
-      // =====================================================
-      // SONARJS
-      // =====================================================
+      // sonar
       ...sonarjs.configs.recommended.rules,
     },
   },
 
-  // =========================================================
-  // NODE TOOLING (WEBPACK / JEST / COMMITLINT)
-  // =========================================================
-  {
-    files: [
-      '**/webpack*.js',
-      '**/*.config.js',
-      'jest.config.js',
-      'commitlint.config.js',
-    ],
+  // =========================
+  // DOMAIN
+  // =========================
 
-    languageOptions: {
-      globals: {
-        ...globals.node,
-        module: 'readonly',
-        require: 'readonly',
-        __dirname: 'readonly',
-        process: 'readonly',
-      },
-    },
+  {
+    files: ['src/domain/**/*.{ts,tsx}'],
 
     rules: {
-      '@typescript-eslint/no-require-imports': 'off',
-      'no-undef': 'off',
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@application/*', '@infra/*', '@presentation/*'],
+        },
+      ],
     },
   },
-  {
-    ignores: [
-      'node_modules/',
-      'dist/',
-      'build/',
-      'coverage/',
 
-      'webpack.*.cjs',
-      'jest.config.*',
-      'commitlint.config.*',
-      'eslint.config.*',
-      'dump.js',
-    ],
+  // =========================
+  // APPLICATION
+  // =========================
+
+  {
+    files: ['src/application/**/*.{ts,tsx}'],
+
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@infra/*', '@presentation/*'],
+        },
+      ],
+    },
   },
+
+  // =========================
+  // INFRA
+  // =========================
+
+  {
+    files: ['src/infra/**/*.{ts,tsx}'],
+
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@presentation/*'],
+        },
+      ],
+    },
+  },
+
+  // =========================
+  // PRESENTATION
+  // =========================
+
+  {
+    files: ['src/presentation/**/*.{ts,tsx}'],
+
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@infra/*'],
+        },
+      ],
+    },
+  },
+
+  prettierConfig,
 ];

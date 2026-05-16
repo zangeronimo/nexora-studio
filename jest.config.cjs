@@ -1,9 +1,11 @@
 module.exports = {
-  preset: 'ts-jest/presets/default',
+  preset: 'ts-jest',
 
   testEnvironment: 'jsdom',
 
   roots: ['<rootDir>/src'],
+
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
 
   moduleNameMapper: {
     '^@domain/(.*)$': '<rootDir>/src/domain/$1',
@@ -12,13 +14,11 @@ module.exports = {
     '^@presentation/(.*)$': '<rootDir>/src/presentation/$1',
   },
 
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
+  },
 
   testMatch: ['**/__tests__/**/*.(ts|tsx)', '**/*.(test|spec).(ts|tsx)'],
 
   moduleFileExtensions: ['ts', 'tsx', 'js'],
-
-  transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
-  },
 };
