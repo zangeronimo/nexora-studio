@@ -1,11 +1,12 @@
 const { DefinePlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 
 module.exports = merge(common, {
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -16,10 +17,12 @@ module.exports = merge(common, {
       {
         test: /\.module\.scss$/,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
-            options: { modules: true },
+            options: {
+              modules: true,
+            },
           },
           'sass-loader',
         ],
@@ -27,11 +30,7 @@ module.exports = merge(common, {
       {
         test: /\.scss$/,
         exclude: /\.module\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader', // sem modules aqui!
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.css$/,
@@ -39,23 +38,17 @@ module.exports = merge(common, {
       },
     ],
   },
-  devtool: 'inline-source-map',
-  devServer: {
-    devMiddleware: {
-      writeToDisk: true,
-    },
-    static: {
-      directory: './public',
-    },
-    historyApiFallback: true,
-    port: 3000,
-  },
   plugins: [
     new DefinePlugin({
-      'process.env.API_URL': JSON.stringify('http://localhost:4000'),
+      'process.env.API_URL': JSON.stringify(
+        'https://webeditor-node.tudolinux.com.br',
+      ),
     }),
     new HtmlWebpackPlugin({
-      template: './template.dev.html',
+      template: './template.prod.html',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'main-bundle-[fullhash].css',
     }),
     new FaviconsWebpackPlugin({
       logo: './public/favicon.png',

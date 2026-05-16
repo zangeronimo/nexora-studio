@@ -6,7 +6,7 @@
   "repository": "git@github.com:zangeronimo/nexora-studio.git",
   "author": "Luciano Zangeronimo <zangeronimo@gmail.com>",
   "license": "MIT",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "local:base": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
@@ -16,10 +16,17 @@
     "test:staged": "yarn test --findRelatedTests",
     "test:ci": "yarn test --coverage",
     "lint": "eslint .",
-    "lint:fix": "yarn lint --fix"
+    "lint:fix": "yarn lint --fix",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
+    "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.8.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -28,16 +35,30 @@
     "copy-webpack-plugin": "^14.0.0",
     "cross-env": "^10.1.0",
     "css-loader": "^7.1.4",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-sonarjs": "^4.0.3",
     "favicons": "^7.2.0",
     "favicons-webpack-plugin": "^6.0.1",
     "glob": "^13.0.6",
     "html-webpack-plugin": "^5.6.7",
+    "husky": "^9.1.7",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "lint-staged": "^17.0.5",
     "mini-css-extract-plugin": "^2.10.2",
+    "prettier": "^3.8.3",
     "sass": "^1.99.0",
     "sass-loader": "^16.0.8",
     "style-loader": "^4.0.0",
+    "ts-jest": "^29.4.9",
     "ts-loader": "^9.5.7",
     "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3",
     "webpack": "^5.106.2",
     "webpack-cli": "^7.0.2",
     "webpack-dev-server": "^5.2.4",
@@ -47,5 +68,10 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.15.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ]
   }
 }

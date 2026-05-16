@@ -1,35 +1,21 @@
 {
-    "compilerOptions": {
-        "target": "ES6",
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ESNext"
-        ],
-        "module": "ESNext",
-        "moduleResolution": "bundler",
-        "jsx": "react-jsx",
-        "strict": false,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "allowJs": true,
-        "skipLibCheck": true,
-        "paths": {
-            "@domain/*": [
-                "./src/domain/*"
-            ],
-            "@application/*": [
-                "./src/application/*"
-            ],
-            "@infra/*": [
-                "./src/infra/*"
-            ],
-            "@presentation/*": [
-                "./src/presentation/*"
-            ]
-        }
-    },
-    "include": [
-        "src"
-    ]
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@domain/*": ["./src/domain/*"],
+      "@application/*": ["./src/application/*"],
+      "@infra/*": ["./src/infra/*"],
+      "@presentation/*": ["./src/presentation/*"]
+    }
+  },
+  "include": ["src"]
 }
