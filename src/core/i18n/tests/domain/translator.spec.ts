@@ -1,4 +1,4 @@
-import { createTranslator } from '../domain/translator';
+import { createTranslator } from '../../domain/translator';
 
 describe('createTranslator', () => {
   it('should translate existing key', () => {

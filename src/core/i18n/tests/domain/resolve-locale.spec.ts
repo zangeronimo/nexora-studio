@@ -1,5 +1,5 @@
 import { Storage } from '@application/contracts/storage';
-import { resolveLocale } from '../domain/resolve-locale';
+import { resolveLocale } from '../../domain/resolve-locale';
 
 describe('resolveLocale', () => {
   it('should return stored locale when exists', () => {
