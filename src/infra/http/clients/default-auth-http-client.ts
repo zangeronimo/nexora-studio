@@ -2,14 +2,13 @@ import { AuthHttpClient } from '@application/contracts/auth-http-client';
 import { AuthHttpRequestConfig } from '@application/contracts/auth-http-request-config';
 import { HttpClient } from '@application/contracts/http-client';
 import { Storage } from '@application/contracts/storage';
+import { resolveLocale } from '../../../core/i18n/domain/resolve-locale';
 
 export class DefaultAuthHttpClient implements AuthHttpClient {
-  private readonly _httpClient: HttpClient;
-  private readonly _storage: Storage;
-  constructor(httpClient: HttpClient, authStorage: any) {
-    this._httpClient = httpClient;
-    this._storage = authStorage;
-  }
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly storage: Storage,
+  ) {}
 
   get<T>(url: string, config?: AuthHttpRequestConfig): Promise<T> {
     return this.request<T>('GET', url, null, config);
@@ -49,13 +48,17 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
     body?: unknown,
     config?: AuthHttpRequestConfig,
   ): Promise<T> {
-    const token = this._storage.get<string>('accessToken');
-    return this._httpClient.request(url, {
+    const token = this.storage.get<string>('accessToken');
+    const language = resolveLocale(this.storage);
+    return this.httpClient.request(url, {
       ...config,
       method,
       body: body ? JSON.stringify(body) : undefined,
       headers: {
         ...config?.headers,
+        ...(language && {
+          'Accept-Language': language,
+        }),
         ...(body && {
           'Content-Type': 'application/json',
         }),
