@@ -7,3 +7,6 @@ yarn.error.log
 cypress.json
 cypress.config.ts
 cypress/screenshots
+dump.txt
+dump.cjs
+dump.js

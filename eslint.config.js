@@ -19,6 +19,7 @@ export default [
       'webpack*.cjs',
       'jest.config.*',
       'commitlint.config.*',
+      'dump.cjs',
       'dump.js',
     ],
   },
