@@ -12,7 +12,7 @@ describe('DefaultAuthHttpClient', () => {
       get: jest.fn().mockReturnValue('token-123'),
     };
 
-    const sut = new DefaultAuthHttpClient(httpClient as any, storage);
+    const sut = new DefaultAuthHttpClient(httpClient as any, storage as any);
 
     return {
       sut,
@@ -27,12 +27,15 @@ describe('DefaultAuthHttpClient', () => {
 
       await sut.get('/users');
 
-      expect(request).toHaveBeenCalledWith('/users', {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer token-123',
-        },
-      });
+      expect(request).toHaveBeenCalledWith(
+        '/users',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            Authorization: 'Bearer token-123',
+          }),
+        }),
+      );
     });
 
     it('should preserve existing headers', async () => {
@@ -44,13 +47,16 @@ describe('DefaultAuthHttpClient', () => {
         },
       });
 
-      expect(request).toHaveBeenCalledWith('/users', {
-        method: 'GET',
-        headers: {
-          'X-Tenant': 'tenant-1',
-          Authorization: 'Bearer token-123',
-        },
-      });
+      expect(request).toHaveBeenCalledWith(
+        '/users',
+        expect.objectContaining({
+          method: 'GET',
+          headers: expect.objectContaining({
+            'X-Tenant': 'tenant-1',
+            Authorization: 'Bearer token-123',
+          }),
+        }),
+      );
     });
   });
 
@@ -60,13 +66,16 @@ describe('DefaultAuthHttpClient', () => {
 
       await sut.post('/users');
 
-      expect(request).toHaveBeenCalledWith('/users', {
-        method: 'POST',
-        body: undefined,
-        headers: {
-          Authorization: 'Bearer token-123',
-        },
-      });
+      expect(request).toHaveBeenCalledWith(
+        '/users',
+        expect.objectContaining({
+          method: 'POST',
+          body: undefined,
+          headers: expect.objectContaining({
+            Authorization: 'Bearer token-123',
+          }),
+        }),
+      );
     });
 
     it('should serialize body', async () => {
@@ -76,16 +85,19 @@ describe('DefaultAuthHttpClient', () => {
         name: 'Luciano',
       });
 
-      expect(request).toHaveBeenCalledWith('/users', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: 'Luciano',
+      expect(request).toHaveBeenCalledWith(
+        '/users',
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            name: 'Luciano',
+          }),
+          headers: expect.objectContaining({
+            Authorization: 'Bearer token-123',
+            'Content-Type': 'application/json',
+          }),
         }),
-        headers: {
-          Authorization: 'Bearer token-123',
-          'Content-Type': 'application/json',
-        },
-      });
+      );
     });
 
     it('should preserve existing headers', async () => {
@@ -103,17 +115,20 @@ describe('DefaultAuthHttpClient', () => {
         },
       );
 
-      expect(request).toHaveBeenCalledWith('/users', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: 'Luciano',
+      expect(request).toHaveBeenCalledWith(
+        '/users',
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            name: 'Luciano',
+          }),
+          headers: expect.objectContaining({
+            'X-Tenant': 'tenant-1',
+            Authorization: 'Bearer token-123',
+            'Content-Type': 'application/json',
+          }),
         }),
-        headers: {
-          'X-Tenant': 'tenant-1',
-          Authorization: 'Bearer token-123',
-          'Content-Type': 'application/json',
-        },
-      });
+      );
     });
   });
 
@@ -125,16 +140,19 @@ describe('DefaultAuthHttpClient', () => {
         name: 'Luciano',
       });
 
-      expect(request).toHaveBeenCalledWith('/users/1', {
-        method: 'PUT',
-        body: JSON.stringify({
-          name: 'Luciano',
+      expect(request).toHaveBeenCalledWith(
+        '/users/1',
+        expect.objectContaining({
+          method: 'PUT',
+          body: JSON.stringify({
+            name: 'Luciano',
+          }),
+          headers: expect.objectContaining({
+            Authorization: 'Bearer token-123',
+            'Content-Type': 'application/json',
+          }),
         }),
-        headers: {
-          Authorization: 'Bearer token-123',
-          'Content-Type': 'application/json',
-        },
-      });
+      );
     });
   });
 
@@ -146,16 +164,19 @@ describe('DefaultAuthHttpClient', () => {
         active: true,
       });
 
-      expect(request).toHaveBeenCalledWith('/users/1', {
-        method: 'PATCH',
-        body: JSON.stringify({
-          active: true,
+      expect(request).toHaveBeenCalledWith(
+        '/users/1',
+        expect.objectContaining({
+          method: 'PATCH',
+          body: JSON.stringify({
+            active: true,
+          }),
+          headers: expect.objectContaining({
+            Authorization: 'Bearer token-123',
+            'Content-Type': 'application/json',
+          }),
         }),
-        headers: {
-          Authorization: 'Bearer token-123',
-          'Content-Type': 'application/json',
-        },
-      });
+      );
     });
   });
 
@@ -165,12 +186,15 @@ describe('DefaultAuthHttpClient', () => {
 
       await sut.delete('/users/1');
 
-      expect(request).toHaveBeenCalledWith('/users/1', {
-        method: 'DELETE',
-        headers: {
-          Authorization: 'Bearer token-123',
-        },
-      });
+      expect(request).toHaveBeenCalledWith(
+        '/users/1',
+        expect.objectContaining({
+          method: 'DELETE',
+          headers: expect.objectContaining({
+            Authorization: 'Bearer token-123',
+          }),
+        }),
+      );
     });
 
     it('should preserve existing headers', async () => {
@@ -182,13 +206,16 @@ describe('DefaultAuthHttpClient', () => {
         },
       });
 
-      expect(request).toHaveBeenCalledWith('/users/1', {
-        method: 'DELETE',
-        headers: {
-          'X-Tenant': 'tenant-1',
-          Authorization: 'Bearer token-123',
-        },
-      });
+      expect(request).toHaveBeenCalledWith(
+        '/users/1',
+        expect.objectContaining({
+          method: 'DELETE',
+          headers: expect.objectContaining({
+            'X-Tenant': 'tenant-1',
+            Authorization: 'Bearer token-123',
+          }),
+        }),
+      );
     });
   });
 
@@ -198,5 +225,63 @@ describe('DefaultAuthHttpClient', () => {
     await sut.get('/users');
 
     expect(storage.get).toHaveBeenCalled();
+  });
+
+  it('should add locale header', async () => {
+    const request = jest.fn();
+
+    const httpClient = {
+      request,
+    };
+
+    const storage = {
+      get: jest.fn((key: string) => {
+        if (key === 'accessToken') return 'token-123';
+        if (key === 'locale') return 'pt-BR';
+        return null;
+      }),
+      set: jest.fn(),
+      remove: jest.fn(),
+    };
+
+    const client = new DefaultAuthHttpClient(httpClient as any, storage as any);
+
+    await client.get('/users');
+
+    expect(request).toHaveBeenCalledWith('/users', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer token-123',
+        'Accept-Language': 'pt-BR',
+      },
+    });
+  });
+
+  it('should fallback locale when missing', async () => {
+    const request = jest.fn();
+
+    const httpClient = { request };
+
+    const storage = {
+      get: jest.fn((key: string) => {
+        if (key === 'accessToken') return 'token-123';
+        if (key === 'locale') return null;
+        return null;
+      }),
+      set: jest.fn(),
+      remove: jest.fn(),
+    };
+
+    const client = new DefaultAuthHttpClient(httpClient as any, storage as any);
+
+    await client.get('/users');
+
+    expect(request).toHaveBeenCalledWith('/users', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer token-123',
+        'Accept-Language': 'en-US',
+      },
+    });
   });
 });
