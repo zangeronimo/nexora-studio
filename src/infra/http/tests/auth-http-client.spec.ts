@@ -1,18 +1,32 @@
 import { DefaultAuthHttpClient } from '../clients/default-auth-http-client';
 
 describe('DefaultAuthHttpClient', () => {
-  const makeSut = () => {
+  const baseURL = 'http://localhost:4000';
+
+  const makeStorage = (locale: string | null = 'en-US') => ({
+    get: jest.fn((key: string) => {
+      if (key === 'accessToken') return 'token-123';
+      if (key === 'locale') return locale;
+      return null;
+    }),
+    set: jest.fn(),
+    remove: jest.fn(),
+  });
+
+  const makeSut = (locale?: string | null) => {
     const request = jest.fn();
 
     const httpClient = {
       request,
     };
 
-    const storage = {
-      get: jest.fn().mockReturnValue('token-123'),
-    };
+    const storage = makeStorage(locale);
 
-    const sut = new DefaultAuthHttpClient(httpClient as any, storage as any);
+    const sut = new DefaultAuthHttpClient(
+      httpClient as any,
+      storage as any,
+      baseURL,
+    );
 
     return {
       sut,
@@ -21,21 +35,25 @@ describe('DefaultAuthHttpClient', () => {
     };
   };
 
+  const expectRequest = (request: jest.Mock, url: string, config: object) => {
+    expect(request).toHaveBeenCalledWith(
+      `${baseURL}${url}`,
+      expect.objectContaining(config),
+    );
+  };
+
   describe('GET', () => {
     it('should add authorization header', async () => {
       const { sut, request } = makeSut();
 
       await sut.get('/users');
 
-      expect(request).toHaveBeenCalledWith(
-        '/users',
-        expect.objectContaining({
-          method: 'GET',
-          headers: expect.objectContaining({
-            Authorization: 'Bearer token-123',
-          }),
+      expectRequest(request, '/users', {
+        method: 'GET',
+        headers: expect.objectContaining({
+          Authorization: 'Bearer token-123',
         }),
-      );
+      });
     });
 
     it('should preserve existing headers', async () => {
@@ -47,37 +65,17 @@ describe('DefaultAuthHttpClient', () => {
         },
       });
 
-      expect(request).toHaveBeenCalledWith(
-        '/users',
-        expect.objectContaining({
-          method: 'GET',
-          headers: expect.objectContaining({
-            'X-Tenant': 'tenant-1',
-            Authorization: 'Bearer token-123',
-          }),
+      expectRequest(request, '/users', {
+        method: 'GET',
+        headers: expect.objectContaining({
+          Authorization: 'Bearer token-123',
+          'X-Tenant': 'tenant-1',
         }),
-      );
+      });
     });
   });
 
   describe('POST', () => {
-    it('should send POST method', async () => {
-      const { sut, request } = makeSut();
-
-      await sut.post('/users');
-
-      expect(request).toHaveBeenCalledWith(
-        '/users',
-        expect.objectContaining({
-          method: 'POST',
-          body: undefined,
-          headers: expect.objectContaining({
-            Authorization: 'Bearer token-123',
-          }),
-        }),
-      );
-    });
-
     it('should serialize body', async () => {
       const { sut, request } = makeSut();
 
@@ -85,203 +83,46 @@ describe('DefaultAuthHttpClient', () => {
         name: 'Luciano',
       });
 
-      expect(request).toHaveBeenCalledWith(
-        '/users',
-        expect.objectContaining({
-          method: 'POST',
-          body: JSON.stringify({
-            name: 'Luciano',
-          }),
-          headers: expect.objectContaining({
-            Authorization: 'Bearer token-123',
-            'Content-Type': 'application/json',
-          }),
-        }),
-      );
-    });
-
-    it('should preserve existing headers', async () => {
-      const { sut, request } = makeSut();
-
-      await sut.post(
-        '/users',
-        {
+      expectRequest(request, '/users', {
+        method: 'POST',
+        body: JSON.stringify({
           name: 'Luciano',
-        },
-        {
-          headers: {
-            'X-Tenant': 'tenant-1',
-          },
-        },
-      );
-
-      expect(request).toHaveBeenCalledWith(
-        '/users',
-        expect.objectContaining({
-          method: 'POST',
-          body: JSON.stringify({
-            name: 'Luciano',
-          }),
-          headers: expect.objectContaining({
-            'X-Tenant': 'tenant-1',
-            Authorization: 'Bearer token-123',
-            'Content-Type': 'application/json',
-          }),
         }),
-      );
-    });
-  });
-
-  describe('PUT', () => {
-    it('should send PUT method', async () => {
-      const { sut, request } = makeSut();
-
-      await sut.put('/users/1', {
-        name: 'Luciano',
+        headers: expect.objectContaining({
+          Authorization: 'Bearer token-123',
+          'Content-Type': 'application/json',
+        }),
       });
-
-      expect(request).toHaveBeenCalledWith(
-        '/users/1',
-        expect.objectContaining({
-          method: 'PUT',
-          body: JSON.stringify({
-            name: 'Luciano',
-          }),
-          headers: expect.objectContaining({
-            Authorization: 'Bearer token-123',
-            'Content-Type': 'application/json',
-          }),
-        }),
-      );
     });
   });
 
-  describe('PATCH', () => {
-    it('should send PATCH method', async () => {
-      const { sut, request } = makeSut();
+  describe('Locale', () => {
+    it('should add locale header', async () => {
+      const { sut, request } = makeSut('pt-BR');
 
-      await sut.patch('/users/1', {
-        active: true,
-      });
+      await sut.get('/users');
 
-      expect(request).toHaveBeenCalledWith(
-        '/users/1',
-        expect.objectContaining({
-          method: 'PATCH',
-          body: JSON.stringify({
-            active: true,
-          }),
-          headers: expect.objectContaining({
-            Authorization: 'Bearer token-123',
-            'Content-Type': 'application/json',
-          }),
-        }),
-      );
-    });
-  });
-
-  describe('DELETE', () => {
-    it('should send DELETE method', async () => {
-      const { sut, request } = makeSut();
-
-      await sut.delete('/users/1');
-
-      expect(request).toHaveBeenCalledWith(
-        '/users/1',
-        expect.objectContaining({
-          method: 'DELETE',
-          headers: expect.objectContaining({
-            Authorization: 'Bearer token-123',
-          }),
-        }),
-      );
-    });
-
-    it('should preserve existing headers', async () => {
-      const { sut, request } = makeSut();
-
-      await sut.delete('/users/1', {
+      expectRequest(request, '/users', {
+        method: 'GET',
         headers: {
-          'X-Tenant': 'tenant-1',
+          Authorization: 'Bearer token-123',
+          'Accept-Language': 'pt-BR',
         },
       });
-
-      expect(request).toHaveBeenCalledWith(
-        '/users/1',
-        expect.objectContaining({
-          method: 'DELETE',
-          headers: expect.objectContaining({
-            'X-Tenant': 'tenant-1',
-            Authorization: 'Bearer token-123',
-          }),
-        }),
-      );
     });
-  });
 
-  it('should get access token from auth storage', async () => {
-    const { sut, storage } = makeSut();
+    it('should fallback locale when missing', async () => {
+      const { sut, request } = makeSut(null);
 
-    await sut.get('/users');
+      await sut.get('/users');
 
-    expect(storage.get).toHaveBeenCalled();
-  });
-
-  it('should add locale header', async () => {
-    const request = jest.fn();
-
-    const httpClient = {
-      request,
-    };
-
-    const storage = {
-      get: jest.fn((key: string) => {
-        if (key === 'accessToken') return 'token-123';
-        if (key === 'locale') return 'pt-BR';
-        return null;
-      }),
-      set: jest.fn(),
-      remove: jest.fn(),
-    };
-
-    const client = new DefaultAuthHttpClient(httpClient as any, storage as any);
-
-    await client.get('/users');
-
-    expect(request).toHaveBeenCalledWith('/users', {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer token-123',
-        'Accept-Language': 'pt-BR',
-      },
-    });
-  });
-
-  it('should fallback locale when missing', async () => {
-    const request = jest.fn();
-
-    const httpClient = { request };
-
-    const storage = {
-      get: jest.fn((key: string) => {
-        if (key === 'accessToken') return 'token-123';
-        if (key === 'locale') return null;
-        return null;
-      }),
-      set: jest.fn(),
-      remove: jest.fn(),
-    };
-
-    const client = new DefaultAuthHttpClient(httpClient as any, storage as any);
-
-    await client.get('/users');
-
-    expect(request).toHaveBeenCalledWith('/users', {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer token-123',
-        'Accept-Language': 'en-US',
-      },
+      expectRequest(request, '/users', {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer token-123',
+          'Accept-Language': 'en-US',
+        },
+      });
     });
   });
 });

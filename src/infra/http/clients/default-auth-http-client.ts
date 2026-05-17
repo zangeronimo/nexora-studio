@@ -8,6 +8,7 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly storage: Storage,
+    private readonly baseUrl: string,
   ) {}
 
   get<T>(url: string, config?: AuthHttpRequestConfig): Promise<T> {
@@ -42,6 +43,11 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
     return this.request<T>('DELETE', url, null, config);
   }
 
+  private buildUrl(url: string): string {
+    const separator = url.startsWith('/') ? '' : '/';
+    return `${this.baseUrl}${separator}${url}`;
+  }
+
   private request<T>(
     method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE',
     url: string,
@@ -50,7 +56,7 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
   ): Promise<T> {
     const token = this.storage.get<string>('accessToken');
     const language = resolveLocale(this.storage);
-    return this.httpClient.request(url, {
+    return this.httpClient.request(this.buildUrl(url), {
       ...config,
       method,
       body: body ? JSON.stringify(body) : undefined,
