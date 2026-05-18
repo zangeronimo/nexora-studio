@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { useTranslation } from '../../../core/i18n/presentation/use-translation';
-import { useAuth } from '@presentation/auth/use-auth';
+import { UseCase } from '@application/contracts/use-cases/use-case';
+import { LoginRequest } from '@application/requests/use-cases/login-request';
 
-export const LoginPage = () => {
+type Props = {
+  userLogin: UseCase<LoginRequest, void>;
+};
+
+export const LoginPage = ({ userLogin }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const { t } = useTranslation();
-  const { login } = useAuth();
 
   function handleSubmit() {
-    login({ email, password });
+    userLogin.execute({ email, password });
   }
   return (
     <main>

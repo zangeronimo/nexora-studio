@@ -1,6 +1,5 @@
 import { AuthService } from '@application/contracts/auth-service';
 import { HttpClient } from '@application/contracts/http-client';
-import { LoginRequest } from '@application/requests/use-cases/login-request';
 
 export class DefaultAuthService implements AuthService {
   private readonly _baseUrl: string;
@@ -8,7 +7,7 @@ export class DefaultAuthService implements AuthService {
     this._baseUrl = process.env.API_URL!;
   }
 
-  async login(request: LoginRequest) {
+  async login(request: { email: string; password: string }) {
     const body = {
       email: request.email,
       password: request.password,
@@ -25,7 +24,7 @@ export class DefaultAuthService implements AuthService {
         },
       },
     );
-    return response.token ?? null;
+    return response.token;
   }
 
   async refresh() {
@@ -40,6 +39,6 @@ export class DefaultAuthService implements AuthService {
         },
       },
     );
-    return response.token ?? null;
+    return response.token;
   }
 }

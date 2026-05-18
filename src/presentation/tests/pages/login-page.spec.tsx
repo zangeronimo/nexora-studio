@@ -14,24 +14,23 @@ describe('LoginPage (i18n aware)', () => {
   });
 
   const makeSut = (locale: 'en-US' | 'pt-BR') => {
-    const login = jest.fn().mockResolvedValue(undefined);
+    const execute = jest.fn().mockResolvedValue(undefined);
 
-    const authService = {
-      login,
-      refresh: jest.fn(),
+    const userLogin = {
+      execute,
     };
 
     const storage = makeStorage(locale);
 
     render(
       <I18nProvider storage={storage as any}>
-        <AuthProvider storage={storage as any} authService={authService}>
-          <LoginPage />
+        <AuthProvider storage={storage as any}>
+          <LoginPage userLogin={userLogin} />
         </AuthProvider>
       </I18nProvider>,
     );
 
-    return { login };
+    return { execute };
   };
 
   it('should render UI in English', async () => {
@@ -51,7 +50,7 @@ describe('LoginPage (i18n aware)', () => {
   });
 
   it('should call Login on click', async () => {
-    const { login } = makeSut('pt-BR');
+    const { execute } = makeSut('pt-BR');
 
     fireEvent.change(screen.getByPlaceholderText(/e-mail/i), {
       target: { value: 'test@test.com' },
@@ -64,7 +63,7 @@ describe('LoginPage (i18n aware)', () => {
     fireEvent.click(screen.getByRole('button', { name: /entrar/i }));
 
     await waitFor(() => {
-      expect(login).toHaveBeenCalledWith({
+      expect(execute).toHaveBeenCalledWith({
         email: 'test@test.com',
         password: '123456',
       });

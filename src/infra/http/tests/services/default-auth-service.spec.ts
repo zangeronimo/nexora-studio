@@ -85,21 +85,4 @@ describe('DefaultAuthService', () => {
 
     expect(result).toBe('new-token');
   });
-
-  it('should return null when api does not return token', async () => {
-    const request = jest.fn().mockResolvedValue({});
-
-    const http = {
-      request,
-    };
-
-    const sut = new DefaultAuthService(http as any);
-
-    const result = await sut.login({
-      email: 'test@test.com',
-      password: '123456',
-    });
-
-    expect(result).toBeNull();
-  });
 });
