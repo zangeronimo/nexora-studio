@@ -1,4 +1,4 @@
-import { Storage } from '@application/contracts/storage';
+import { Storage } from '@application/contracts/core/storage';
 import { resolveLocale } from '../../domain/resolve-locale';
 
 describe('resolveLocale', () => {

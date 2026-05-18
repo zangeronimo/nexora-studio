@@ -1,4 +1,4 @@
-import { Storage } from '@application/contracts/storage';
+import { Storage } from '@application/contracts/core/storage';
 
 export class LocalStorage implements Storage {
   get<T>(key: string): T | null {

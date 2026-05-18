@@ -1,4 +1,4 @@
-import { Storage } from '@application/contracts/storage';
+import { Storage } from '@application/contracts/core/storage';
 import { DEFAULT_LOCALE, isLocale, Locale } from './locale';
 
 export const resolveLocale = (storage: Storage): Locale => {

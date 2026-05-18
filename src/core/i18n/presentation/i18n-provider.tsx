@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { I18nContext } from './i18n-context';
-import { Storage } from '@application/contracts/storage';
+import { Storage } from '@application/contracts/core/storage';
 
 import { getDictionary } from '../domain/get-dictionary';
 import { createTranslator } from '../domain/translator';

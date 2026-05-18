@@ -1,5 +1,5 @@
-import { HttpClient } from '@application/contracts/http-client';
-import { HttpRequestConfig } from '@application/contracts/http-request-config';
+import { HttpClient } from '@application/contracts/auth/http-client';
+import { HttpRequestConfig } from '@application/contracts/auth/http-request-config';
 import { HttpError } from '../errors/http-error';
 
 export class FetchHttpClient implements HttpClient {

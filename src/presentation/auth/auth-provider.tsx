@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AuthContext } from './auth-context';
-import { Storage } from '@application/contracts/storage';
+import { Storage } from '@application/contracts/core/storage';
 
 type Props = {
   children: React.ReactNode;

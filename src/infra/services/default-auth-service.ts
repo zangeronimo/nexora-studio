@@ -1,5 +1,5 @@
-import { AuthService } from '@application/contracts/auth-service';
-import { HttpClient } from '@application/contracts/http-client';
+import { AuthService } from '@application/contracts/auth/auth-service';
+import { HttpClient } from '@application/contracts/auth/http-client';
 
 export class DefaultAuthService implements AuthService {
   private readonly _baseUrl: string;

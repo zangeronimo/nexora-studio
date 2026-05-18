@@ -1,5 +1,5 @@
-import { AuthService } from '@application/contracts/auth-service';
-import { Storage } from '@application/contracts/storage';
+import { AuthService } from '@application/contracts/auth/auth-service';
+import { Storage } from '@application/contracts/core/storage';
 import { UseCase } from '@application/contracts/use-cases/use-case';
 import { LoginRequest } from '@application/requests/use-cases/login-request';
 
