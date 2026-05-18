@@ -1,4 +1,6 @@
 import { DefaultAuthHttpClient } from '../clients/default-auth-http-client';
+import { LocalStorage } from '../clients/local-storage';
+import { HttpError } from '../errors/http-error';
 
 describe('DefaultAuthHttpClient', () => {
   const baseURL = 'http://localhost:4000';
@@ -20,12 +22,19 @@ describe('DefaultAuthHttpClient', () => {
       request,
     };
 
+    const authService = {
+      login: jest.fn(),
+      refresh: jest.fn(),
+    };
+
     const storage = makeStorage(locale);
 
     const sut = new DefaultAuthHttpClient(
       httpClient as any,
       storage as any,
       baseURL,
+      authService,
+      () => {},
     );
 
     return {
@@ -123,6 +132,94 @@ describe('DefaultAuthHttpClient', () => {
           'Accept-Language': 'en-US',
         },
       });
+    });
+  });
+
+  describe('RefreshTokenTests', () => {
+    it('should retry request after 401 when refresh succeeds', async () => {
+      const request = jest
+        .fn()
+        .mockRejectedValueOnce(new HttpError(401, 'Unauthorized'))
+        .mockResolvedValueOnce({ data: 'ok' });
+
+      const refresh = jest.fn().mockResolvedValue('new-token');
+
+      const authService = {
+        login: jest.fn(),
+        refresh,
+      } as any;
+
+      const storage = makeStorage('pt-BR');
+
+      const httpClient = new DefaultAuthHttpClient(
+        { request } as any,
+        storage as LocalStorage,
+        { set: jest.fn(), get: jest.fn(), remove: jest.fn() } as any,
+        authService,
+        () => {},
+      );
+
+      const result = await httpClient.get('/test', {});
+
+      expect(refresh).toHaveBeenCalled();
+      expect(request).toHaveBeenCalledTimes(2);
+      expect(result).toEqual({ data: 'ok' });
+    });
+
+    it('should logout when refresh fails after 401', async () => {
+      const request = jest
+        .fn()
+        .mockRejectedValueOnce(new HttpError(401, 'Unauthorized'));
+
+      const refresh = jest.fn().mockRejectedValue(new Error('refresh failed'));
+
+      const authService = {
+        login: jest.fn(),
+        refresh,
+      } as any;
+
+      const logout = jest.fn();
+
+      const storage = makeStorage('pt-BR');
+
+      const httpClient = new DefaultAuthHttpClient(
+        { request } as any,
+        storage as LocalStorage,
+        { get: jest.fn(), set: jest.fn(), remove: jest.fn() } as any,
+        authService,
+        logout,
+      );
+
+      await expect(httpClient.get('/test', {})).rejects.toThrow();
+
+      expect(logout).toHaveBeenCalled();
+    });
+
+    it('should not retry on non-401 errors', async () => {
+      const request = jest
+        .fn()
+        .mockRejectedValue(new HttpError(500, 'Server error'));
+
+      const refresh = jest.fn();
+
+      const authService = {
+        login: jest.fn(),
+        refresh,
+      } as any;
+
+      const storage = makeStorage('pt-BR');
+
+      const httpClient = new DefaultAuthHttpClient(
+        { request } as any,
+        storage as LocalStorage,
+        { get: jest.fn(), set: jest.fn(), remove: jest.fn() } as any,
+        authService,
+        jest.fn(),
+      );
+
+      await expect(httpClient.get('/test', {})).rejects.toThrow();
+
+      expect(refresh).not.toHaveBeenCalled();
     });
   });
 });
