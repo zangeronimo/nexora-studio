@@ -46,7 +46,7 @@ describe('DefaultAuthHttpClient', () => {
 
   const expectRequest = (request: jest.Mock, url: string, config: object) => {
     expect(request).toHaveBeenCalledWith(
-      `${baseURL}${url}`,
+      `${baseURL}/api${url}`,
       expect.objectContaining(config),
     );
   };

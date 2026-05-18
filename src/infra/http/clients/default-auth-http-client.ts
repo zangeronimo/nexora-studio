@@ -1,9 +1,9 @@
-import { AuthHttpClient } from '@application/contracts/auth-http-client';
-import { AuthHttpRequestConfig } from '@application/contracts/auth-http-request-config';
-import { HttpClient } from '@application/contracts/http-client';
-import { Storage } from '@application/contracts/storage';
+import { AuthHttpClient } from '@application/contracts/auth/auth-http-client';
+import { AuthHttpRequestConfig } from '@application/contracts/auth/auth-http-request-config';
+import { HttpClient } from '@application/contracts/auth/http-client';
+import { Storage } from '@application/contracts/core/storage';
 import { resolveLocale } from '../../../core/i18n/domain/resolve-locale';
-import { AuthService } from '@application/contracts/auth-service';
+import { AuthService } from '@application/contracts/auth/auth-service';
 import { HttpError } from '../errors/http-error';
 
 export class DefaultAuthHttpClient implements AuthHttpClient {
@@ -49,7 +49,7 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
 
   private buildUrl(url: string): string {
     const separator = url.startsWith('/') ? '' : '/';
-    return `${this.baseUrl}${separator}${url}`;
+    return `${this.baseUrl}/api${separator}${url}`;
   }
 
   private async request<T>(
