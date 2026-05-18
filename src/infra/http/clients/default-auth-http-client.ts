@@ -3,12 +3,16 @@ import { AuthHttpRequestConfig } from '@application/contracts/auth-http-request-
 import { HttpClient } from '@application/contracts/http-client';
 import { Storage } from '@application/contracts/storage';
 import { resolveLocale } from '../../../core/i18n/domain/resolve-locale';
+import { AuthService } from '@application/contracts/auth-service';
+import { HttpError } from '../errors/http-error';
 
 export class DefaultAuthHttpClient implements AuthHttpClient {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly storage: Storage,
     private readonly baseUrl: string,
+    private readonly authService: AuthService,
+    private readonly callback: (authenticated: boolean) => void,
   ) {}
 
   get<T>(url: string, config?: AuthHttpRequestConfig): Promise<T> {
@@ -48,28 +52,49 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
     return `${this.baseUrl}${separator}${url}`;
   }
 
-  private request<T>(
+  private async request<T>(
     method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE',
     url: string,
     body?: unknown,
     config?: AuthHttpRequestConfig,
   ): Promise<T> {
-    const token = this.storage.get<string>('accessToken');
-    const language = resolveLocale(this.storage);
-    return this.httpClient.request(this.buildUrl(url), {
-      ...config,
-      method,
-      body: body ? JSON.stringify(body) : undefined,
-      headers: {
-        ...config?.headers,
-        ...(language && {
-          'Accept-Language': language,
-        }),
-        ...(body && {
-          'Content-Type': 'application/json',
-        }),
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const execute = async (): Promise<T> => {
+      const token = this.storage.get<string>('accessToken');
+      const language = resolveLocale(this.storage);
+      return this.httpClient.request<T>(this.buildUrl(url), {
+        ...config,
+        method,
+        body: body ? JSON.stringify(body) : undefined,
+        credentials: 'include',
+        headers: {
+          ...config?.headers,
+          ...(language && {
+            'Accept-Language': language,
+          }),
+          ...(body && {
+            'Content-Type': 'application/json',
+          }),
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    };
+
+    try {
+      return await execute();
+    } catch (error: unknown) {
+      if (!(error instanceof HttpError) || error.statusCode !== 401) {
+        throw error;
+      }
+
+      try {
+        const newToken = await this.authService.refresh();
+        this.storage.set('accessToken', newToken);
+        return await execute();
+      } catch (refreshError) {
+        this.storage.remove('accessToken');
+        this.callback(false);
+        throw refreshError;
+      }
+    }
   }
 }
