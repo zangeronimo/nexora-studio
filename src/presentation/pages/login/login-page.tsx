@@ -1,21 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from '../../../core/i18n/presentation/use-translation';
 import { UseCase } from '@application/contracts/use-cases/use-case';
 import { LoginRequest } from '@application/requests/use-cases/login-request';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@presentation/auth/use-auth';
 
 type Props = {
   userLogin: UseCase<LoginRequest, void>;
+  logout: UseCase;
 };
 
-export const LoginPage = ({ userLogin }: Props) => {
+export const LoginPage = ({ userLogin, logout }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { setAuthenticated } = useAuth();
 
   const { t } = useTranslation();
 
-  function handleSubmit() {
-    userLogin.execute({ email, password });
+  async function handleSubmit() {
+    await userLogin.execute({ email, password });
+    setAuthenticated(true);
+    navigate('/');
   }
+
+  useEffect(() => {
+    logout.execute();
+    setAuthenticated(false);
+  }, []);
+
   return (
     <main>
       <h1>{t('login_title')}</h1>

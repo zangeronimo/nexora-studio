@@ -2,6 +2,7 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { LoginPage } from '@presentation/pages/login/login-page';
 import { I18nProvider } from '../../../core/i18n/presentation/i18n-provider';
 import { AuthProvider } from '@presentation/auth/auth-provider';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('LoginPage (i18n aware)', () => {
   const makeStorage = (locale: 'en-US' | 'pt-BR') => ({
@@ -20,12 +21,18 @@ describe('LoginPage (i18n aware)', () => {
       execute,
     };
 
+    const logout = {
+      execute: jest.fn(),
+    };
+
     const storage = makeStorage(locale);
 
     render(
       <I18nProvider storage={storage as any}>
         <AuthProvider storage={storage as any}>
-          <LoginPage userLogin={userLogin} />
+          <BrowserRouter>
+            <LoginPage userLogin={userLogin} logout={logout} />
+          </BrowserRouter>
         </AuthProvider>
       </I18nProvider>,
     );

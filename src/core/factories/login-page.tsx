@@ -1,3 +1,4 @@
+import { Logout } from '@application/use-cases/logout';
 import { UserLogin } from '@application/use-cases/user-login';
 import { FetchHttpClient } from '@infra/http/clients/fetch-http-client';
 import { LocalStorage } from '@infra/http/clients/local-storage';
@@ -12,5 +13,6 @@ export const LoginPageFactory = (): JSX.Element => {
   const storage = new LocalStorage();
   const authService = new DefaultAuthService(httpClient);
   const userLogin = new UserLogin(authService, storage, setAuthenticated);
-  return <LoginPage userLogin={userLogin} />;
+  const logout = new Logout(storage);
+  return <LoginPage userLogin={userLogin} logout={logout} />;
 };
