@@ -1,9 +1,9 @@
 import { Storage } from '@application/contracts/core/storage';
-import { AccessTokenPayload } from '@application/contracts/security/access-token-payload';
+import { AccessTokenPayload } from '../../../core/security/contracts/access-token-payload';
 import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
-import { hasPermission } from '@application/security/has-permission';
-import { hasSomePermission } from '@application/security/has-some-permission';
-import { parseAccessToken } from '@application/security/parse-access-token';
+import { parseAccessToken } from '../../../core/security/domain/parse-access-token';
+import { hasPermission } from '../../../core/security/domain/has-permission';
+import { hasSomePermission } from '../../../core/security/domain/has-some-permission';
 
 export class DefaultAuthorizationService implements AuthorizationService {
   constructor(private readonly storage: Storage) {}

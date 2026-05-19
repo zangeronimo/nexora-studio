@@ -1,4 +1,4 @@
-import { AccessTokenPayload } from '@application/contracts/security/access-token-payload';
+import { AccessTokenPayload } from '../contracts/access-token-payload';
 
 export function hasSomePermission(
   payload: AccessTokenPayload | null,
