@@ -7,12 +7,12 @@ import { AuthService } from '@application/contracts/auth/auth-service';
 import { HttpError } from '../errors/http-error';
 
 export class DefaultAuthHttpClient implements AuthHttpClient {
+  private callback?: (authenticated: boolean) => void;
   constructor(
     private readonly httpClient: HttpClient,
     private readonly storage: Storage,
     private readonly baseUrl: string,
     private readonly authService: AuthService,
-    private readonly callback: (authenticated: boolean) => void,
   ) {}
 
   get<T>(url: string, config?: AuthHttpRequestConfig): Promise<T> {
@@ -45,6 +45,10 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
 
   delete<T>(url: string, config?: AuthHttpRequestConfig): Promise<T> {
     return this.request<T>('DELETE', url, null, config);
+  }
+
+  setUnauthorizedHandler(handler: (authenticated: boolean) => void) {
+    this.callback = handler;
   }
 
   private buildUrl(url: string): string {
@@ -92,7 +96,7 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
         return await execute();
       } catch (refreshError) {
         this.storage.remove('accessToken');
-        this.callback(false);
+        this.callback?.(false);
         throw refreshError;
       }
     }

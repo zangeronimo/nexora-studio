@@ -34,7 +34,6 @@ describe('DefaultAuthHttpClient', () => {
       storage as any,
       baseURL,
       authService,
-      () => {},
     );
 
     return {
@@ -156,7 +155,6 @@ describe('DefaultAuthHttpClient', () => {
         storage as LocalStorage,
         { set: jest.fn(), get: jest.fn(), remove: jest.fn() } as any,
         authService,
-        () => {},
       );
 
       const result = await httpClient.get('/test', {});
@@ -187,9 +185,8 @@ describe('DefaultAuthHttpClient', () => {
         storage as LocalStorage,
         { get: jest.fn(), set: jest.fn(), remove: jest.fn() } as any,
         authService,
-        logout,
       );
-
+      httpClient.setUnauthorizedHandler(logout);
       await expect(httpClient.get('/test', {})).rejects.toThrow();
 
       expect(logout).toHaveBeenCalled();
@@ -214,7 +211,6 @@ describe('DefaultAuthHttpClient', () => {
         storage as LocalStorage,
         { get: jest.fn(), set: jest.fn(), remove: jest.fn() } as any,
         authService,
-        jest.fn(),
       );
 
       await expect(httpClient.get('/test', {})).rejects.toThrow();
