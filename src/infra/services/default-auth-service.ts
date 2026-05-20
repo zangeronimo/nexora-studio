@@ -41,4 +41,14 @@ export class DefaultAuthService implements AuthService {
     );
     return response.token;
   }
+
+  async logout(): Promise<void> {
+    await this.http.request<{ token: string }>(`${this._baseUrl}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
 }
