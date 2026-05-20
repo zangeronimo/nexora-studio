@@ -10,8 +10,8 @@ describe('canActivateRoute', () => {
     jest.clearAllMocks();
   });
 
-  it('should allow route when guard is undefined', () => {
-    const result = canActivateRoute(auth as any);
+  it('should allow route when no restrictions are defined', () => {
+    const result = canActivateRoute(auth as any, {});
 
     expect(result).toBe(true);
   });
@@ -24,7 +24,6 @@ describe('canActivateRoute', () => {
     });
 
     expect(auth.hasPermission).toHaveBeenCalledWith('core.user.view');
-
     expect(result).toBe(true);
   });
 
@@ -58,6 +57,32 @@ describe('canActivateRoute', () => {
 
     const result = canActivateRoute(auth as any, {
       anyPermissions: ['core.user.delete'],
+    });
+
+    expect(result).toBe(false);
+  });
+
+  /**
+   * NEW: allPermissions (AND logic)
+   */
+  it('should allow route when allPermissions are satisfied', () => {
+    auth.hasPermission.mockReturnValue(true);
+
+    const result = canActivateRoute(auth as any, {
+      allPermissions: ['culinary.recipe.view', 'culinary.recipe.edit'],
+    });
+
+    expect(auth.hasPermission).toHaveBeenCalledWith('culinary.recipe.view');
+    expect(auth.hasPermission).toHaveBeenCalledWith('culinary.recipe.edit');
+
+    expect(result).toBe(true);
+  });
+
+  it('should deny route when any allPermissions is missing', () => {
+    auth.hasPermission.mockReturnValueOnce(true).mockReturnValueOnce(false);
+
+    const result = canActivateRoute(auth as any, {
+      allPermissions: ['culinary.recipe.view', 'culinary.recipe.edit'],
     });
 
     expect(result).toBe(false);

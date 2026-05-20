@@ -1,12 +1,12 @@
-import { useTranslation } from '../../../core/i18n/presentation/use-translation';
+import { Page } from '@presentation/shell/components/page/page';
+import { PageHeader } from '@presentation/shell/components/page/page-header';
 
 export const DashboardPage = () => {
-  const { t } = useTranslation();
-
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <small>{t('dashboard_small')}</small>
-    </main>
+    <Page>
+      <PageHeader title="Dashboard" description="System overview" />
+
+      <div>dashboard content</div>
+    </Page>
   );
 };

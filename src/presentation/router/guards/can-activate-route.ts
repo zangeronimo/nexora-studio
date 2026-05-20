@@ -1,21 +1,32 @@
 import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
-import { RouteGuardParams } from '../types/route-guard-params';
+
+type Params = {
+  permission?: string;
+  anyPermissions?: string[];
+  allPermissions?: string[];
+};
 
 export function canActivateRoute(
   auth: AuthorizationService,
-  guard?: RouteGuardParams,
+  params: Params,
 ): boolean {
-  if (!guard) {
-    return true;
+  const { permission, anyPermissions, allPermissions } = params;
+
+  // 1. single permission (legacy / simples)
+  if (permission) {
+    return auth.hasPermission(permission);
   }
 
-  if (guard.permission) {
-    return auth.hasPermission(guard.permission);
+  // 2. ANY (OR logic)
+  if (anyPermissions?.length) {
+    return auth.hasSomePermission(anyPermissions);
   }
 
-  if (guard.anyPermissions) {
-    return auth.hasSomePermission(guard.anyPermissions);
+  // 3. ALL (AND logic) ← NOVO
+  if (allPermissions?.length) {
+    return allPermissions.every((p) => auth.hasPermission(p));
   }
 
+  // default: allow if no restriction
   return true;
 }

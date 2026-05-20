@@ -1,9 +1,16 @@
+import { ReactElement } from 'react';
+
 export type AppRoute = {
   path: string;
-  element: React.ReactNode;
+  element?: ReactElement;
+
+  labelKey?: string;
+  showInSidebar: boolean;
 
   permission?: string;
   anyPermissions?: string[];
+  allPermissions?: string[];
 
-  title?: string;
+  children?: AppRoute[];
+  isGroupRoute?: boolean;
 };

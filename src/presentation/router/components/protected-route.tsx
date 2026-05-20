@@ -1,29 +1,42 @@
-import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
-import { AppRoute } from '../types/app-route';
-import { canActivateRoute } from '../guards/can-activate-route';
-import { useAuth } from '@presentation/auth/use-auth';
-import { Navigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-export function ProtectedRoute({
-  route,
-  auth,
-}: {
+import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
+
+import { AppRoute } from '../types/app-route';
+
+import { canActivateRoute } from '../guards/can-activate-route';
+
+import { AccessDeniedPage } from '@presentation/pages/errors/access-denied/access-denied-page';
+import { NotFoundPage } from '@presentation/pages/errors/not-found/not-found-page';
+
+type Props = {
   route: AppRoute;
   auth: AuthorizationService;
-}) {
-  const { authenticated } = useAuth();
+};
 
-  if (!authenticated) {
-    return <Navigate to="/login" replace />;
+export function ProtectedRoute({ route, auth }: Props) {
+  const location = useLocation();
+
+  const canActivate = canActivateRoute(auth, route);
+
+  if (!canActivate) {
+    return <AccessDeniedPage />;
   }
 
-  if (
-    !canActivateRoute(auth, {
-      permission: route.permission,
-      anyPermissions: route.anyPermissions,
-    })
-  ) {
-    return <div>Forbidden</div>;
+  /**
+   * GROUP ROUTE
+   *
+   * Example:
+   * /culinary
+   *
+   * Can only exist as parent layout.
+   */
+  if (route.isGroupRoute) {
+    const isDirectAccess = location.pathname === route.path;
+
+    if (isDirectAccess) {
+      return <NotFoundPage />;
+    }
   }
 
   return route.element;
