@@ -25,6 +25,7 @@ describe('DefaultAuthHttpClient', () => {
     const authService = {
       login: jest.fn(),
       refresh: jest.fn(),
+      logout: jest.fn(),
     };
 
     const storage = makeStorage(locale);

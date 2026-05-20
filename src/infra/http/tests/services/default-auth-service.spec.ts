@@ -85,4 +85,24 @@ describe('DefaultAuthService', () => {
 
     expect(result).toBe('new-token');
   });
+
+  it('should perform logout request', async () => {
+    const request = jest.fn().mockResolvedValue(null);
+
+    const http = {
+      request,
+    };
+
+    const sut = new DefaultAuthService(http as any);
+
+    await sut.logout();
+
+    expect(request).toHaveBeenCalledWith('http://localhost:4000/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  });
 });
