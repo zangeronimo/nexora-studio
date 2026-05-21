@@ -1,4 +1,4 @@
-import { DashboardPage } from '@presentation/pages/dashboard/dashboard-page';
+import { DashboardPage } from '@presentation/pages/dashboard';
 import { AppRoute } from '../types/app-route';
 import { CulinaryLayout } from '@presentation/pages/culinary/culinary-layout';
 
@@ -20,7 +20,7 @@ export const routes: AppRoute[] = [
   {
     path: '/',
     element: <DashboardPage />,
-    labelKey: 'dashboard',
+    labelKey: 'sidebar_dashboard',
     showInSidebar: true,
   },
 
@@ -30,7 +30,7 @@ export const routes: AppRoute[] = [
   {
     path: '/culinary',
     element: <CulinaryLayout />,
-    labelKey: 'culinary',
+    labelKey: 'sidebar_culinary',
     showInSidebar: true,
     isGroupRoute: true,
     children: [
@@ -39,7 +39,7 @@ export const routes: AppRoute[] = [
        */
       {
         path: 'recipes',
-        labelKey: 'recipes',
+        labelKey: 'sidebar_culinary_recipes',
         showInSidebar: true,
         anyPermissions: ['culinary.recipe.view', 'core.user.view'],
         element: <div>Recipes</div>,
@@ -63,7 +63,7 @@ export const routes: AppRoute[] = [
        */
       {
         path: 'categories',
-        labelKey: 'categories',
+        labelKey: 'sidebar_culinary_categories',
         showInSidebar: true,
         permission: 'culinary.category.view',
         element: <div>Categories</div>,
@@ -74,7 +74,7 @@ export const routes: AppRoute[] = [
        */
       {
         path: 'ratings',
-        labelKey: 'ratings',
+        labelKey: 'sidebar_culinary_ratings',
         showInSidebar: true,
         permission: 'culinary.rating.view',
         element: <div>Ratings</div>,

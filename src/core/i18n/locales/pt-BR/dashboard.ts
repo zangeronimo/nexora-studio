@@ -1,3 +1,4 @@
 export const dashboard = {
-  dashboard_small: 'Bem vindo devolta',
+  dashboard_title: 'Dashboard',
+  dashboard_description: 'Bem vindo novamente',
 };

@@ -19,6 +19,7 @@ type NodeProps = {
   route: AppRoute;
   auth: AuthorizationService;
   parentPath?: string;
+  t: (key: string) => string;
 };
 
 function buildPath(parentPath?: string, currentPath?: string) {
@@ -36,9 +37,7 @@ function buildPath(parentPath?: string, currentPath?: string) {
   return `${parentPath}/${currentPath}`.replace(/\/+/g, '/');
 }
 
-function Node({ route, auth, parentPath = '' }: NodeProps) {
-  const { t } = useTranslation();
-
+function Node({ route, auth, parentPath = '', t }: NodeProps) {
   const location = useLocation();
 
   if (!canShowItem(auth, route)) {
@@ -75,6 +74,7 @@ function Node({ route, auth, parentPath = '' }: NodeProps) {
               route={child}
               auth={auth}
               parentPath={fullPath}
+              t={t}
             />
           ))}
         </ul>
@@ -84,12 +84,13 @@ function Node({ route, auth, parentPath = '' }: NodeProps) {
 }
 
 export function Sidebar({ auth }: Props) {
+  const { t } = useTranslation();
   return (
     <aside className={styles.container}>
       <div className={styles.brand}>
         <h1 className={styles.logo}>NEXORA</h1>
 
-        <span className={styles.subtitle}>Business Operating Platform</span>
+        <span className={styles.subtitle}>{t('nexora_slogan')}</span>
       </div>
 
       <nav className={styles.navigation}>
@@ -99,6 +100,7 @@ export function Sidebar({ auth }: Props) {
               key={route.path ?? route.labelKey}
               route={route}
               auth={auth}
+              t={t}
             />
           ))}
         </ul>
