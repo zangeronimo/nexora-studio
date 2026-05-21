@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { routes } from '@presentation/router/routes/app-route';
 
@@ -6,7 +6,10 @@ import { AuthorizationService } from '@application/contracts/security/authorizat
 import { AppRoute } from '@presentation/router/types/app-route';
 
 import { canShowItem } from '@presentation/shell/navigation/can-show-item';
+
 import { useTranslation } from '../../../../core/i18n/presentation/use-translation';
+
+import * as styles from './styles.module.scss';
 
 type Props = {
   auth: AuthorizationService;
@@ -36,6 +39,8 @@ function buildPath(parentPath?: string, currentPath?: string) {
 function Node({ route, auth, parentPath = '' }: NodeProps) {
   const { t } = useTranslation();
 
+  const location = useLocation();
+
   if (!canShowItem(auth, route)) {
     return null;
   }
@@ -44,16 +49,26 @@ function Node({ route, auth, parentPath = '' }: NodeProps) {
 
   const fullPath = buildPath(parentPath, route.path);
 
+  const isActive =
+    !route.isGroupRoute &&
+    (location.pathname === fullPath ||
+      location.pathname.startsWith(`${fullPath}/`));
+
   return (
-    <li>
+    <li className={styles.item}>
       {route.isGroupRoute ? (
-        <span>{t(route.labelKey ?? '')}</span>
+        <div className={styles.groupLabel}>{t(route.labelKey ?? '')}</div>
       ) : (
-        <Link to={fullPath}>{t(route.labelKey ?? '')}</Link>
+        <Link
+          to={fullPath}
+          className={`${styles.link} ${isActive ? styles.active : ''}`}
+        >
+          {t(route.labelKey ?? '')}
+        </Link>
       )}
 
       {hasChildren && (
-        <ul>
+        <ul className={styles.group}>
           {route.children!.map((child) => (
             <Node
               key={child.path ?? child.labelKey}
@@ -70,11 +85,15 @@ function Node({ route, auth, parentPath = '' }: NodeProps) {
 
 export function Sidebar({ auth }: Props) {
   return (
-    <aside>
-      <h2>NEXORA</h2>
+    <aside className={styles.container}>
+      <div className={styles.brand}>
+        <h1 className={styles.logo}>NEXORA</h1>
 
-      <nav>
-        <ul>
+        <span className={styles.subtitle}>Business Operating Platform</span>
+      </div>
+
+      <nav className={styles.navigation}>
+        <ul className={styles.list}>
           {routes.map((route) => (
             <Node
               key={route.path ?? route.labelKey}
