@@ -5,6 +5,9 @@ export function canShowItem(
   auth: AuthorizationService,
   item: AppRoute,
 ): boolean {
+  if (!item.showInSidebar) {
+    return false;
+  }
   if (item.permission) {
     return auth.hasPermission(item.permission);
   }
