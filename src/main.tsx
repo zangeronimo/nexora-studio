@@ -9,6 +9,7 @@ import { FetchHttpClient } from '@infra/http/clients/fetch-http-client';
 import { DefaultAuthService } from '@infra/services/default-auth-service';
 import { AppRoutes } from '@presentation/router/routes';
 import { DefaultAuthorizationService } from '@infra/services/security/default-authorization-service';
+import '@presentation/styles/main.scss';
 
 const container = document.getElementById('root');
 const root = reactDom.createRoot(container!);
