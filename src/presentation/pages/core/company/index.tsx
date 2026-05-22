@@ -1,24 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { CompanyService } from '@application/contracts/core/company-service';
-
 import { GetCompaniesRequest } from '@application/requests/core/company-request';
-
 import { PaginatedResponse } from '@application/response/paginated-response';
-
 import { Company } from '@domain/entities/core/company';
 
 import { useTranslation } from '../../../../core/i18n/presentation/use-translation';
 
 import { Page } from '@presentation/shell/components/page';
-
 import { Card } from '@presentation/shared/components/card';
-
 import { Button } from '@presentation/shared/components/button';
 
-import { Table, TableColumn } from '@presentation/shared/components/table';
+import { DataGrid } from '@presentation/shared/components/data-grid';
+import { CompanyFilter } from './filter';
 
 import * as styles from './styles.module.scss';
+import { TableColumn } from '@presentation/shared/components/table';
 
 type Props = {
   companyService: CompanyService;
@@ -26,66 +24,85 @@ type Props = {
 
 export const CoreCompanyPage = ({ companyService }: Props) => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
 
-  const [companies, setCompanies] = useState<PaginatedResponse<Company> | null>(
-    null,
-  );
+  const [state, setState] = useState<{
+    response: PaginatedResponse<Company> | null;
+    loading: boolean;
+  }>({
+    response: null,
+    loading: false,
+  });
 
-  const [loading, setLoading] = useState(true);
+  /**
+   * URL → Request mapping
+   */
+  const request = useMemo(() => {
+    return new GetCompaniesRequest(
+      Number(searchParams.get('page') ?? 1),
+      Number(searchParams.get('pageSize') ?? 10),
+      (searchParams.get('orderBy') as any) ?? 'Name',
+      searchParams.get('desc') === 'true',
+      searchParams.get('name') ?? '',
+      searchParams.get('status') ? Number(searchParams.get('status')) : null,
+    );
+  }, [searchParams]);
 
+  /**
+   * Fetch whenever URL changes
+   */
   useEffect(() => {
-    const request = new GetCompaniesRequest(1, 10, 'Name', false);
-
-    setLoading(true);
+    setState((old) => ({ ...old, loading: true }));
 
     companyService
       .getAll(request)
-      .then((result: PaginatedResponse<Company>) => {
-        setCompanies(result);
+      .then((result) => {
+        setState((old) => ({
+          ...old,
+          response: result,
+        }));
       })
       .finally(() => {
-        setLoading(false);
+        setState((old) => ({
+          ...old,
+          loading: false,
+        }));
       });
-  }, [companyService]);
+  }, [request, companyService]);
 
-  const columns = useMemo<TableColumn<Company>[]>(
+  const columns: TableColumn<Company>[] = useMemo(
     () => [
       {
         key: 'name',
         header: t('company_name'),
+        orderBy: 'Name',
       },
       {
         key: 'status',
         header: t('company_status'),
-
+        orderBy: 'Status',
         width: '160px',
-
-        render: (company) => (
+        render: (c) => (
           <span
             className={
-              company.status === 1 ? styles.activeStatus : styles.disabledStatus
+              c.status === 1 ? styles.activeStatus : styles.disabledStatus
             }
           >
-            {company.status === 1 ? t('common_active') : t('common_disabled')}
+            {c.status === 1 ? t('common_active') : t('common_disabled')}
           </span>
         ),
       },
       {
         key: 'createdAt',
         header: t('company_created_at'),
-
         width: '180px',
-
-        render: (company) => new Date(company.createdAt).toLocaleDateString(),
+        render: (c) => new Date(c.createdAt).toLocaleDateString(),
       },
       {
         key: 'actions',
         header: '',
-
         width: '120px',
-
         align: 'right',
-
         render: () => <Button size="sm">{t('common_edit')}</Button>,
       },
     ],
@@ -98,7 +115,6 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
         <div className={styles.header}>
           <div>
             <h2 className={styles.title}>{t('core_company_title')}</h2>
-
             <p className={styles.description}>
               {t('core_company_description')}
             </p>
@@ -108,12 +124,38 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
         </div>
 
         <Card>
-          <Table
+          <DataGrid
+            data={state.response?.items ?? []}
             columns={columns}
-            rows={companies?.items ?? []}
-            loading={loading}
+            sorting={{
+              orderBy: request.orderBy,
+              desc: request.desc,
+            }}
+            pagination={{
+              page: request.page,
+              pageSize: request.pageSize,
+              total: state.response?.total ?? 0,
+            }}
+            loading={state.loading}
             emptyMessage={t('common_no_data_found')}
-            rowKey={(company) => company.id}
+            rowKey={(c) => c.id}
+            toolbar={
+              <CompanyFilter
+                loading={state.loading}
+                values={{
+                  name: request.name,
+                  status: request.status?.toString(),
+                }}
+                onChange={(params: URLSearchParams) => {
+                  params.set('page', '1');
+
+                  params.delete('orderBy');
+                  params.delete('desc');
+
+                  return params;
+                }}
+              />
+            }
           />
         </Card>
       </div>
