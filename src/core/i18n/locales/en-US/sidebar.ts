@@ -4,4 +4,6 @@ export const sidebar = {
   sidebar_culinary_recipes: 'Recipes',
   sidebar_culinary_categories: 'Categories',
   sidebar_culinary_ratings: 'Ratings',
+  sidebar_core: 'Core',
+  sidebar_core_companies: 'Companies',
 };
