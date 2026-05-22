@@ -1,0 +1,173 @@
+.container {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100vw;
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(59, 130, 246, 0.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(99, 102, 241, 0.12),
+      transparent 28%
+    ),
+    var(--color-background);
+}
+
+.backgroundGlow {
+  position: absolute;
+
+  width: 700px;
+  height: 700px;
+
+  border-radius: 999px;
+
+  background: rgba(59, 130, 246, 0.08);
+
+  filter: blur(120px);
+
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns: 1fr 420px;
+
+  align-items: center;
+
+  gap: 96px;
+
+  width: 100%;
+  max-width: 1280px;
+
+  padding: 48px;
+}
+
+.brandSection {
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+
+  max-width: 560px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+
+  width: fit-content;
+
+  padding: 8px 14px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  color: var(--color-primary);
+}
+
+.title {
+  font-size: 64px;
+  line-height: 1.05;
+  font-weight: 800;
+
+  letter-spacing: -0.04em;
+
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  max-width: 520px;
+
+  font-size: 18px;
+  line-height: 1.7;
+
+  color: var(--color-text-secondary);
+}
+
+.card {
+  width: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-bottom: 32px;
+}
+
+.cardTitle {
+  font-size: 28px;
+  font-weight: 700;
+
+  color: var(--color-text-primary);
+}
+
+.cardDescription {
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: var(--color-text-secondary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+@media (max-width: 980px) {
+  .content {
+    grid-template-columns: 1fr;
+
+    gap: 48px;
+  }
+
+  .brandSection {
+    align-items: center;
+
+    text-align: center;
+
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .subtitle {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 24px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+}
