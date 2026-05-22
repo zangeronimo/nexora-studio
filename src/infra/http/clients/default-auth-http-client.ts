@@ -51,9 +51,16 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
     this.callback = handler;
   }
 
-  private buildUrl(url: string): string {
+  private buildUrl(url: string, params?: Record<string, unknown>): string {
     const separator = url.startsWith('/') ? '' : '/';
-    return `${this.baseUrl}/api${separator}${url}`;
+    const fullUrl = new URL(`${this.baseUrl}/api${separator}${url}`);
+
+    Object.entries(params ?? {}).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        fullUrl.searchParams.append(key, String(value));
+      }
+    });
+    return fullUrl.toString();
   }
 
   private async request<T>(
@@ -65,7 +72,7 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
     const execute = async (): Promise<T> => {
       const token = this.storage.get<string>('accessToken');
       const language = resolveLocale(this.storage);
-      return this.httpClient.request<T>(this.buildUrl(url), {
+      return this.httpClient.request<T>(this.buildUrl(url, config?.params), {
         ...config,
         method,
         body: body ? JSON.stringify(body) : undefined,
