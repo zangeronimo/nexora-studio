@@ -77,6 +77,7 @@ export const LoginPage = ({ userLogin, logout }: Props) => {
           <div className={styles.form}>
             <Input
               label={t('login_email')}
+              id="login_email"
               type="email"
               placeholder={t('login_email_placeholder')}
               value={email}
@@ -86,6 +87,7 @@ export const LoginPage = ({ userLogin, logout }: Props) => {
 
             <Input
               label={t('login_password')}
+              id="login_password"
               type="password"
               placeholder={t('login_password_placeholder')}
               value={password}

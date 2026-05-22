@@ -35,6 +35,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
         <input
           ref={ref}
           id={id}
+          data-testid={id}
           className={[styles.input, error ? styles.error : '', className].join(
             ' ',
           )}

@@ -59,15 +59,19 @@ describe('LoginPage (i18n aware)', () => {
   it('should call Login on click', async () => {
     const { execute } = makeSut('pt-BR');
 
-    fireEvent.change(screen.getByPlaceholderText(/e-mail/i), {
+    fireEvent.change(screen.getByTestId(/login_email/i), {
       target: { value: 'test@test.com' },
     });
 
-    fireEvent.change(screen.getByPlaceholderText(/senha/i), {
+    fireEvent.change(screen.getByTestId(/login_password/i), {
       target: { value: '123456' },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /entrar/i }));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /entrar/i,
+      }),
+    );
 
     await waitFor(() => {
       expect(execute).toHaveBeenCalledWith({

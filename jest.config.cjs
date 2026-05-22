@@ -12,6 +12,7 @@ module.exports = {
     '^@application/(.*)$': '<rootDir>/src/application/$1',
     '^@infra/(.*)$': '<rootDir>/src/infra/$1',
     '^@presentation/(.*)$': '<rootDir>/src/presentation/$1',
+    '\\.(css|scss)$': 'identity-obj-proxy',
   },
 
   transform: {
