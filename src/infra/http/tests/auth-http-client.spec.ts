@@ -154,7 +154,7 @@ describe('DefaultAuthHttpClient', () => {
       const httpClient = new DefaultAuthHttpClient(
         { request } as any,
         storage as LocalStorage,
-        { set: jest.fn(), get: jest.fn(), remove: jest.fn() } as any,
+        baseURL,
         authService,
       );
 
@@ -184,7 +184,7 @@ describe('DefaultAuthHttpClient', () => {
       const httpClient = new DefaultAuthHttpClient(
         { request } as any,
         storage as LocalStorage,
-        { get: jest.fn(), set: jest.fn(), remove: jest.fn() } as any,
+        baseURL,
         authService,
       );
       httpClient.setUnauthorizedHandler(logout);
@@ -210,7 +210,7 @@ describe('DefaultAuthHttpClient', () => {
       const httpClient = new DefaultAuthHttpClient(
         { request } as any,
         storage as LocalStorage,
-        { get: jest.fn(), set: jest.fn(), remove: jest.fn() } as any,
+        baseURL,
         authService,
       );
 
