@@ -4,24 +4,47 @@ Business Operating Platform
 
 ---
 
-## Overview
+# Overview
 
-NEXORA Studio is a frontend platform built with React, TypeScript and Webpack, designed with a layered architecture focused on scalability, maintainability and long-term enterprise growth.
+NEXORA Studio is an enterprise frontend platform built with React, TypeScript and Webpack, designed around a layered architecture focused on scalability, maintainability and long-term business evolution.
 
-The project structure follows clear domain boundaries between business rules, application orchestration, infrastructure and presentation layers.
+The project follows strict architectural boundaries between:
 
-At the current stage, the project already includes:
+- Domain
+- Application
+- Infrastructure
+- Presentation
 
-- Modern TypeScript setup
-- React 19 support
+The frontend was designed to support large-scale business systems, including:
+
+- Multi-module administration panels
+- Enterprise CRUD management
+- Authentication/session orchestration
+- URL-driven application state
+- Shared UI systems
+- Internationalization
+- Highly reusable presentation components
+
+---
+
+# Current Foundation
+
+The current frontend foundation already includes:
+
+- React 19
+- TypeScript strict mode
 - Webpack production pipeline
 - ESLint Flat Config
+- Layered architecture enforcement
 - Jest testing environment
+- Alias-based imports
 - Husky Git hooks
 - Commitlint validation
-- Layer isolation via lint rules
-- Alias-based module resolution
-- Architectural enforcement between layers
+- Shared component system
+- URL-driven filtering/sorting/pagination
+- Internationalization infrastructure
+- Session persistence architecture
+- Enterprise DataGrid system
 
 ---
 
@@ -33,7 +56,10 @@ At the current stage, the project already includes:
 - React DOM
 - TypeScript
 - Webpack
-- Sass
+- Sass Modules
+- React Router DOM
+
+---
 
 ## Code Quality
 
@@ -43,6 +69,8 @@ At the current stage, the project already includes:
 - Husky
 - lint-staged
 - Commitlint
+
+---
 
 ## Testing
 
@@ -60,98 +88,120 @@ src/
   application/
   infra/
   presentation/
+  core/
 ```
 
 ---
 
-# Architecture
+# Layer Responsibilities
 
-## Domain Layer
+# Domain Layer
 
-Contains pure business rules and domain abstractions.
+Contains pure business rules and enterprise abstractions.
 
-### Responsibilities
+## Responsibilities
 
 - Entities
+- Enums
 - Value Objects
-- Business Rules
+- Domain Rules
 - Domain Contracts
 
-### Restrictions
+## Restrictions
 
-The domain layer must not depend on:
+The domain layer must never depend on:
 
 - React
 - Browser APIs
 - Infrastructure
-- Application layer
+- Application
+- HTTP
+- Routing
 
 ---
 
-## Application Layer
+# Application Layer
 
-Responsible for orchestrating business flows.
+Responsible for business orchestration.
 
-### Responsibilities
+## Responsibilities
 
-- Use Cases
 - Services
-- Application Rules
-- Domain Coordination
+- Requests
+- Responses
+- Application Flows
+- Coordination Logic
 
-### Restrictions
+## Restrictions
 
 The application layer must not depend on:
 
 - React
-- Presentation layer
+- Presentation
 - Infrastructure implementations
+
+Only abstractions/contracts are allowed.
 
 ---
 
-## Infrastructure Layer
+# Infrastructure Layer
 
 Contains external implementations and adapters.
 
-### Responsibilities
+## Responsibilities
 
 - HTTP Clients
-- Storage
-- API Integration
-- External Services
-- Adapters
+- API Adapters
+- Storage Adapters
+- Authentication Infrastructure
+- External Integrations
 
 ---
 
-## Presentation Layer
+# Presentation Layer
 
-Responsible for the user interface.
+Responsible for the UI system and user interaction.
 
-### Responsibilities
+## Responsibilities
 
 - React Components
+- Layouts
 - Pages
-- Hooks
-- UI Composition
 - Routing
+- UI Composition
+- URL State Synchronization
 
-### Restrictions
+## Restrictions
 
-The presentation layer must not access infrastructure directly.
+Presentation must not access infrastructure directly.
 
-Infrastructure access should happen through the application layer.
+All infrastructure communication must happen through the application layer.
+
+---
+
+# Core Layer
+
+Contains global frontend infrastructure shared across all layers.
+
+## Responsibilities
+
+- Internationalization
+- Shared Configuration
+- Cross-cutting Frontend Utilities
+- Global Runtime Behaviors
 
 ---
 
 # Architectural Rules
 
-The project enforces dependency boundaries using ESLint.
+Dependency flow is enforced through ESLint.
 
-Allowed dependency flow:
+Allowed flow:
 
 ```txt
 presentation → application → domain
 infra → application/domain
+core → shared runtime support
 ```
 
 Forbidden examples:
@@ -159,111 +209,184 @@ Forbidden examples:
 - Presentation importing infrastructure directly
 - Domain importing React
 - Application importing presentation
-- Domain importing infrastructure
+- Domain importing HTTP libraries
+- Application importing browser APIs
 
 ---
 
-# Scripts
+# UI Architecture
 
-## Development
+The frontend follows a reusable enterprise component strategy.
 
-```bash
-yarn dev
+---
+
+# Shared Components
+
+Reusable UI components live inside:
+
+```txt
+presentation/shared/components
 ```
 
-Starts the local development server.
+Examples:
+
+- Button
+- Input
+- Select
+- Card
+- Table
+- DataGrid
+- Pagination
 
 ---
 
-## Production Build
+# Dumb vs Smart Components
 
-```bash
-yarn build
-```
+The architecture separates responsibilities clearly.
 
-Generates the production bundle.
+## Dumb Components
 
----
+Pure rendering components.
 
-## Run Tests
+Examples:
 
-```bash
-yarn test
-```
+- Table
+- Button
+- Card
 
-Runs Jest tests.
+Characteristics:
 
----
-
-## Watch Tests
-
-```bash
-yarn test:watch
-```
-
-Runs tests in watch mode.
+- No business rules
+- No routing knowledge
+- No URL manipulation
+- No application orchestration
 
 ---
 
-## Coverage
+## Smart Components
 
-```bash
-yarn test:ci
-```
+Behavior-oriented orchestration components.
 
-Runs tests with coverage report.
+Examples:
 
----
+- DataGrid
+- Filters
+- Session orchestration
 
-## Lint
+Characteristics:
 
-```bash
-yarn lint
-```
-
-Runs ESLint.
-
----
-
-## Auto Fix Lint
-
-```bash
-yarn lint:fix
-```
-
-Runs ESLint with automatic fixes.
+- URL synchronization
+- Sorting behavior
+- Pagination behavior
+- Filter orchestration
 
 ---
 
-# Git Hooks
+# URL-Driven State
 
-The project uses Husky for Git workflow enforcement.
-
-## Pre-Commit
-
-Executed automatically before commits:
-
-- ESLint
-- Staged validation
-
-## Commit Message Validation
-
-Commit messages are validated using Conventional Commits.
+The frontend uses URL query parameters as the source of truth for page state.
 
 Examples:
 
 ```txt
-feat: add authentication flow
-fix: resolve session refresh issue
-chore: configure jest and husky
+?page=1&pageSize=10&orderBy=Name&desc=false
 ```
 
-## Pre-Push
+Benefits:
 
-Executed automatically before push:
+- Persistent navigation state
+- Shareable filtered pages
+- Browser history support
+- Back/forward navigation consistency
+- Enterprise admin behavior alignment
 
-- Tests
-- Production build
+---
+
+# DataGrid System
+
+The platform includes a reusable enterprise DataGrid architecture.
+
+## Features
+
+- Sorting
+- Pagination
+- Filters
+- URL synchronization
+- Shared table rendering
+- Reusable toolbar system
+
+---
+
+## Responsibility Split
+
+### Table
+
+Pure rendering layer.
+
+Responsible only for:
+
+- Rendering rows
+- Rendering columns
+- Empty state
+- Loading state
+
+No business behavior.
+
+---
+
+### DataGrid
+
+Behavior orchestration layer.
+
+Responsible for:
+
+- Sorting
+- Pagination
+- URL updates
+- Table orchestration
+
+---
+
+# Internationalization
+
+The frontend includes a modular i18n system.
+
+## Structure
+
+```txt
+core/i18n/
+```
+
+Dictionary organization is module-based:
+
+```txt
+core/i18n/dictionaries/
+  en-US/
+    auth.ts
+    dashboard.ts
+    company.ts
+```
+
+Benefits:
+
+- Scalable translations
+- Module isolation
+- Easier maintenance
+- Avoid monolithic dictionary files
+
+---
+
+# Authentication Architecture
+
+The authentication system already supports:
+
+- Session persistence
+- Refresh token flow
+- SSR-aware session handling
+- Cookie-based auth orchestration
+- Runtime session recovery
+
+The architecture was designed to support future enterprise SSO flows.
 
 ---
 
@@ -271,15 +394,16 @@ Executed automatically before push:
 
 The project uses:
 
+- Strict typing
 - ES Modules
-- Bundler module resolution
 - Alias-based imports
-- Layered path mapping
+- Bundler module resolution
+- Layer-aware path mapping
 
 Example:
 
 ```ts
-import { User } from '@domain/entities/user';
+import { Company } from '@domain/entities/core/company';
 ```
 
 ---
@@ -292,42 +416,179 @@ The project uses ESLint Flat Config with:
 - React support
 - SonarJS
 - Architectural boundaries
+- Layer isolation
 - Prettier integration
 
-The lint configuration is divided by architectural layer.
+Lint rules are architecture-aware.
 
 ---
 
 # Testing Strategy
 
-Current testing setup includes:
+Current testing infrastructure includes:
 
 - Jest
 - ts-jest
-- jsdom environment
+- jsdom
 - Layer-aware test organization
 
-Example structure:
+Example:
 
 ```txt
 src/application/__tests__/
 ```
 
+The testing strategy prioritizes:
+
+- Domain isolation
+- Service behavior validation
+- Integration boundaries
+- Runtime stability
+
+---
+
+# Git Workflow
+
+The project uses Husky for workflow enforcement.
+
+---
+
+# Pre-Commit
+
+Executed automatically before commits:
+
+- ESLint
+- Staged validation
+
+---
+
+# Commit Validation
+
+Commit messages follow Conventional Commits.
+
+Examples:
+
+```txt
+feat: add company datagrid pagination
+fix: resolve refresh token retry flow
+refactor: split i18n dictionaries by module
+```
+
+---
+
+# Pre-Push
+
+Executed automatically before push:
+
+- Tests
+- Production build
+
+---
+
+# Scripts
+
+# Development
+
+```bash
+yarn dev
+```
+
+Starts the local development server.
+
+---
+
+# Production Build
+
+```bash
+yarn build
+```
+
+Generates the production bundle.
+
+---
+
+# Tests
+
+```bash
+yarn test
+```
+
+Runs Jest tests.
+
+---
+
+# Watch Tests
+
+```bash
+yarn test:watch
+```
+
+Runs tests in watch mode.
+
+---
+
+# Coverage
+
+```bash
+yarn test:ci
+```
+
+Runs tests with coverage.
+
+---
+
+# Lint
+
+```bash
+yarn lint
+```
+
+Runs ESLint.
+
+---
+
+# Auto Fix
+
+```bash
+yarn lint:fix
+```
+
+Runs ESLint auto fixes.
+
 ---
 
 # Current Status
 
-The project foundation is fully operational.
+The frontend foundation is fully operational and already supports enterprise-grade expansion.
 
 Implemented so far:
 
 - Frontend bootstrap
-- Toolchain stabilization
-- Build pipeline
-- Testing environment
-- Git workflow enforcement
 - Layered architecture
-- Runtime alignment between tooling
+- Runtime stabilization
+- Shared UI system
+- Authentication/session flow
+- URL-driven state
+- Enterprise DataGrid foundation
+- Internationalization system
+- Toolchain stabilization
+- Git workflow enforcement
+- Testing infrastructure
+- Architectural boundary enforcement
+
+---
+
+# Long-Term Direction
+
+The architecture was designed to support:
+
+- Large enterprise modules
+- Multi-tenant systems
+- Advanced permission systems
+- SSR integration
+- Shared design systems
+- Complex business workflows
+- High scalability frontend operations
 
 ---
 
