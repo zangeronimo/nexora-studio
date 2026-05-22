@@ -10,6 +10,7 @@ import { ProtectedRoute } from '../components/protected-route';
 import { AppRoute } from '../types/app-route';
 
 import { AppShell } from '@presentation/layouts/app-shell';
+import { AuthenticatedRoute } from '../components/authenticated-route';
 
 function renderProtectedRoutes(routes: AppRoute[], auth: AuthorizationService) {
   return routes.map((route) => {
@@ -47,9 +48,10 @@ export function AppRoutes({
       <Routes>
         {renderPublicRoutes()}
 
-        {/* PROTECTED AREA */}
-        <Route path="/" element={<AppShell auth={authorization} />}>
-          {renderProtectedRoutes(appRoutes, authorization)}
+        <Route element={<AuthenticatedRoute />}>
+          <Route path="/" element={<AppShell auth={authorization} />}>
+            {renderProtectedRoutes(appRoutes, authorization)}
+          </Route>
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
