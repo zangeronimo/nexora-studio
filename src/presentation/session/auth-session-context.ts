@@ -1,4 +1,4 @@
-import { AuthSession } from '@domain/entities/core/auth-session';
+import { AuthSession } from '@domain/entities/auth-session';
 import { createContext } from 'react';
 
 export type AuthSessionContextValue = {

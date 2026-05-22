@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AuthSessionContext } from './auth-session-context';
-import { AuthSession } from '@domain/entities/core/auth-session';
+import { AuthSession } from '@domain/entities/auth-session';
 import { UserProfileService } from '@application/contracts/core/user-profile-service';
 import { useAuth } from '@presentation/auth/use-auth';
 

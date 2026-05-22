@@ -1,5 +1,5 @@
-import { User } from './user';
-import { UserCompany } from './user-company';
+import { User } from './core/user';
+import { UserCompany } from './core/user-company';
 
 export class AuthSession {
   constructor(
