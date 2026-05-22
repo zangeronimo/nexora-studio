@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-
 import * as styles from './styles.module.scss';
 
 export type TableColumn<T> = {
@@ -13,12 +12,10 @@ export type TableColumn<T> = {
 type Props<T> = {
   columns: TableColumn<T>[];
   rows: T[];
-
   loading?: boolean;
-
   emptyMessage?: string;
-
   rowKey?: (row: T, index: number) => string;
+  toolbar?: ReactNode;
 };
 
 export function Table<T>({
@@ -27,17 +24,16 @@ export function Table<T>({
   loading = false,
   emptyMessage = 'No data found',
   rowKey,
+  toolbar,
 }: Props<T>) {
   if (loading) {
     return <div className={styles.state}>Loading...</div>;
   }
 
-  if (!rows.length) {
-    return <div className={styles.state}>{emptyMessage}</div>;
-  }
-
   return (
     <div className={styles.wrapper}>
+      {toolbar && <div className={styles.toolbar}>{toolbar}</div>}
+
       <table className={styles.table}>
         <thead className={styles.head}>
           <tr>
@@ -47,9 +43,7 @@ export function Table<T>({
                 className={[styles.th, styles[column.align ?? 'left']].join(
                   ' ',
                 )}
-                style={{
-                  width: column.width,
-                }}
+                style={{ width: column.width }}
               >
                 {column.header}
               </th>
@@ -57,26 +51,31 @@ export function Table<T>({
           </tr>
         </thead>
 
-        <tbody className={styles.body}>
-          {rows.map((row, index) => (
-            <tr
-              key={rowKey?.(row, index) ?? index.toString()}
-              className={styles.tr}
-            >
-              {columns.map((column) => (
-                <td
-                  key={String(column.key)}
-                  className={[styles.td, styles[column.align ?? 'left']].join(
-                    ' ',
-                  )}
-                >
-                  {column.render
-                    ? column.render(row)
-                    : String(row[column.key as keyof T] ?? '')}
-                </td>
-              ))}
+        <tbody className={styles.table}>
+          {!rows.length ? (
+            <tr>
+              <td colSpan={columns.length} className={styles.empty}>
+                {emptyMessage}
+              </td>
             </tr>
-          ))}
+          ) : (
+            rows.map((row, index) => (
+              <tr key={rowKey?.(row, index) ?? index} className={styles.tr}>
+                {columns.map((column) => (
+                  <td
+                    key={String(column.key)}
+                    className={[styles.td, styles[column.align ?? 'left']].join(
+                      ' ',
+                    )}
+                  >
+                    {column.render
+                      ? column.render(row)
+                      : String(row[column.key as keyof T] ?? '')}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
