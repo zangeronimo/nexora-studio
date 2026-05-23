@@ -3,6 +3,7 @@ import { FetchHttpClient } from '@infra/http/clients/fetch-http-client';
 import { LocalStorage } from '@infra/http/clients/local-storage';
 import { DefaultCompanyService } from '@infra/services/core/default-company-service';
 import { DefaultAuthService } from '@infra/services/default-auth-service';
+import { DefaultAuthorizationService } from '@infra/services/security/default-authorization-service';
 import { CoreCompanyPage } from '@presentation/pages/core/company';
 import { JSX } from 'react';
 
@@ -10,6 +11,7 @@ export const CompanyPageFactory = (): JSX.Element => {
   const httpClient = new FetchHttpClient();
   const storage = new LocalStorage();
   const authService = new DefaultAuthService(httpClient);
+  const authorizationService = new DefaultAuthorizationService(storage);
   const authClient = new DefaultAuthHttpClient(
     httpClient,
     storage,
@@ -17,5 +19,10 @@ export const CompanyPageFactory = (): JSX.Element => {
     authService,
   );
   const companyService = new DefaultCompanyService(authClient);
-  return <CoreCompanyPage companyService={companyService} />;
+  return (
+    <CoreCompanyPage
+      companyService={companyService}
+      authorizationService={authorizationService}
+    />
+  );
 };
