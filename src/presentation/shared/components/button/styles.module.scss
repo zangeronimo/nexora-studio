@@ -14,16 +14,22 @@
   cursor: pointer;
 
   transition:
-    background 0.2s ease,
+    background-color 0.2s ease,
     border-color 0.2s ease,
     opacity 0.2s ease,
     transform 0.1s ease;
 }
 
+/**
+ * ACTIVE FEEDBACK
+ */
 .button:active {
   transform: scale(0.98);
 }
 
+/**
+ * STATES
+ */
 .fullWidth {
   width: 100%;
 }
@@ -34,30 +40,40 @@
 }
 
 /**
- * SIZES
+ * SIZES (text buttons)
  */
 .sm {
   height: 36px;
-
   padding: 0 var(--spacing-3);
-
   font-size: var(--font-size-sm);
 }
 
 .md {
   height: 42px;
-
   padding: 0 var(--spacing-4);
-
   font-size: var(--font-size-sm);
 }
 
 .lg {
   height: 48px;
-
   padding: 0 var(--spacing-5);
-
   font-size: var(--font-size-md);
+}
+
+/**
+ * ICON ONLY BUTTON
+ */
+.icon {
+  width: 36px;
+  height: 36px;
+
+  padding: 0;
+
+  flex-shrink: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /**
@@ -65,7 +81,6 @@
  */
 .primary {
   background: var(--color-primary);
-
   color: white;
 }
 
@@ -75,9 +90,7 @@
 
 .secondary {
   background: var(--color-surface);
-
   border: 1px solid var(--color-border);
-
   color: var(--color-text-primary);
 }
 
@@ -87,7 +100,6 @@
 
 .ghost {
   background: transparent;
-
   color: var(--color-text-primary);
 }
 
@@ -97,7 +109,6 @@
 
 .danger {
   background: var(--color-danger);
-
   color: white;
 }
 
@@ -106,17 +117,35 @@
 }
 
 /**
- * CONTENT
+ * CONTENT WRAPPERS
  */
 .label {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+
+  line-height: 1;
 }
 
+/**
+ * ICON WRAPPER (FIX PRINCIPAL)
+ */
 .icon {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  line-height: 0;
+}
+
+/**
+ * GLOBAL SVG FIX (CRÍTICO)
+ */
+.icon svg {
+  width: 18px;
+  height: 18px;
+
+  display: block;
+  flex-shrink: 0;
 }
 
 /**
