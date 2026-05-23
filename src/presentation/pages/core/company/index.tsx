@@ -12,7 +12,7 @@ import { Card } from '@presentation/shared/components/card';
 import { Button } from '@presentation/shared/components/button';
 
 import { DataGrid } from '@presentation/shared/components/data-grid';
-import { CompanyFilter } from './filter';
+import { CompanyFilter, CompanyFilterValues } from './filter';
 
 import * as styles from './styles.module.scss';
 import { TableColumn } from '@presentation/shared/components/table';
@@ -33,7 +33,9 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
     setPage,
     setPageSize,
     setSorting,
-  } = useListSearchParams();
+    setFilters,
+    clearFilters,
+  } = useListSearchParams<CompanyFilterValues>();
 
   const [state, setState] = useState<{
     response: PaginatedResponse<Company> | null;
@@ -155,17 +157,11 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
               <CompanyFilter
                 loading={state.loading}
                 values={{
-                  name: request.name,
-                  status: request.status?.toString(),
+                  name: filters.name,
+                  status: filters.status,
                 }}
-                onChange={(params: URLSearchParams) => {
-                  params.set('page', '1');
-
-                  params.delete('orderBy');
-                  params.delete('desc');
-
-                  return params;
-                }}
+                onSearch={setFilters}
+                onClear={clearFilters}
               />
             }
           />

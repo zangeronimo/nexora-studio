@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { useSearchParams } from 'react-router-dom';
-
 import { useTranslation } from '@core/i18n/presentation/use-translation';
 
 import { Input } from '@presentation/shared/components/input';
@@ -10,48 +8,47 @@ import { Button } from '@presentation/shared/components/button';
 
 import * as styles from './styles.module.scss';
 
+export type CompanyFilterValues = {
+  name?: string;
+  status?: string;
+};
+
 type Props = {
   loading?: boolean;
 
-  values: {
-    name?: string;
-    status?: string;
-  };
+  values: CompanyFilterValues;
 
-  onChange: (params: URLSearchParams) => URLSearchParams;
+  onSearch?: (values: CompanyFilterValues) => void;
+
+  onClear?: () => void;
 };
 
-export function CompanyFilter({ loading = false, values, onChange }: Props) {
+export function CompanyFilter({
+  loading = false,
+
+  values,
+
+  onSearch,
+  onClear,
+}: Props) {
   const { t } = useTranslation();
-  const [, setSearchParams] = useSearchParams();
 
   const [name, setName] = useState(values.name ?? '');
+
   const [status, setStatus] = useState(values.status ?? '');
 
-  // sync externo vindo da página/state
+  /**
+   * External sync
+   */
   useEffect(() => {
     setName(values.name ?? '');
     setStatus(values.status ?? '');
   }, [values.name, values.status]);
 
   function handleSearch() {
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-
-      if (name) {
-        params.set('name', name);
-      } else {
-        params.delete('name');
-      }
-
-      if (status) {
-        params.set('status', status);
-      } else {
-        params.delete('status');
-      }
-
-      onChange(params);
-      return params;
+    onSearch?.({
+      name: name.trim(),
+      status,
     });
   }
 
@@ -59,20 +56,7 @@ export function CompanyFilter({ loading = false, values, onChange }: Props) {
     setName('');
     setStatus('');
 
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-
-      params.delete('name');
-      params.delete('status');
-
-      // reset natural
-      params.delete('page');
-      params.delete('orderBy');
-      params.delete('desc');
-
-      onChange(params);
-      return params;
-    });
+    onClear?.();
   }
 
   return (

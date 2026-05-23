@@ -8,21 +8,23 @@ import { SortDesc } from '../value-objects/sort-desc';
 
 const RESERVED_PARAMS = ['page', 'pageSize', 'sortBy', 'sortDesc'] as const;
 
-type Filters = Record<string, string>;
+type Filters = Record<string, string | undefined>;
 
 type SetSortingParams = {
   sortBy?: string;
   sortDesc?: boolean;
 };
 
-type UseListSearchParamsResult = {
+type UseListSearchParamsResult<TFilters extends Filters> = {
   page: Page;
+
   pageSize: PageSize;
 
   sortBy: SortBy;
+
   sortDesc: SortDesc;
 
-  filters: Filters;
+  filters: TFilters;
 
   setPage(page: number): void;
 
@@ -30,12 +32,14 @@ type UseListSearchParamsResult = {
 
   setSorting(params: SetSortingParams): void;
 
-  setFilters(filters: Filters): void;
+  setFilters(filters: TFilters): void;
 
   clearFilters(): void;
 };
 
-export const useListSearchParams = (): UseListSearchParamsResult => {
+export const useListSearchParams = <
+  TFilters extends Filters = Filters,
+>(): UseListSearchParamsResult<TFilters> => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = useMemo(() => {
@@ -54,7 +58,7 @@ export const useListSearchParams = (): UseListSearchParamsResult => {
     return SortDesc.create(searchParams.get('sortDesc'));
   }, [searchParams]);
 
-  const filters = useMemo<Filters>(() => {
+  const filters = useMemo<TFilters>(() => {
     const entries = Array.from(searchParams.entries());
 
     return entries.reduce<Filters>((accumulator, [key, value]) => {
@@ -65,7 +69,7 @@ export const useListSearchParams = (): UseListSearchParamsResult => {
       accumulator[key] = value;
 
       return accumulator;
-    }, {});
+    }, {}) as TFilters;
   }, [searchParams]);
 
   const updateSearchParams = useCallback(
@@ -131,7 +135,7 @@ export const useListSearchParams = (): UseListSearchParamsResult => {
   );
 
   const setFilters = useCallback(
-    (nextFilters: Filters) => {
+    (nextFilters: TFilters) => {
       updateSearchParams((params) => {
         params.set('page', '1');
 
@@ -163,9 +167,11 @@ export const useListSearchParams = (): UseListSearchParamsResult => {
 
   return {
     page,
+
     pageSize,
 
     sortBy,
+
     sortDesc,
 
     filters,
