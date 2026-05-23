@@ -1,6 +1,6 @@
 export class PageSize {
   private static readonly DEFAULT = 10;
-  private static readonly ALLOWED_VALUES = [10, 20, 50, 100];
+  private static readonly ALLOWED_VALUES = [1, 10, 20, 50, 100];
 
   private constructor(private readonly size: number) {}
 
@@ -12,6 +12,10 @@ export class PageSize {
     }
 
     return new PageSize(parsed);
+  }
+
+  static allowedValues(): number[] {
+    return [...PageSize.ALLOWED_VALUES];
   }
 
   value(): number {
