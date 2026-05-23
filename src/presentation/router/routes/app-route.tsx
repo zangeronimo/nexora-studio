@@ -1,7 +1,7 @@
 import { DashboardPage } from '@presentation/pages/dashboard';
 import { AppRoute } from '../types/app-route';
 import { CorePage } from '@presentation/pages/core';
-import { CompanyPageFactory } from '../../../core/factories/core/company-page';
+import { CompanyPageFactory } from '@core/factories/core/company-page';
 
 /**
  * ROUTES = single source of truth for:

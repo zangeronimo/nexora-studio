@@ -7,7 +7,7 @@ import { AppRoute } from '@presentation/router/types/app-route';
 
 import { canShowItem } from '@presentation/shell/navigation/can-show-item';
 
-import { useTranslation } from '../../../../core/i18n/presentation/use-translation';
+import { useTranslation } from '@core/i18n/presentation/use-translation';
 
 import * as styles from './styles.module.scss';
 

@@ -2,9 +2,9 @@ import { AuthHttpClient } from '@application/contracts/auth/auth-http-client';
 import { AuthHttpRequestConfig } from '@application/contracts/auth/auth-http-request-config';
 import { HttpClient } from '@application/contracts/auth/http-client';
 import { Storage } from '@application/contracts/core/storage';
-import { resolveLocale } from '../../../core/i18n/domain/resolve-locale';
 import { AuthService } from '@application/contracts/auth/auth-service';
 import { HttpError } from '../errors/http-error';
+import { resolveLocale } from '@core/i18n/domain/resolve-locale';
 
 export class DefaultAuthHttpClient implements AuthHttpClient {
   private callback?: (authenticated: boolean) => void;

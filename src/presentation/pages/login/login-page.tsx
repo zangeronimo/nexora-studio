@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { UseCase } from '@application/contracts/use-cases/use-case';
 import { LoginRequest } from '@application/requests/use-cases/login-request';
 
-import { useTranslation } from '../../../core/i18n/presentation/use-translation';
+import { useTranslation } from '@core/i18n/presentation/use-translation';
 
 import { useAuth } from '@presentation/auth/use-auth';
 

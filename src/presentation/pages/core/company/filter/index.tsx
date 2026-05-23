@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
-import { useTranslation } from '../../../../../core/i18n/presentation/use-translation';
+import { useTranslation } from '@core/i18n/presentation/use-translation';
 
 import { Input } from '@presentation/shared/components/input';
 import { Select } from '@presentation/shared/components/select';

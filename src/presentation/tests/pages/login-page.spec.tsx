@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { LoginPage } from '@presentation/pages/login/login-page';
-import { I18nProvider } from '../../../core/i18n/presentation/i18n-provider';
+import { I18nProvider } from '@core/i18n/presentation/i18n-provider';
 import { AuthProvider } from '@presentation/auth/auth-provider';
 import { BrowserRouter } from 'react-router-dom';
 
