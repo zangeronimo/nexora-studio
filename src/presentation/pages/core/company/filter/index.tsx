@@ -4,9 +4,10 @@ import { useTranslation } from '@core/i18n/presentation/use-translation';
 
 import { Input } from '@presentation/shared/components/input';
 import { Select } from '@presentation/shared/components/select';
-import { Button } from '@presentation/shared/components/button';
 
 import * as styles from './styles.module.scss';
+import { ClearFilterButton } from '@presentation/shared/components/action-buttons/clear-filter-button';
+import { FilterButton } from '@presentation/shared/components/action-buttons/filter-button';
 
 export type CompanyFilterValues = {
   name?: string;
@@ -90,18 +91,17 @@ export function CompanyFilter({
       </div>
 
       <div className={styles.actions}>
-        <Button
-          variant="secondary"
-          type="button"
-          onClick={handleClear}
+        <ClearFilterButton
+          title={t('common_clear')}
           disabled={loading}
-        >
-          {t('common_clear')}
-        </Button>
+          onClick={handleClear}
+        />
 
-        <Button type="button" onClick={handleSearch} loading={loading}>
-          {t('common_search')}
-        </Button>
+        <FilterButton
+          title={t('common_search')}
+          onClick={handleSearch}
+          loading={loading}
+        />
       </div>
     </div>
   );

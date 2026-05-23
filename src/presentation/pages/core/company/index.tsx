@@ -9,7 +9,6 @@ import { useTranslation } from '@core/i18n/presentation/use-translation';
 
 import { Page } from '@presentation/shell/components/page';
 import { Card } from '@presentation/shared/components/card';
-import { Button } from '@presentation/shared/components/button';
 
 import { DataGrid } from '@presentation/shared/components/data-grid';
 import { CompanyFilter, CompanyFilterValues } from './filter';
@@ -17,12 +16,20 @@ import { CompanyFilter, CompanyFilterValues } from './filter';
 import * as styles from './styles.module.scss';
 import { TableColumn } from '@presentation/shared/components/table';
 import { useListSearchParams } from '@core/query-state/hooks/use-list-search-params';
+import { DataGridActions } from '@presentation/shared/components/data-grid/actions';
+import { DataGridAction } from '@presentation/shared/components/data-grid/actions/action';
+import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
+import { CreateButton } from '@presentation/shared/components/action-buttons/create-button';
 
 type Props = {
   companyService: CompanyService;
+  authorizationService: AuthorizationService;
 };
 
-export const CoreCompanyPage = ({ companyService }: Props) => {
+export const CoreCompanyPage = ({
+  companyService,
+  authorizationService,
+}: Props) => {
   const { t } = useTranslation();
   const {
     page,
@@ -58,6 +65,13 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
       filters.status ? Number(filters.status) : null,
     );
   }, [page, pageSize, sortBy, sortDesc, filters]);
+
+  const handleEdit = (company: Company) => {
+    console.log(company);
+  };
+  const handleDelete = (company: Company) => {
+    console.log(company);
+  };
 
   /**
    * Fetch whenever URL changes
@@ -114,7 +128,27 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
         header: '',
         width: '120px',
         align: 'right',
-        render: () => <Button size="sm">{t('common_edit')}</Button>,
+        render: (company) => (
+          <DataGridActions>
+            <DataGridAction
+              type="edit"
+              label={t('common_edit')}
+              visible={authorizationService.hasPermission(
+                'core.company.update',
+              )}
+              onClick={() => handleEdit(company)}
+            />
+
+            <DataGridAction
+              type="delete"
+              label={t('common_delete')}
+              visible={authorizationService.hasPermission(
+                'core.company.delete',
+              )}
+              onClick={() => handleDelete(company)}
+            />
+          </DataGridActions>
+        ),
       },
     ],
     [t],
@@ -131,7 +165,11 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
             </p>
           </div>
 
-          <Button>{t('core_company_create')}</Button>
+          <CreateButton
+            title={t('core_company_create')}
+            onClick={() => {}}
+            visible={authorizationService.hasPermission('core.company.create')}
+          />
         </div>
 
         <Card>
