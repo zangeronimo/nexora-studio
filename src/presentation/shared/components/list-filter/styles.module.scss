@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.fields {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.fields > * {
+  min-width: 220px;
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

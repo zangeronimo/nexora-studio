@@ -11,7 +11,7 @@ import { Page } from '@presentation/shell/components/page';
 import { Card } from '@presentation/shared/components/card';
 
 import { DataGrid } from '@presentation/shared/components/data-grid';
-import { CompanyFilter, CompanyFilterValues } from './filter';
+import { CompanyFilter } from './filter';
 
 import * as styles from './styles.module.scss';
 import { TableColumn } from '@presentation/shared/components/table';
@@ -20,6 +20,8 @@ import { DataGridActions } from '@presentation/shared/components/data-grid/actio
 import { DataGridAction } from '@presentation/shared/components/data-grid/actions/action';
 import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
 import { CreateButton } from '@presentation/shared/components/action-buttons/create-button';
+import { ListFilter } from '@presentation/shared/components/list-filter';
+import { status } from '@domain/enums/status';
 
 type Props = {
   companyService: CompanyService;
@@ -42,7 +44,7 @@ export const CoreCompanyPage = ({
     setSorting,
     setFilters,
     clearFilters,
-  } = useListSearchParams<CompanyFilterValues>();
+  } = useListSearchParams<CompanyFilter>();
 
   const [state, setState] = useState<{
     response: PaginatedResponse<Company> | null;
@@ -192,12 +194,29 @@ export const CoreCompanyPage = ({
             emptyMessage={t('common_no_data_found')}
             rowKey={(c) => c.id}
             toolbar={
-              <CompanyFilter
-                loading={state.loading}
-                values={{
-                  name: filters.name,
-                  status: filters.status,
-                }}
+              <ListFilter
+                fields={[
+                  {
+                    type: 'text',
+                    name: 'name',
+                    placeholder: t('filter_placeholder_name'),
+                  },
+                  {
+                    type: 'select',
+                    name: 'status',
+                    options: [
+                      {
+                        value: status.inactive.toString(),
+                        label: t('filter_status_inactive'),
+                      },
+                      {
+                        value: status.active.toString(),
+                        label: t('filter_status_active'),
+                      },
+                    ],
+                  },
+                ]}
+                values={filters}
                 onSearch={setFilters}
                 onClear={clearFilters}
               />
