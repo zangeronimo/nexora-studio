@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 
@@ -9,8 +8,8 @@ import { Pagination } from '../pagination';
 import * as styles from './styles.module.scss';
 
 type DataGridSorting = {
-  orderBy?: string;
-  desc?: boolean;
+  sortBy?: string;
+  sortDesc?: boolean;
 };
 
 type DataGridPagination = {
@@ -36,6 +35,12 @@ type Props<T> = {
   rowKey?: (row: T, index: number) => string;
 
   toolbar?: ReactNode;
+
+  onPageChange?: (page: number) => void;
+
+  onPageSizeChange?: (pageSize: number) => void;
+
+  onSortingChange?: (params: { sortBy?: string; sortDesc?: boolean }) => void;
 };
 
 export function DataGrid<T>({
@@ -47,54 +52,40 @@ export function DataGrid<T>({
   emptyMessage,
   rowKey,
   toolbar,
+  onPageChange,
+  onPageSizeChange,
+  onSortingChange,
 }: Props<T>) {
-  const [, setSearchParams] = useSearchParams();
+  function handleSort(columnSortBy?: string) {
+    if (!columnSortBy || !onSortingChange) {
+      return;
+    }
 
-  function handleSort(columnOrderBy?: string) {
-    if (!columnOrderBy) return;
+    const currentSortBy = sorting?.sortBy;
 
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
+    const currentSortDesc = sorting?.sortDesc ?? false;
 
-      const currentOrderBy = sorting?.orderBy;
-      const currentDesc = sorting?.desc ?? false;
+    const sameColumn = currentSortBy === columnSortBy;
 
-      const sameColumn = currentOrderBy === columnOrderBy;
+    onSortingChange({
+      sortBy: columnSortBy,
 
-      params.set('orderBy', columnOrderBy);
-
-      params.set('desc', sameColumn ? String(!currentDesc) : 'false');
-
-      return params;
+      sortDesc: sameColumn ? !currentSortDesc : false,
     });
   }
 
   function handlePageChange(nextPage: number) {
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-
-      params.set('page', String(nextPage));
-
-      return params;
-    });
+    onPageChange?.(nextPage);
   }
 
   function handlePageSizeChange(nextPageSize: number) {
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-
-      params.set('pageSize', String(nextPageSize));
-
-      params.set('page', '1');
-
-      return params;
-    });
+    onPageSizeChange?.(nextPageSize);
   }
 
   const enhancedColumns = columns.map((col) => {
     const isSortable = !!col.orderBy;
 
-    const isActive = sorting?.orderBy === col.orderBy;
+    const isActive = sorting?.sortBy === col.orderBy;
 
     return {
       ...col,
@@ -112,9 +103,9 @@ export function DataGrid<T>({
             <span className={styles.icon}>
               {!isActive && <ArrowUpDown size={14} />}
 
-              {isActive && !sorting?.desc && <ArrowUp size={14} />}
+              {isActive && !sorting?.sortDesc && <ArrowUp size={14} />}
 
-              {isActive && sorting?.desc && <ArrowDown size={14} />}
+              {isActive && sorting?.sortDesc && <ArrowDown size={14} />}
             </span>
           )}
         </button>

@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Select } from '../select';
 
 import * as styles from './styles.module.scss';
+import { PageSize } from '@core/query-state/value-objects/page-size';
 
 type Props = {
   page: number;
@@ -102,24 +103,10 @@ export function Pagination({
         <Select
           value={String(pageSize)}
           onChange={(value) => onPageSizeChange?.(Number(value))}
-          options={[
-            {
-              label: '10',
-              value: '10',
-            },
-            {
-              label: '20',
-              value: '20',
-            },
-            {
-              label: '50',
-              value: '50',
-            },
-            {
-              label: '100',
-              value: '100',
-            },
-          ]}
+          options={PageSize.allowedValues().map((value) => ({
+            label: String(value),
+            value: String(value),
+          }))}
         />
       </div>
     </div>

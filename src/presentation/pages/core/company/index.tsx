@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 import { CompanyService } from '@application/contracts/core/company-service';
 import { GetCompaniesRequest } from '@application/requests/core/company-request';
 import { PaginatedResponse } from '@application/response/paginated-response';
 import { Company } from '@domain/entities/core/company';
 
-import { useTranslation } from '../../../../core/i18n/presentation/use-translation';
+import { useTranslation } from '@core/i18n/presentation/use-translation';
 
 import { Page } from '@presentation/shell/components/page';
 import { Card } from '@presentation/shared/components/card';
@@ -17,6 +16,7 @@ import { CompanyFilter } from './filter';
 
 import * as styles from './styles.module.scss';
 import { TableColumn } from '@presentation/shared/components/table';
+import { useListSearchParams } from '@core/query-state/hooks/use-list-search-params';
 
 type Props = {
   companyService: CompanyService;
@@ -24,7 +24,16 @@ type Props = {
 
 export const CoreCompanyPage = ({ companyService }: Props) => {
   const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
+  const {
+    page,
+    pageSize,
+    sortBy,
+    sortDesc,
+    filters,
+    setPage,
+    setPageSize,
+    setSorting,
+  } = useListSearchParams();
 
   const [state, setState] = useState<{
     response: PaginatedResponse<Company> | null;
@@ -39,14 +48,14 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
    */
   const request = useMemo(() => {
     return new GetCompaniesRequest(
-      Number(searchParams.get('page') ?? 1),
-      Number(searchParams.get('pageSize') ?? 10),
-      (searchParams.get('orderBy') as any) ?? 'Name',
-      searchParams.get('desc') === 'true',
-      searchParams.get('name') ?? '',
-      searchParams.get('status') ? Number(searchParams.get('status')) : null,
+      page.value(),
+      pageSize.value(),
+      sortBy.value() ?? 'Name',
+      sortDesc.value(),
+      filters.name ?? '',
+      filters.status ? Number(filters.status) : null,
     );
-  }, [searchParams]);
+  }, [page, pageSize, sortBy, sortDesc, filters]);
 
   /**
    * Fetch whenever URL changes
@@ -128,14 +137,17 @@ export const CoreCompanyPage = ({ companyService }: Props) => {
             data={state.response?.items ?? []}
             columns={columns}
             sorting={{
-              orderBy: request.orderBy,
-              desc: request.desc,
+              sortBy: sortBy.value(),
+              sortDesc: sortDesc.value(),
             }}
             pagination={{
-              page: request.page,
-              pageSize: request.pageSize,
+              page: page.value(),
+              pageSize: pageSize.value(),
               total: state.response?.total ?? 0,
             }}
+            onPageChange={setPage}
+            onPageSizeChange={setPageSize}
+            onSortingChange={setSorting}
             loading={state.loading}
             emptyMessage={t('common_no_data_found')}
             rowKey={(c) => c.id}
