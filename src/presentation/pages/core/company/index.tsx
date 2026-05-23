@@ -101,12 +101,12 @@ export const CoreCompanyPage = ({
     () => [
       {
         key: 'name',
-        header: t('company_name'),
+        header: t('core_company_name'),
         orderBy: 'Name',
       },
       {
         key: 'status',
-        header: t('company_status'),
+        header: t('core_company_status'),
         orderBy: 'Status',
         width: '160px',
         render: (c) => (
@@ -115,13 +115,13 @@ export const CoreCompanyPage = ({
               c.status === 1 ? styles.activeStatus : styles.disabledStatus
             }
           >
-            {c.status === 1 ? t('common_active') : t('common_disabled')}
+            {c.status === 1 ? t('common_active') : t('common_inactive')}
           </span>
         ),
       },
       {
         key: 'createdAt',
-        header: t('company_created_at'),
+        header: t('core_company_created_at'),
         width: '180px',
         render: (c) => new Date(c.createdAt).toLocaleDateString(),
       },
@@ -207,11 +207,11 @@ export const CoreCompanyPage = ({
                     options: [
                       {
                         value: status.inactive.toString(),
-                        label: t('filter_status_inactive'),
+                        label: t('common_inactive'),
                       },
                       {
                         value: status.active.toString(),
-                        label: t('filter_status_active'),
+                        label: t('common_active'),
                       },
                     ],
                   },

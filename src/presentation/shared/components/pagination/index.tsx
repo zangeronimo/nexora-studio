@@ -4,6 +4,7 @@ import { Select } from '../select';
 
 import * as styles from './styles.module.scss';
 import { PageSize } from '@core/query-state/value-objects/page-size';
+import { useTranslation } from '@core/i18n/presentation/use-translation';
 
 type Props = {
   page: number;
@@ -22,6 +23,7 @@ export function Pagination({
   onPageSizeChange,
 }: Props) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const { t } = useTranslation();
 
   function buildPages(): (number | 'ellipsis')[] {
     if (totalPages <= 7) {
@@ -102,6 +104,7 @@ export function Pagination({
       <div className={styles.pageSize}>
         <Select
           value={String(pageSize)}
+          placeholder={t('select_empty')}
           onChange={(value) => onPageSizeChange?.(Number(value))}
           options={PageSize.allowedValues().map((value) => ({
             label: String(value),

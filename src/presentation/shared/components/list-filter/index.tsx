@@ -80,7 +80,7 @@ export function ListFilter({
               <Select
                 key={field.name}
                 value={state[field.name] ?? ''}
-                placeholder={field.placeholder}
+                placeholder={t('select_empty')}
                 options={field.options}
                 onChange={(value) => updateField(field.name, value)}
                 fullWidth

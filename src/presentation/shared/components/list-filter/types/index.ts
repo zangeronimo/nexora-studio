@@ -7,7 +7,6 @@ type TextFilterField = {
 type SelectFilterField = {
   type: 'select';
   name: string;
-  placeholder?: string;
   options: {
     label: string;
     value: string;

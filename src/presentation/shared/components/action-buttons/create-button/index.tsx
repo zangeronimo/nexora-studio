@@ -36,7 +36,7 @@ export function CreateButton({
       disabled={disabled}
       className={className}
     >
-      {title}
+      {title.toUpperCase()}
     </Button>
   );
 }
