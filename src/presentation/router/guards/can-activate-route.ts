@@ -1,4 +1,4 @@
-import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
+import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
 
 type Params = {
   permission?: string;
@@ -7,24 +7,24 @@ type Params = {
 };
 
 export function canActivateRoute(
-  auth: AuthorizationService,
+  authorizationProvider: AuthorizationProvider,
   params: Params,
 ): boolean {
   const { permission, anyPermissions, allPermissions } = params;
 
   // 1. single permission (legacy / simples)
   if (permission) {
-    return auth.hasPermission(permission);
+    return authorizationProvider.hasPermission(permission);
   }
 
   // 2. ANY (OR logic)
   if (anyPermissions?.length) {
-    return auth.hasSomePermission(anyPermissions);
+    return authorizationProvider.hasSomePermission(anyPermissions);
   }
 
   // 3. ALL (AND logic) ← NOVO
   if (allPermissions?.length) {
-    return allPermissions.every((p) => auth.hasPermission(p));
+    return allPermissions.every((p) => authorizationProvider.hasPermission(p));
   }
 
   // default: allow if no restriction

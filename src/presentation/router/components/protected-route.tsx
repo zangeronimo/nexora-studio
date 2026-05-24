@@ -1,23 +1,22 @@
 import { useLocation } from 'react-router-dom';
 
-import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
-
 import { AppRoute } from '../types/app-route';
 
 import { canActivateRoute } from '../guards/can-activate-route';
 
 import { AccessDeniedPage } from '@presentation/pages/errors/access-denied/access-denied-page';
 import { NotFoundPage } from '@presentation/pages/errors/not-found/not-found-page';
+import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
 
 type Props = {
   route: AppRoute;
-  auth: AuthorizationService;
+  authorizationProvider: AuthorizationProvider;
 };
 
-export function ProtectedRoute({ route, auth }: Props) {
+export function ProtectedRoute({ route, authorizationProvider }: Props) {
   const location = useLocation();
 
-  const canActivate = canActivateRoute(auth, route);
+  const canActivate = canActivateRoute(authorizationProvider, route);
 
   if (!canActivate) {
     return <AccessDeniedPage />;

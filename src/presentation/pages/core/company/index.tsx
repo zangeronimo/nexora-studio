@@ -18,7 +18,6 @@ import { TableColumn } from '@presentation/shared/components/table';
 import { useListSearchParams } from '@core/query-state/hooks/use-list-search-params';
 import { DataGridActions } from '@presentation/shared/components/data-grid/actions';
 import { DataGridAction } from '@presentation/shared/components/data-grid/actions/action';
-import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
 import { CreateButton } from '@presentation/shared/components/action-buttons/create-button';
 import { ListFilter } from '@presentation/shared/components/list-filter';
 import { status } from '@domain/enums/status';
@@ -26,15 +25,16 @@ import {
   selectFilter,
   textFilter,
 } from '@core/query-state/list-filter/factories';
+import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
 
 type Props = {
   companyService: CompanyService;
-  authorizationService: AuthorizationService;
+  authorizationProvider: AuthorizationProvider;
 };
 
 export const CoreCompanyPage = ({
   companyService,
-  authorizationService,
+  authorizationProvider,
 }: Props) => {
   const { t } = useTranslation();
   const {
@@ -139,7 +139,7 @@ export const CoreCompanyPage = ({
             <DataGridAction
               type="edit"
               label={t('common_edit')}
-              visible={authorizationService.hasPermission(
+              visible={authorizationProvider.hasPermission(
                 'core.company.update',
               )}
               onClick={() => handleEdit(company)}
@@ -148,7 +148,7 @@ export const CoreCompanyPage = ({
             <DataGridAction
               type="delete"
               label={t('common_delete')}
-              visible={authorizationService.hasPermission(
+              visible={authorizationProvider.hasPermission(
                 'core.company.delete',
               )}
               onClick={() => handleDelete(company)}
@@ -174,7 +174,7 @@ export const CoreCompanyPage = ({
           <CreateButton
             title={t('core_company_create')}
             onClick={() => {}}
-            visible={authorizationService.hasPermission('core.company.create')}
+            visible={authorizationProvider.hasPermission('core.company.create')}
           />
         </div>
 

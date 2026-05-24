@@ -8,8 +8,8 @@ import { DefaultAuthHttpClient } from '@infra/http/clients/default-auth-http-cli
 import { FetchHttpClient } from '@infra/http/clients/fetch-http-client';
 import { DefaultAuthService } from '@infra/services/default-auth-service';
 import { AppRoutes } from '@presentation/router/routes';
-import { DefaultAuthorizationService } from '@infra/services/security/default-authorization-service';
 import '@presentation/styles/main.scss';
+import { JwtAuthorizationProvider } from '@infra/providers/jwt-authorization-provider';
 
 const container = document.getElementById('root');
 const root = reactDom.createRoot(container!);
@@ -22,13 +22,13 @@ const authHttp = new DefaultAuthHttpClient(
   process.env.API_URL!,
   authService,
 );
-const authorization = new DefaultAuthorizationService(storage);
+const authorizationProvider = new JwtAuthorizationProvider(storage);
 const userProfileService = new DefaultUserProfileService(authHttp);
 root.render(
   <I18nProvider storage={storage}>
     <AuthProvider storage={storage}>
       <AuthSessionProvider service={userProfileService}>
-        <AppRoutes authorization={authorization} />
+        <AppRoutes authorizationProvider={authorizationProvider} />
       </AuthSessionProvider>
     </AuthProvider>
   </I18nProvider>,

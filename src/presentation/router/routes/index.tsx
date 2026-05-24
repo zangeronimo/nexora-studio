@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { routes as appRoutes } from './app-route';
 import { publicRoutes } from './public-routes';
 
-import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
+import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
 
 import { ProtectedRoute } from '../components/protected-route';
 
@@ -12,7 +12,10 @@ import { AppRoute } from '../types/app-route';
 import { AppShell } from '@presentation/layouts/app-shell';
 import { AuthenticatedRoute } from '../components/authenticated-route';
 
-function renderProtectedRoutes(routes: AppRoute[], auth: AuthorizationService) {
+function renderProtectedRoutes(
+  routes: AppRoute[],
+  authorizationProvider: AuthorizationProvider,
+) {
   return routes.map((route) => {
     const hasChildren = !!route.children?.length;
 
@@ -22,11 +25,15 @@ function renderProtectedRoutes(routes: AppRoute[], auth: AuthorizationService) {
         path={route.path}
         element={
           route.element ? (
-            <ProtectedRoute route={route} auth={auth} />
+            <ProtectedRoute
+              route={route}
+              authorizationProvider={authorizationProvider}
+            />
           ) : undefined
         }
       >
-        {hasChildren && renderProtectedRoutes(route.children!, auth)}
+        {hasChildren &&
+          renderProtectedRoutes(route.children!, authorizationProvider)}
       </Route>
     );
   });
@@ -39,9 +46,9 @@ function renderPublicRoutes() {
 }
 
 export function AppRoutes({
-  authorization,
+  authorizationProvider,
 }: {
-  authorization: AuthorizationService;
+  authorizationProvider: AuthorizationProvider;
 }) {
   return (
     <BrowserRouter>
@@ -49,8 +56,11 @@ export function AppRoutes({
         {renderPublicRoutes()}
 
         <Route element={<AuthenticatedRoute />}>
-          <Route path="/" element={<AppShell auth={authorization} />}>
-            {renderProtectedRoutes(appRoutes, authorization)}
+          <Route
+            path="/"
+            element={<AppShell authorizationProvider={authorizationProvider} />}
+          >
+            {renderProtectedRoutes(appRoutes, authorizationProvider)}
           </Route>
         </Route>
 

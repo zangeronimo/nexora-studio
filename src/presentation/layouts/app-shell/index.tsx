@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
+import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
 
 import { Sidebar } from '@presentation/shell/components/sidebar';
 import { Topbar } from '@presentation/shell/components/topbar';
@@ -10,17 +10,17 @@ import { PageTitleContext } from '@presentation/shell/context/page-title-context
 import { useState } from 'react';
 
 type Props = {
-  auth: AuthorizationService;
+  authorizationProvider: AuthorizationProvider;
 };
 
-export const AppShell = ({ auth }: Props) => {
+export const AppShell = ({ authorizationProvider }: Props) => {
   const [title, setTitle] = useState<string | undefined>();
 
   return (
     <PageTitleContext.Provider value={{ title, setTitle }}>
       <div className={styles.container}>
         <aside className={styles.sidebar}>
-          <Sidebar auth={auth} />
+          <Sidebar authorizationProvider={authorizationProvider} />
         </aside>
 
         <div className={styles.wrapper}>

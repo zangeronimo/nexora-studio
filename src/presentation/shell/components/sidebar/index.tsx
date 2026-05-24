@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { routes } from '@presentation/router/routes/app-route';
 
-import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
+import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
 import { AppRoute } from '@presentation/router/types/app-route';
 
 import { canShowItem } from '@presentation/shell/navigation/can-show-item';
@@ -12,12 +12,12 @@ import { useTranslation } from '@core/i18n/presentation/use-translation';
 import * as styles from './styles.module.scss';
 
 type Props = {
-  auth: AuthorizationService;
+  authorizationProvider: AuthorizationProvider;
 };
 
 type NodeProps = {
   route: AppRoute;
-  auth: AuthorizationService;
+  authorizationProvider: AuthorizationProvider;
   parentPath?: string;
   t: (key: string) => string;
 };
@@ -37,10 +37,10 @@ function buildPath(parentPath?: string, currentPath?: string) {
   return `${parentPath}/${currentPath}`.replace(/\/+/g, '/');
 }
 
-function Node({ route, auth, parentPath = '', t }: NodeProps) {
+function Node({ route, authorizationProvider, parentPath = '', t }: NodeProps) {
   const location = useLocation();
 
-  if (!canShowItem(auth, route)) {
+  if (!canShowItem(authorizationProvider, route)) {
     return null;
   }
 
@@ -72,7 +72,7 @@ function Node({ route, auth, parentPath = '', t }: NodeProps) {
             <Node
               key={child.path ?? child.labelKey}
               route={child}
-              auth={auth}
+              authorizationProvider={authorizationProvider}
               parentPath={fullPath}
               t={t}
             />
@@ -83,7 +83,7 @@ function Node({ route, auth, parentPath = '', t }: NodeProps) {
   );
 }
 
-export function Sidebar({ auth }: Props) {
+export function Sidebar({ authorizationProvider }: Props) {
   const { t } = useTranslation();
   return (
     <aside className={styles.container}>
@@ -99,7 +99,7 @@ export function Sidebar({ auth }: Props) {
             <Node
               key={route.path ?? route.labelKey}
               route={route}
-              auth={auth}
+              authorizationProvider={authorizationProvider}
               t={t}
             />
           ))}

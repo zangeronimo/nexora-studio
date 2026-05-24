@@ -1,11 +1,11 @@
 import { Storage } from '@application/contracts/core/storage';
-import { AuthorizationService } from '@application/contracts/security/authorizaton-service';
+import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
 import { AccessTokenPayload } from '@core/security/contracts/access-token-payload';
 import { hasPermission } from '@core/security/domain/has-permission';
 import { hasSomePermission } from '@core/security/domain/has-some-permission';
 import { parseAccessToken } from '@core/security/domain/parse-access-token';
 
-export class DefaultAuthorizationService implements AuthorizationService {
+export class JwtAuthorizationProvider implements AuthorizationProvider {
   constructor(private readonly storage: Storage) {}
   _payload(): AccessTokenPayload | null {
     const token = this.storage.get<string>('accessToken');
