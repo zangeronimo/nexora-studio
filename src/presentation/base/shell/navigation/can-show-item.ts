@@ -1,0 +1,26 @@
+import { AuthorizationProvider } from '@application/base/security/contracts/authorizaton-provider';
+import { AppRoute } from '@presentation/base/router/types/app-route';
+
+export function canShowItem(
+  authorizationProvider: AuthorizationProvider,
+  item: AppRoute,
+): boolean {
+  if (!item.showInSidebar) {
+    return false;
+  }
+  if (item.permission) {
+    return authorizationProvider.hasPermission(item.permission);
+  }
+
+  if (item.anyPermissions?.length) {
+    return authorizationProvider.hasSomePermission(item.anyPermissions);
+  }
+
+  if (item.allPermissions?.length) {
+    return item.allPermissions.every((p) =>
+      authorizationProvider.hasPermission(p),
+    );
+  }
+
+  return true;
+}

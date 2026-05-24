@@ -1,10 +1,10 @@
-import { DefaultAuthHttpClient } from '@infra/http/clients/default-auth-http-client';
-import { FetchHttpClient } from '@infra/http/clients/fetch-http-client';
-import { LocalStorage } from '@infra/http/clients/local-storage';
-import { DefaultCompanyService } from '@infra/services/core/default-company-service';
-import { DefaultAuthService } from '@infra/services/default-auth-service';
-import { JwtAuthorizationProvider } from '@infra/providers/jwt-authorization-provider';
-import { CoreCompanyPage } from '@presentation/pages/core/company';
+import { DefaultAuthHttpClient } from '@infra/base/http/clients/default-auth-http-client';
+import { FetchHttpClient } from '@infra/base/http/clients/fetch-http-client';
+import { LocalStorage } from '@infra/base/http/clients/local-storage';
+import { CompanyService } from '@infra/core/services/company-service';
+import { DefaultAuthService } from '@infra/base/security/services/default-auth-service';
+import { JwtAuthorizationProvider } from '@infra/base/security/providers/jwt-authorization-provider';
+import { CoreCompanyPage } from '@presentation/core/pages/company';
 import { JSX } from 'react';
 
 export const CompanyPageFactory = (): JSX.Element => {
@@ -18,7 +18,7 @@ export const CompanyPageFactory = (): JSX.Element => {
     process.env.API_URL,
     authService,
   );
-  const companyService = new DefaultCompanyService(authClient);
+  const companyService = new CompanyService(authClient);
   return (
     <CoreCompanyPage
       companyService={companyService}
