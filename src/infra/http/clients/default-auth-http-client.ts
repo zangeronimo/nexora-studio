@@ -4,7 +4,7 @@ import { HttpClient } from '@application/contracts/auth/http-client';
 import { Storage } from '@application/contracts/core/storage';
 import { AuthService } from '@application/contracts/auth/auth-service';
 import { HttpError } from '../errors/http-error';
-import { resolveLocale } from '@core/i18n/domain/resolve-locale';
+import { StorageLocaleResolver } from '@infra/i18n/resolve-locale';
 
 export class DefaultAuthHttpClient implements AuthHttpClient {
   private callback?: (authenticated: boolean) => void;
@@ -71,7 +71,7 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
   ): Promise<T> {
     const execute = async (): Promise<T> => {
       const token = this.storage.get<string>('accessToken');
-      const language = resolveLocale(this.storage);
+      const language = new StorageLocaleResolver(this.storage);
       return this.httpClient.request<T>(this.buildUrl(url, config?.params), {
         ...config,
         method,
@@ -80,7 +80,7 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
         headers: {
           ...config?.headers,
           ...(language && {
-            'Accept-Language': language,
+            'Accept-Language': language.resolve(),
           }),
           ...(body && {
             'Content-Type': 'application/json',

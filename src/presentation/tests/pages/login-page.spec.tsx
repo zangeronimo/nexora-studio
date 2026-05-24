@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { LoginPage } from '@presentation/pages/login/login-page';
-import { I18nProvider } from '@core/i18n/presentation/i18n-provider';
+import { I18nProvider } from '@presentation/i18n/hooks/i18n-provider';
 import { AuthProvider } from '@presentation/auth/auth-provider';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -26,9 +26,12 @@ describe('LoginPage (i18n aware)', () => {
     };
 
     const storage = makeStorage(locale);
+    const localeResolver = {
+      resolve: jest.fn(() => locale),
+    };
 
     render(
-      <I18nProvider storage={storage as any}>
+      <I18nProvider localeResolver={localeResolver}>
         <AuthProvider storage={storage as any}>
           <BrowserRouter>
             <LoginPage userLogin={userLogin} logout={logout} />

@@ -1,5 +1,5 @@
 import { Page } from '@presentation/shell/components/page';
-import { useTranslation } from '@core/i18n/presentation/use-translation';
+import { useTranslation } from '@presentation/i18n/hooks/use-translation';
 
 export const DashboardPage = () => {
   const { t } = useTranslation();

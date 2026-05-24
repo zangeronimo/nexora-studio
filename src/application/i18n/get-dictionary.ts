@@ -1,6 +1,6 @@
-import { Dictionary } from '../contracts/dictionary';
-import enUS from '../locales/en-US';
-import ptBR from '../locales/pt-BR';
+import { Dictionary } from './contracts/dictionary';
+import enUS from '../../presentation/i18n/dictionaries/en-US';
+import ptBR from '../../presentation/i18n/dictionaries/pt-BR';
 import { DEFAULT_LOCALE, Locale } from './locale';
 
 const dictionaries = {

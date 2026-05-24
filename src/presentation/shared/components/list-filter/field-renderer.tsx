@@ -1,4 +1,4 @@
-import { useTranslation } from '@core/i18n/presentation/use-translation';
+import { useTranslation } from '@presentation/i18n/hooks/use-translation';
 
 import { ListFilterField } from '@core/query-state/list-filter/types';
 

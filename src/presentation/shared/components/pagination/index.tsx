@@ -4,7 +4,7 @@ import { Select } from '../select';
 
 import * as styles from './styles.module.scss';
 import { PageSize } from '@core/query-state/value-objects/page-size';
-import { useTranslation } from '@core/i18n/presentation/use-translation';
+import { useTranslation } from '@presentation/i18n/hooks/use-translation';
 
 type Props = {
   page: number;

@@ -1,5 +1,5 @@
-import { getDictionary } from '../../domain/get-dictionary';
-import { Locale } from '../../domain/locale';
+import { getDictionary } from '@application/i18n/get-dictionary';
+import { Locale } from '@application/i18n/locale';
 
 describe('getDictionary (strict behavior)', () => {
   it('should return different values for different locales', () => {

@@ -1,7 +1,7 @@
 import { Storage } from '@application/contracts/core/storage';
-import { resolveLocale } from '../../domain/resolve-locale';
+import { StorageLocaleResolver } from '@infra/i18n/resolve-locale';
 
-describe('resolveLocale', () => {
+describe('StorageLocaleResolve', () => {
   it('should return stored locale when exists', () => {
     const storage: Storage = {
       get: jest.fn().mockReturnValue('pt-BR'),
@@ -9,9 +9,9 @@ describe('resolveLocale', () => {
       remove: jest.fn(),
     };
 
-    const result = resolveLocale(storage);
+    const result = new StorageLocaleResolver(storage);
 
-    expect(result).toBe('pt-BR');
+    expect(result.resolve()).toBe('pt-BR');
   });
 
   it('should fallback to en-US when no locale is stored', () => {
@@ -21,9 +21,9 @@ describe('resolveLocale', () => {
       remove: jest.fn(),
     };
 
-    const result = resolveLocale(storage);
+    const result = new StorageLocaleResolver(storage);
 
-    expect(result).toBe('en-US');
+    expect(result.resolve()).toBe('en-US');
   });
 
   it('should fallback to default when storage returns invalid locale', () => {
@@ -33,8 +33,8 @@ describe('resolveLocale', () => {
       remove: jest.fn(),
     };
 
-    const result = resolveLocale(storage as any);
+    const result = new StorageLocaleResolver(storage as any);
 
-    expect(result).toBe('en-US');
+    expect(result.resolve()).toBe('en-US');
   });
 });

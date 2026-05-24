@@ -5,7 +5,7 @@ import { GetCompaniesRequest } from '@application/requests/core/company-request'
 import { PaginatedResponse } from '@application/response/paginated-response';
 import { Company } from '@domain/entities/core/company';
 
-import { useTranslation } from '@core/i18n/presentation/use-translation';
+import { useTranslation } from '@presentation/i18n/hooks/use-translation';
 
 import { Page } from '@presentation/shell/components/page';
 import { Card } from '@presentation/shared/components/card';
