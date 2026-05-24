@@ -6,7 +6,7 @@ import { PageSize } from '../value-objects/page-size';
 import { SortBy } from '../value-objects/sort-by';
 import { SortDesc } from '../value-objects/sort-desc';
 
-const RESERVED_PARAMS = ['page', 'pageSize', 'sortBy', 'sortDesc'] as const;
+const RESERVED_PARAMS = new Set(['page', 'pageSize', 'sortBy', 'sortDesc']);
 
 type Filters = Record<string, string | undefined>;
 
@@ -62,7 +62,7 @@ export const useListSearchParams = <
     const entries = Array.from(searchParams.entries());
 
     return entries.reduce<Filters>((accumulator, [key, value]) => {
-      if (RESERVED_PARAMS.includes(key as (typeof RESERVED_PARAMS)[number])) {
+      if (RESERVED_PARAMS.has(key)) {
         return accumulator;
       }
 
@@ -94,6 +94,11 @@ export const useListSearchParams = <
       const nextPage = Page.create(value);
 
       updateSearchParams((params) => {
+        if (nextPage.value() <= 1) {
+          params.delete('page');
+          return;
+        }
+
         params.set('page', nextPage.toString());
       });
     },
@@ -105,7 +110,7 @@ export const useListSearchParams = <
       const nextPageSize = PageSize.create(value);
 
       updateSearchParams((params) => {
-        params.set('page', '1');
+        params.delete('page');
 
         params.set('pageSize', nextPageSize.toString());
       });
@@ -120,7 +125,7 @@ export const useListSearchParams = <
       const nextSortDesc = SortDesc.create(sortDesc);
 
       updateSearchParams((params) => {
-        params.set('page', '1');
+        params.delete('page');
 
         if (nextSortBy.isDefined()) {
           params.set('sortBy', nextSortBy.toString());
@@ -128,7 +133,11 @@ export const useListSearchParams = <
           params.delete('sortBy');
         }
 
-        params.set('sortDesc', nextSortDesc.toString());
+        if (nextSortDesc.value()) {
+          params.set('sortDesc', 'true');
+        } else {
+          params.delete('sortDesc');
+        }
       });
     },
     [updateSearchParams],
@@ -137,18 +146,24 @@ export const useListSearchParams = <
   const setFilters = useCallback(
     (nextFilters: TFilters) => {
       updateSearchParams((params) => {
-        params.set('page', '1');
+        params.delete('page');
 
         Object.keys(filters).forEach((key) => {
           params.delete(key);
         });
 
         Object.entries(nextFilters).forEach(([key, value]) => {
-          if (!value?.trim()) {
+          if (typeof value !== 'string') {
             return;
           }
 
-          params.set(key, value);
+          const normalizedValue = value.trim();
+
+          if (!normalizedValue) {
+            return;
+          }
+
+          params.set(key, normalizedValue);
         });
       });
     },
@@ -157,7 +172,7 @@ export const useListSearchParams = <
 
   const clearFilters = useCallback(() => {
     updateSearchParams((params) => {
-      params.set('page', '1');
+      params.delete('page');
 
       Object.keys(filters).forEach((key) => {
         params.delete(key);

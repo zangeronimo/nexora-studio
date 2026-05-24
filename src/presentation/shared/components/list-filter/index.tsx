@@ -1,44 +1,45 @@
 import { useEffect, useState } from 'react';
 
-import { useTranslation } from '@core/i18n/presentation/use-translation';
+import { ListFilterField } from '@core/query-state/list-filter/types';
 
-import { Input } from '@presentation/shared/components/input';
-import { Select } from '@presentation/shared/components/select';
-
-import * as styles from './styles.module.scss';
+import { InferFilterValues } from '@core/query-state/list-filter/infer-values';
 
 import { FilterButton } from '../action-buttons/filter-button';
 import { ClearFilterButton } from '../action-buttons/clear-filter-button';
 
-import { ListFilterField, ListFilterValues } from './types';
+import { FieldRenderer } from './field-renderer';
 
-type Props = {
-  fields: ListFilterField[];
-  values: ListFilterValues;
+import * as styles from './styles.module.scss';
+
+type Props<TFields extends readonly ListFilterField[]> = {
+  fields: TFields;
+
+  values: InferFilterValues<TFields>;
+
   loading?: boolean;
-  onSearch: (values: ListFilterValues) => void;
-  onClear: () => void;
+
+  onSearch(values: InferFilterValues<TFields>): void;
+
+  onClear(): void;
 };
 
-export function ListFilter({
+export function ListFilter<TFields extends readonly ListFilterField[]>({
   fields,
   values,
   loading = false,
   onSearch,
   onClear,
-}: Props) {
-  const { t } = useTranslation();
-
-  const [state, setState] = useState<ListFilterValues>(values);
+}: Props<TFields>) {
+  const [state, setState] = useState<InferFilterValues<TFields>>(values);
 
   /**
-   * sync external (URL / page state)
+   * external sync (URL state)
    */
   useEffect(() => {
     setState(values);
   }, [values]);
 
-  function updateField(name: string, value: string) {
+  function updateField(name: keyof InferFilterValues<TFields>, value: string) {
     setState((prev) => ({
       ...prev,
       [name]: value,
@@ -48,62 +49,38 @@ export function ListFilter({
   function handleSearch() {
     onSearch(
       Object.fromEntries(
-        Object.entries(state).map(([k, v]) => [k, v?.trim() ?? '']),
-      ),
+        Object.entries(state).map(([key, value]) => [
+          key,
+          typeof value === 'string' ? value.trim() : '',
+        ]),
+      ) as InferFilterValues<TFields>,
     );
   }
 
   function handleClear() {
-    setState({});
+    setState({} as InferFilterValues<TFields>);
+
     onClear();
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.fields}>
-        {fields.map((field) => {
-          if (field.type === 'text') {
-            return (
-              <Input
-                key={field.name}
-                id={field.name}
-                value={state[field.name] ?? ''}
-                placeholder={field.placeholder}
-                onChange={(e) => updateField(field.name, e.target.value)}
-                fullWidth
-              />
-            );
-          }
-
-          if (field.type === 'select') {
-            return (
-              <Select
-                key={field.name}
-                value={state[field.name] ?? ''}
-                placeholder={t('select_empty')}
-                options={field.options}
-                onChange={(value) => updateField(field.name, value)}
-                fullWidth
-              />
-            );
-          }
-
-          return null;
-        })}
+        {fields.map((field) => (
+          <div key={field.name} className={field.className}>
+            <FieldRenderer
+              field={field}
+              value={state[field.name]}
+              onChange={(value) => updateField(field.name, value)}
+            />
+          </div>
+        ))}
       </div>
 
       <div className={styles.actions}>
-        <ClearFilterButton
-          onClick={handleClear}
-          disabled={loading}
-          title={t('common_clear')}
-        />
+        <ClearFilterButton onClick={handleClear} disabled={loading} />
 
-        <FilterButton
-          onClick={handleSearch}
-          loading={loading}
-          title={t('common_search')}
-        />
+        <FilterButton onClick={handleSearch} loading={loading} />
       </div>
     </div>
   );

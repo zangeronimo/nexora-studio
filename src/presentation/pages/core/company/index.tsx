@@ -22,6 +22,10 @@ import { AuthorizationService } from '@application/contracts/security/authorizat
 import { CreateButton } from '@presentation/shared/components/action-buttons/create-button';
 import { ListFilter } from '@presentation/shared/components/list-filter';
 import { status } from '@domain/enums/status';
+import {
+  selectFilter,
+  textFilter,
+} from '@core/query-state/list-filter/factories';
 
 type Props = {
   companyService: CompanyService;
@@ -196,25 +200,17 @@ export const CoreCompanyPage = ({
             toolbar={
               <ListFilter
                 fields={[
-                  {
-                    type: 'text',
-                    name: 'name',
-                    placeholder: t('filter_placeholder_name'),
-                  },
-                  {
-                    type: 'select',
-                    name: 'status',
-                    options: [
-                      {
-                        value: status.inactive.toString(),
-                        label: t('common_inactive'),
-                      },
-                      {
-                        value: status.active.toString(),
-                        label: t('common_active'),
-                      },
-                    ],
-                  },
+                  textFilter('name', t('filter_placeholder_name')),
+                  selectFilter('status', [
+                    {
+                      value: status.inactive.toString(),
+                      label: t('common_inactive'),
+                    },
+                    {
+                      value: status.active.toString(),
+                      label: t('common_active'),
+                    },
+                  ]),
                 ]}
                 values={filters}
                 onSearch={setFilters}
