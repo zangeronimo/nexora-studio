@@ -1,4 +1,4 @@
-import { parseAccessToken } from '../domain/parse-access-token';
+import { parseAccessToken } from '@application/security/parse-access-token';
 
 describe('parseAccessToken', () => {
   const makeToken = (payload: object) => {

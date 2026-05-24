@@ -1,4 +1,4 @@
-import { hasSomePermission } from '../domain/has-some-permission';
+import { hasSomePermission } from '@application/security/has-some-permission';
 
 describe('hasSomePermission', () => {
   const payload = {
