@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Select } from '../select';
 
 import * as styles from './styles.module.scss';
-import { PageSize } from '@core/query-state/value-objects/page-size';
+import { PageSize } from '@application/query/value-objects/page-size';
 import { useTranslation } from '@presentation/i18n/hooks/use-translation';
 
 type Props = {

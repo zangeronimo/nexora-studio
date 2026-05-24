@@ -1,10 +1,9 @@
+import { Page } from '@application/query/value-objects/page';
+import { PageSize } from '@application/query/value-objects/page-size';
+import { SortBy } from '@application/query/value-objects/sort-by';
+import { SortDesc } from '@application/query/value-objects/sort-desc';
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-import { Page } from '../value-objects/page';
-import { PageSize } from '../value-objects/page-size';
-import { SortBy } from '../value-objects/sort-by';
-import { SortDesc } from '../value-objects/sort-desc';
 
 const RESERVED_PARAMS = new Set(['page', 'pageSize', 'sortBy', 'sortDesc']);
 

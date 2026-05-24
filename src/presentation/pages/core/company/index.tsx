@@ -15,17 +15,17 @@ import { CompanyFilter } from './filter';
 
 import * as styles from './styles.module.scss';
 import { TableColumn } from '@presentation/shared/components/table';
-import { useListSearchParams } from '@core/query-state/hooks/use-list-search-params';
 import { DataGridActions } from '@presentation/shared/components/data-grid/actions';
 import { DataGridAction } from '@presentation/shared/components/data-grid/actions/action';
 import { CreateButton } from '@presentation/shared/components/action-buttons/create-button';
 import { ListFilter } from '@presentation/shared/components/list-filter';
 import { status } from '@domain/enums/status';
+import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
+import { useListSearchParams } from '@presentation/query-state/hooks/use-list-search-params';
 import {
   selectFilter,
   textFilter,
-} from '@core/query-state/list-filter/factories';
-import { AuthorizationProvider } from '@application/contracts/security/authorizaton-provider';
+} from '@presentation/query-state/list-filter/factories';
 
 type Props = {
   companyService: CompanyService;

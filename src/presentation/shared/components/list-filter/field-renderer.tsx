@@ -1,6 +1,6 @@
 import { useTranslation } from '@presentation/i18n/hooks/use-translation';
 
-import { ListFilterField } from '@core/query-state/list-filter/types';
+import { ListFilterField } from '@presentation/query-state/list-filter/types';
 
 import { Input } from '@presentation/shared/components/input';
 import { Select } from '@presentation/shared/components/select';

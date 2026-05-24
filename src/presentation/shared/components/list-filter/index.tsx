@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { ListFilterField } from '@core/query-state/list-filter/types';
+import { ListFilterField } from '@presentation/query-state/list-filter/types';
 
-import { InferFilterValues } from '@core/query-state/list-filter/infer-values';
+import { InferFilterValues } from '@presentation/query-state/list-filter/infer-values';
 
 import { FilterButton } from '../action-buttons/filter-button';
 import { ClearFilterButton } from '../action-buttons/clear-filter-button';
