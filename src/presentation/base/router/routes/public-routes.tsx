@@ -1,7 +1,7 @@
 import { AppRoute } from '../types/app-route';
-import { LoginPageFactory } from '@core/factories/base/login-page';
+import { LoginPageFactory } from '@main/factories/base/login-page';
 import { AuthLayout } from '@presentation/base/layouts/auth-layout';
-import { LogoutPageFactory } from '@core/factories/base/logout-page';
+import { LogoutPageFactory } from '@main/factories/base/logout-page';
 
 export const publicRoutes: AppRoute[] = [
   {

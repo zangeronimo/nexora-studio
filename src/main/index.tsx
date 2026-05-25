@@ -1,5 +1,4 @@
 import reactDom from 'react-dom/client';
-import { I18nProvider } from './presentation/base/i18n/hooks/i18n-provider';
 import { LocalStorage } from '@infra/base/http/clients/local-storage';
 import { AuthProvider } from '@presentation/base/auth/auth-provider';
 import { AuthSessionProvider } from '@presentation/base/session/auth-session-provider';
@@ -11,6 +10,7 @@ import { AppRoutes } from '@presentation/base/router/routes';
 import '@presentation/base/styles/main.scss';
 import { JwtAuthorizationProvider } from '@infra/base/security/providers/jwt-authorization-provider';
 import { StorageLocaleResolver } from '@infra/base/i18n/resolve-locale';
+import { I18nProvider } from '@presentation/base/i18n/hooks/i18n-provider';
 
 const container = document.getElementById('root');
 const root = reactDom.createRoot(container!);

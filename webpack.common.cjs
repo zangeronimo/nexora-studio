@@ -2,7 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './src/main.tsx',
+  entry: './src/main/index.tsx',
 
   output: {
     path: path.join(__dirname, 'dist'),
@@ -16,7 +16,7 @@ module.exports = {
     alias: {
       '@domain': path.resolve(__dirname, 'src/domain'),
       '@application': path.resolve(__dirname, 'src/application'),
-      '@core': path.resolve(__dirname, 'src/core'),
+      '@main': path.resolve(__dirname, 'src/main'),
       '@infra': path.resolve(__dirname, 'src/infra'),
       '@presentation': path.resolve(__dirname, 'src/presentation'),
     },
