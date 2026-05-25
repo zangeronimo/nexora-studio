@@ -4,15 +4,16 @@ export const common = {
   },
   button: {
     save: 'Save',
+    cancel: 'Cancel',
+    edit: 'Edit',
+    delete: 'Delete',
   },
   select: {
     empty: 'Select',
   },
-  clear: 'Clear fields',
-  search: 'Search',
-  inactive: 'Inactive',
-  active: 'Active',
+  status: {
+    inactive: 'Inactive',
+    active: 'Active',
+  },
   no_data_found: 'No data found',
-  edit: 'Edit',
-  delete: 'Delete',
 };

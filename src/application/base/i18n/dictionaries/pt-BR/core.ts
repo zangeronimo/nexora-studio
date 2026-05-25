@@ -2,9 +2,18 @@ export const core = {
   company: {
     title: 'Empresas',
     description: 'Empresas descrição',
-    create: 'Criar empresa',
-    name: 'Nome',
-    status: 'Situação',
-    created_at: 'Criado em',
+    datagrid: {
+      name: 'Name',
+      status: 'Status',
+      created_at: 'Criado em',
+    },
+    create: {
+      title: 'Criar empresa',
+      description: 'Cadastre uma nova empresa na plataforma.',
+    },
+    fields: {
+      name: 'Nome',
+      status: 'Situação',
+    },
   },
 };
