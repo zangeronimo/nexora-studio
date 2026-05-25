@@ -6,10 +6,10 @@ import { core } from './core';
 import { filter } from './filter';
 
 export default {
-  ...login,
-  ...dashboard,
-  ...filter,
-  ...core,
-  ...sidebar,
-  ...common,
+  login,
+  dashboard,
+  filter,
+  core,
+  sidebar,
+  common,
 };

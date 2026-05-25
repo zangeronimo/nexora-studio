@@ -9,7 +9,6 @@ import { useTranslation } from '@presentation/base/i18n/hooks/use-translation';
 import { Card } from '@presentation/base/components/card';
 
 import { DataGrid } from '@presentation/base/components/data-grid';
-import { CompanyFilter } from './filter';
 
 import * as styles from './styles.module.scss';
 import { TableColumn } from '@presentation/base/components/table';
@@ -30,6 +29,11 @@ import { Page } from '@presentation/base/shell/components/page';
 type Props = {
   companyService: ICompanyService;
   authorizationProvider: AuthorizationProvider;
+};
+
+type CompanyFilter = {
+  name?: string;
+  status?: string;
 };
 
 export const CoreCompanyPage = ({
@@ -105,12 +109,12 @@ export const CoreCompanyPage = ({
     () => [
       {
         key: 'name',
-        header: t('core_company_name'),
+        header: t('core.company.name'),
         orderBy: 'Name',
       },
       {
         key: 'status',
-        header: t('core_company_status'),
+        header: t('core.company.status'),
         orderBy: 'Status',
         width: '160px',
         render: (c) => (
@@ -119,13 +123,13 @@ export const CoreCompanyPage = ({
               c.status === 1 ? styles.activeStatus : styles.disabledStatus
             }
           >
-            {c.status === 1 ? t('common_active') : t('common_inactive')}
+            {c.status === 1 ? t('common.active') : t('common.inactive')}
           </span>
         ),
       },
       {
         key: 'createdAt',
-        header: t('core_company_created_at'),
+        header: t('core.company.created_at'),
         width: '180px',
         render: (c) => new Date(c.createdAt).toLocaleDateString(),
       },
@@ -138,7 +142,7 @@ export const CoreCompanyPage = ({
           <DataGridActions>
             <DataGridAction
               type="edit"
-              label={t('common_edit')}
+              label={t('common.edit')}
               visible={authorizationProvider.hasPermission(
                 'core.company.update',
               )}
@@ -147,7 +151,7 @@ export const CoreCompanyPage = ({
 
             <DataGridAction
               type="delete"
-              label={t('common_delete')}
+              label={t('common.delete')}
               visible={authorizationProvider.hasPermission(
                 'core.company.delete',
               )}
@@ -161,18 +165,17 @@ export const CoreCompanyPage = ({
   );
 
   return (
-    <Page title={t('core_company_title')}>
+    <Page title={t('core.company.title')}>
       <div className={styles.container}>
         <div className={styles.header}>
           <div>
-            <h2 className={styles.title}>{t('core_company_title')}</h2>
             <p className={styles.description}>
-              {t('core_company_description')}
+              {t('core.company.description')}
             </p>
           </div>
 
           <CreateButton
-            title={t('core_company_create')}
+            title={t('core.company.create')}
             onClick={() => {}}
             visible={authorizationProvider.hasPermission('core.company.create')}
           />
@@ -195,20 +198,20 @@ export const CoreCompanyPage = ({
             onPageSizeChange={setPageSize}
             onSortingChange={setSorting}
             loading={state.loading}
-            emptyMessage={t('common_no_data_found')}
+            emptyMessage={t('common.no_data_found')}
             rowKey={(c) => c.id}
             toolbar={
               <ListFilter
                 fields={[
-                  textFilter('name', t('filter_placeholder_name')),
+                  textFilter('name', t('filter.placeholder.name')),
                   selectFilter('status', [
                     {
                       value: status.inactive.toString(),
-                      label: t('common_inactive'),
+                      label: t('common;inactive'),
                     },
                     {
                       value: status.active.toString(),
-                      label: t('common_active'),
+                      label: t('common.active'),
                     },
                   ]),
                 ]}

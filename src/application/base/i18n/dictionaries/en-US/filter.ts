@@ -1,3 +1,7 @@
 export const filter = {
-  filter_placeholder_name: 'Name',
+  placeholder: {
+    name: 'Name',
+    clear_filter: 'Clear filters',
+    search_button: 'Search',
+  },
 };

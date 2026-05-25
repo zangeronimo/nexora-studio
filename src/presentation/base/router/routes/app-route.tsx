@@ -21,7 +21,7 @@ export const routes: AppRoute[] = [
   {
     path: '/',
     element: <DashboardPage />,
-    labelKey: 'sidebar_dashboard',
+    labelKey: 'sidebar.dashboard',
     showInSidebar: true,
   },
 
@@ -31,13 +31,13 @@ export const routes: AppRoute[] = [
   {
     path: '/core',
     element: <CorePage />,
-    labelKey: 'sidebar_core',
+    labelKey: 'sidebar.core.title',
     showInSidebar: true,
     isGroupRoute: true,
     children: [
       {
         path: 'companies',
-        labelKey: 'sidebar_core_companies',
+        labelKey: 'sidebar.core.companies.title',
         showInSidebar: true,
         permission: 'core.company.view',
         element: <CompanyPageFactory />,

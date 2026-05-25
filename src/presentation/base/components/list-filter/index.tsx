@@ -10,6 +10,7 @@ import { ClearFilterButton } from '../action-buttons/clear-filter-button';
 import { FieldRenderer } from './field-renderer';
 
 import * as styles from './styles.module.scss';
+import { useTranslation } from '@presentation/base/i18n/hooks/use-translation';
 
 type Props<TFields extends readonly ListFilterField[]> = {
   fields: TFields;
@@ -31,6 +32,8 @@ export function ListFilter<TFields extends readonly ListFilterField[]>({
   onClear,
 }: Props<TFields>) {
   const [state, setState] = useState<InferFilterValues<TFields>>(values);
+
+  const { t } = useTranslation();
 
   /**
    * external sync (URL state)
@@ -78,9 +81,17 @@ export function ListFilter<TFields extends readonly ListFilterField[]>({
       </div>
 
       <div className={styles.actions}>
-        <ClearFilterButton onClick={handleClear} disabled={loading} />
+        <ClearFilterButton
+          onClick={handleClear}
+          disabled={loading}
+          title={t('filter.placeholder.clear_filter')}
+        />
 
-        <FilterButton onClick={handleSearch} loading={loading} />
+        <FilterButton
+          onClick={handleSearch}
+          loading={loading}
+          title={t('filter.placeholder.search_button')}
+        />
       </div>
     </div>
   );

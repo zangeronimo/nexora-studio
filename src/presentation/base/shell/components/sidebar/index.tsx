@@ -89,7 +89,7 @@ export function Sidebar({ authorizationProvider }: Props) {
       <div className={styles.brand}>
         <h1 className={styles.logo}>NEXORA</h1>
 
-        <span className={styles.subtitle}>{t('nexora_slogan')}</span>
+        <span className={styles.subtitle}>{t('common.nexora.slogan')}</span>
       </div>
 
       <nav className={styles.navigation}>

@@ -4,8 +4,8 @@ import { useTranslation } from '@presentation/base/i18n/hooks/use-translation';
 export const DashboardPage = () => {
   const { t } = useTranslation();
   return (
-    <Page title={t('dashboard_title')}>
-      <div>{t('dashboard_description')}</div>
+    <Page title={t('dashboard.title')}>
+      <div>{t('dashboard.description')}</div>
     </Page>
   );
 };

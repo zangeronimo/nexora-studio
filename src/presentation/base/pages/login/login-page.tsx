@@ -64,32 +64,32 @@ export const LoginPage = ({ login, logout }: Props) => {
 
           <h1 className={styles.title}>Business Operating Platform</h1>
 
-          <p className={styles.subtitle}>{t('login_subtitle')}</p>
+          <p className={styles.subtitle}>{t('login.subtitle')}</p>
         </section>
 
         <Card className={styles.card}>
           <div className={styles.cardHeader}>
-            <h2 className={styles.cardTitle}>{t('login_title')}</h2>
+            <h2 className={styles.cardTitle}>{t('login.title')}</h2>
 
-            <p className={styles.cardDescription}>{t('login_description')}</p>
+            <p className={styles.cardDescription}>{t('login.description')}</p>
           </div>
 
           <div className={styles.form}>
             <Input
-              label={t('login_email')}
+              label={t('login.email.label')}
               id="login_email"
               type="email"
-              placeholder={t('login_email_placeholder')}
+              placeholder={t('login.email.placeholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               fullWidth
             />
 
             <Input
-              label={t('login_password')}
+              label={t('login.password.label')}
               id="login_password"
               type="password"
-              placeholder={t('login_password_placeholder')}
+              placeholder={t('login.password.placeholder')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               fullWidth
@@ -101,7 +101,7 @@ export const LoginPage = ({ login, logout }: Props) => {
               loading={loading}
               fullWidth
             >
-              {t('login_button')}
+              {t('login.button.enter')}
             </Button>
           </div>
         </Card>

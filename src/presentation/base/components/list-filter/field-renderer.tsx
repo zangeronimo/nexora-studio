@@ -34,7 +34,7 @@ export function FieldRenderer({ field, value, onChange }: Props) {
       <Select
         id={field.name}
         value={value ?? ''}
-        placeholder={field.placeholder ?? t('select_empty')}
+        placeholder={field.placeholder ?? t('common.select.empty')}
         options={field.options}
         onChange={onChange}
         disabled={field.disabled}
