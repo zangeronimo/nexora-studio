@@ -1,6 +1,9 @@
 import { AuthHttpClient } from '@application/base/security/contracts/auth-http-client';
 import { ICompanyService } from '@application/core/contracts/company-service';
-import { GetCompaniesRequest } from '@application/core/requests/company-request';
+import {
+  CreateCompanyRequest,
+  GetCompaniesRequest,
+} from '@application/core/requests/company-request';
 import { PaginatedResponse } from '@application/base/response/paginated-response';
 import { Company } from '@domain/core/entities/company';
 
@@ -17,5 +20,9 @@ export class CompanyService implements ICompanyService {
         status: request.status,
       },
     });
+  }
+
+  create(request: CreateCompanyRequest): Promise<Company | null> {
+    return this.http.post('/core/companies', request);
   }
 }

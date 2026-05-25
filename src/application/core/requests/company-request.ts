@@ -13,3 +13,10 @@ export class GetCompaniesRequest extends PaginationRequest {
     super(page, pageSize, orderBy, desc);
   }
 }
+
+export class CreateCompanyRequest {
+  constructor(
+    readonly name: string,
+    readonly status: status,
+  ) {}
+}
