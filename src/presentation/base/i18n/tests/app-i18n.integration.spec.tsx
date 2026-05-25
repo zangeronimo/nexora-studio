@@ -14,7 +14,7 @@ describe('I18n React integration', () => {
   function FakeApp() {
     const { t } = useTranslation();
 
-    return <div>{t('login_title')}</div>;
+    return <div>{t('login.title')}</div>;
   }
 
   it('should translate to portuguese', () => {
