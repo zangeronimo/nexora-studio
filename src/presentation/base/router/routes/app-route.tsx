@@ -2,6 +2,7 @@ import { DashboardPage } from '@presentation/base/pages/dashboard';
 import { AppRoute } from '../types/app-route';
 import { CorePage } from '@presentation/core/pages';
 import { CompanyPageFactory } from '@main/factories/core/company-page';
+import { CoreCompanyCreatePageFactory } from '@main/factories/core/company-create-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -42,10 +43,9 @@ export const routes: AppRoute[] = [
         permission: 'core.company.view',
         element: <CompanyPageFactory />,
       },
-
       {
-        path: 'companies/new',
-        element: <div>Company Create</div>,
+        path: 'companies/create',
+        element: <CoreCompanyCreatePageFactory />,
         permission: 'core.company.create',
         showInSidebar: false,
       },
