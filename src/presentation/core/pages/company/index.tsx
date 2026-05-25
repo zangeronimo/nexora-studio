@@ -25,6 +25,7 @@ import {
 } from '@presentation/base/query-state/list-filter/factories';
 import { Company } from '@domain/core/entities/company';
 import { Page } from '@presentation/base/shell/components/page';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   companyService: ICompanyService;
@@ -61,6 +62,8 @@ export const CoreCompanyPage = ({
     response: null,
     loading: false,
   });
+
+  const navigate = useNavigate();
 
   /**
    * URL → Request mapping
@@ -123,7 +126,9 @@ export const CoreCompanyPage = ({
               c.status === 1 ? styles.activeStatus : styles.disabledStatus
             }
           >
-            {c.status === 1 ? t('common.active') : t('common.inactive')}
+            {c.status === 1
+              ? t('common.status.active')
+              : t('common.status.inactive')}
           </span>
         ),
       },
@@ -142,7 +147,7 @@ export const CoreCompanyPage = ({
           <DataGridActions>
             <DataGridAction
               type="edit"
-              label={t('common.edit')}
+              label={t('common.button.edit')}
               visible={authorizationProvider.hasPermission(
                 'core.company.update',
               )}
@@ -151,7 +156,7 @@ export const CoreCompanyPage = ({
 
             <DataGridAction
               type="delete"
-              label={t('common.delete')}
+              label={t('common.button.delete')}
               visible={authorizationProvider.hasPermission(
                 'core.company.delete',
               )}
@@ -175,8 +180,8 @@ export const CoreCompanyPage = ({
           </div>
 
           <CreateButton
-            title={t('core.company.create')}
-            onClick={() => {}}
+            title={t('core.company.create.title')}
+            onClick={() => navigate('/core/companies/create')}
             visible={authorizationProvider.hasPermission('core.company.create')}
           />
         </div>
@@ -207,11 +212,11 @@ export const CoreCompanyPage = ({
                   selectFilter('status', [
                     {
                       value: status.inactive.toString(),
-                      label: t('common;inactive'),
+                      label: t('common.status.inactive'),
                     },
                     {
                       value: status.active.toString(),
-                      label: t('common.active'),
+                      label: t('common.status.active'),
                     },
                   ]),
                 ]}
