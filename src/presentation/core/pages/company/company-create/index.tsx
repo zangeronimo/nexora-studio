@@ -4,40 +4,33 @@ import { Input } from '@presentation/base/components/input';
 import { Select } from '@presentation/base/components/select';
 import { useTranslation } from '@presentation/base/i18n/hooks/use-translation';
 import { Page } from '@presentation/base/shell/components/page';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as styles from './styles.module.scss';
 import { CancelButton } from '@presentation/base/components/action-buttons/cancel-button';
 import { SaveButton } from '@presentation/base/components/action-buttons/save-button';
 import { ICompanyService } from '@application/core/contracts/company-service';
-import { CreateCompanyRequest } from '@application/core/requests/company-request';
 import { status } from '@domain/base/enums/status';
+import { useCompanyForm } from '../hooks/use-company.form';
 
 type Props = {
   companyService: ICompanyService;
 };
 
-type StateProps = {
-  request: CreateCompanyRequest;
-};
-
 export function CoreCompanyCreatePage({ companyService }: Props) {
+  const {
+    errors,
+    hasError,
+    isPristine,
+    request,
+    handleNameChange,
+    handleStatusChange,
+    handleSubmit,
+  } = useCompanyForm({
+    companyService,
+  });
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const [state, setState] = useState<StateProps>({
-    request: {
-      name: '',
-      status: status.inactive,
-    },
-  });
-
-  const handleSubmit = async () => {
-    await companyService.create(state.request);
-
-    navigate('/core/companies');
-  };
 
   return (
     <Page title={t('core.company.create.title')}>
@@ -47,31 +40,17 @@ export function CoreCompanyCreatePage({ companyService }: Props) {
             <Input
               label={t('core.company.fields.name')}
               maxLength={200}
-              value={state.request.name}
-              onChange={(e) =>
-                setState((old) => ({
-                  ...old,
-                  request: { ...old.request, name: e.target.value },
-                }))
-              }
+              value={request.name}
+              error={errors.name}
+              onChange={handleNameChange}
             />
 
             <Select
               label={t('core.company.fields.status')}
               placeholder={t('common.select.empty')}
-              value={state.request.status}
-              onChange={(e) =>
-                setState((old) => ({
-                  ...old,
-                  request: {
-                    ...old.request,
-                    status:
-                      e === status.active.toString()
-                        ? status.active
-                        : status.inactive,
-                  },
-                }))
-              }
+              value={request.status}
+              error={errors.status}
+              onChange={handleStatusChange}
               options={[
                 {
                   label: t('common.status.active'),
@@ -95,6 +74,7 @@ export function CoreCompanyCreatePage({ companyService }: Props) {
 
             <SaveButton
               title={t('common.button.save')}
+              disabled={hasError || isPristine}
               onClick={handleSubmit}
             />
           </DataGridActions>
