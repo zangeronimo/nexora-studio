@@ -2,22 +2,24 @@ import { forwardRef, InputHTMLAttributes } from 'react';
 
 import * as styles from './styles.module.scss';
 
-type Props = InputHTMLAttributes<HTMLInputElement> & {
+type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
   label?: string;
   error?: string;
   helperText?: string;
   fullWidth?: boolean;
+  onChange?: (value: string) => void;
 };
 
 export const Input = forwardRef<HTMLInputElement, Props>(
   (
     {
+      id,
       label,
       error,
       helperText,
       fullWidth = false,
       className = '',
-      id,
+      onChange,
       ...props
     },
     ref,
@@ -39,6 +41,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           className={[styles.input, error ? styles.error : '', className].join(
             ' ',
           )}
+          onChange={(event) => onChange?.(event.target.value)}
           {...props}
         />
 

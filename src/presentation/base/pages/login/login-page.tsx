@@ -81,7 +81,7 @@ export const LoginPage = ({ login, logout }: Props) => {
               type="email"
               placeholder={t('login.email.placeholder')}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={setEmail}
               fullWidth
             />
 
@@ -91,7 +91,7 @@ export const LoginPage = ({ login, logout }: Props) => {
               type="password"
               placeholder={t('login.password.placeholder')}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={setPassword}
               fullWidth
             />
 

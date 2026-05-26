@@ -22,7 +22,7 @@ export function FieldRenderer({ field, value, onChange }: Props) {
         id={field.name}
         value={value ?? ''}
         placeholder={field.placeholder}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChange}
         disabled={field.disabled}
         fullWidth
       />
