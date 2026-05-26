@@ -10,10 +10,25 @@ function resolvePath(dictionary: Dictionary, path: string): unknown {
     );
 }
 
+function interpolate(text: string, params?: Record<string, unknown>): string {
+  if (!params) {
+    return text;
+  }
+
+  return Object.entries(params).reduce(
+    (current, [key, value]) => current.replaceAll(`{${key}}`, String(value)),
+    text,
+  );
+}
+
 export const createTranslator = (dictionary: Dictionary) => {
-  return (key: string) => {
+  return (key: string, params?: Record<string, unknown>) => {
     const value = resolvePath(dictionary, key);
 
-    return typeof value === 'string' ? value : key;
+    if (typeof value !== 'string') {
+      return key;
+    }
+
+    return interpolate(value, params);
   };
 };
