@@ -4,6 +4,7 @@ import { login } from './login';
 import { sidebar } from './sidebar';
 import { core } from './core';
 import { filter } from './filter';
+import { validation } from './validation';
 
 export default {
   login,
@@ -12,4 +13,5 @@ export default {
   core,
   sidebar,
   common,
+  validation,
 };
