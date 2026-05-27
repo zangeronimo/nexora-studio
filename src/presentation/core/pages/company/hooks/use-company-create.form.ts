@@ -22,7 +22,7 @@ type Errors = {
   status: string;
 };
 
-export function useCompanyForm({ companyService }: Props) {
+export function useCompanyCreateForm({ companyService }: Props) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const toast = useToast();
@@ -107,17 +107,20 @@ export function useCompanyForm({ companyService }: Props) {
   };
 
   const hasError = Object.values(errors).some(Boolean);
-  const isDurty = JSON.stringify(request) !== JSON.stringify(initialState);
+  const isDirty =
+    request.name !== initialState.name ||
+    request.status !== initialState.status;
 
   return {
     request,
     errors,
     hasError,
-    isDurty,
+    isDirty,
     isPristine,
     loading,
     handleSubmit,
     handleNameChange,
+
     handleStatusChange,
   };
 }

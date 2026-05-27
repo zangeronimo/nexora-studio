@@ -11,7 +11,7 @@ import { CancelButton } from '@presentation/base/components/action-buttons/cance
 import { SaveButton } from '@presentation/base/components/action-buttons/save-button';
 import { ICompanyService } from '@application/core/contracts/company-service';
 import { status } from '@domain/base/enums/status';
-import { useCompanyForm } from '../hooks/use-company.form';
+import { useCompanyCreateForm } from '../hooks/use-company-create.form';
 
 type Props = {
   companyService: ICompanyService;
@@ -27,7 +27,7 @@ export function CoreCompanyCreatePage({ companyService }: Props) {
     handleNameChange,
     handleStatusChange,
     handleSubmit,
-  } = useCompanyForm({
+  } = useCompanyCreateForm({
     companyService,
   });
   const navigate = useNavigate();
