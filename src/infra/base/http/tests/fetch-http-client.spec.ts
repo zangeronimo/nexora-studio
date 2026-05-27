@@ -22,6 +22,7 @@ describe('FetchHttpClient', () => {
   it('should throw if response is not ok', async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
+      text: jest.fn(),
       status: 500,
       statusText: 'Internal Server Error',
     });
