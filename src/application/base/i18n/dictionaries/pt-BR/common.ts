@@ -14,5 +14,15 @@ export const common = {
     active: 'Ativo',
     inactive: 'Inativo',
   },
+  toast: {
+    success: {
+      title: 'Uhuu!',
+      created: 'Recurso criado com sucesso!',
+      updated: 'Recurso atualizado com sucesso!',
+      deleted: 'Recurso excluído com sucesso!',
+    },
+    error: { title: 'Ops!', message: 'Algo de errado aconteceu!' },
+    info: { title: 'Humm!', message: 'Algo precisa de atenção!' },
+  },
   no_data_found: 'Nenhum registro encontrado',
 };

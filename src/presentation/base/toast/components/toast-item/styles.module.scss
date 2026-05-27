@@ -1,0 +1,67 @@
+.toast {
+  min-width: 320px;
+  max-width: 420px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 16px;
+
+  border-radius: 12px;
+
+  background: #1f2937;
+  color: white;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+  animation: fade-in 0.2s ease;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  strong {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  span {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 1px;
+}
+
+.success {
+  border-left: 4px solid #22c55e;
+}
+
+.error {
+  border-left: 4px solid #ef4444;
+}
+
+.info {
+  border-left: 4px solid #3b82f6;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

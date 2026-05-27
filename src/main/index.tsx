@@ -11,6 +11,7 @@ import '@presentation/base/styles/main.scss';
 import { JwtAuthorizationProvider } from '@infra/base/security/providers/jwt-authorization-provider';
 import { StorageLocaleResolver } from '@infra/base/i18n/resolve-locale';
 import { I18nProvider } from '@presentation/base/i18n/hooks/i18n-provider';
+import { ToastProvider } from '@presentation/base/toast/provider/toast-provider';
 
 const container = document.getElementById('root');
 const root = reactDom.createRoot(container!);
@@ -28,10 +29,12 @@ const userProfileService = new UserProfileService(authHttp);
 const localeResolver = new StorageLocaleResolver(storage);
 root.render(
   <I18nProvider localeResolver={localeResolver}>
-    <AuthProvider storage={storage}>
-      <AuthSessionProvider service={userProfileService}>
-        <AppRoutes authorizationProvider={authorizationProvider} />
-      </AuthSessionProvider>
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider storage={storage}>
+        <AuthSessionProvider service={userProfileService}>
+          <AppRoutes authorizationProvider={authorizationProvider} />
+        </AuthSessionProvider>
+      </AuthProvider>
+    </ToastProvider>
   </I18nProvider>,
 );
