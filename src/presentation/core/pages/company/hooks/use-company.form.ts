@@ -11,6 +11,7 @@ import { useTranslation } from '@presentation/base/i18n/hooks/use-translation';
 import { RequiredValidator } from '@application/base/validation/rules/required';
 import { MaxLengthValidator } from '@application/base/validation/rules/max-length';
 import { validate } from '@application/base/validation/validate';
+import { useToast } from '@presentation/base/toast/hooks/use-toast';
 
 type Props = {
   companyService: ICompanyService;
@@ -24,6 +25,7 @@ type Errors = {
 export function useCompanyForm({ companyService }: Props) {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const toast = useToast();
 
   const initialState = {
     name: '',
@@ -80,20 +82,24 @@ export function useCompanyForm({ companyService }: Props) {
 
     setErrors(nextErrors);
 
-    const hasError = Object.values(nextErrors).some(Boolean);
+    const hasSomeError = Object.values(nextErrors).some(Boolean);
 
-    if (hasError) {
+    if (hasSomeError) {
       return;
     }
 
-    await companyService.create(
-      new CreateCompanyRequest(
-        request.name,
-        request.status === '1' ? status.active : status.inactive,
-      ),
-    );
-
-    navigate('/core/companies');
+    try {
+      await companyService.create(
+        new CreateCompanyRequest(
+          request.name,
+          request.status === '1' ? status.active : status.inactive,
+        ),
+      );
+      toast.success(t('common.toast.success.created'));
+      navigate('/core/companies');
+    } catch (e) {
+      toast.error(e.message);
+    }
   };
 
   const hasError = Object.values(errors).some(Boolean);
