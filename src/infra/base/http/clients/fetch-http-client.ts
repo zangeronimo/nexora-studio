@@ -5,11 +5,14 @@ import { HttpError } from '../errors/http-error';
 export class FetchHttpClient implements HttpClient {
   async request<T>(url: string, config?: HttpRequestConfig): Promise<T> {
     const result = await fetch(url, config);
-    if (!result.ok) {
-      throw new HttpError(result.status, result.statusText);
-    }
-    if (result.status === 204) return null;
+    if (result.status === 204) return null as T;
     const text = await result.text();
-    return text ? JSON.parse(text) : null;
+    const body = text ? JSON.parse(text) : null;
+
+    if (!result.ok) {
+      console.error(body);
+      throw new HttpError(result.status, body?.message ?? result.statusText);
+    }
+    return body;
   }
 }
