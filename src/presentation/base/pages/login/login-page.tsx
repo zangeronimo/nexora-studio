@@ -13,6 +13,7 @@ import { Input } from '@presentation/base/components/input';
 import { Button } from '@presentation/base/components/button';
 
 import * as styles from './styles.module.scss';
+import { useToast } from '@presentation/base/toast/hooks/use-toast';
 
 type Props = {
   login: UseCase<LoginRequest, void>;
@@ -30,6 +31,7 @@ export const LoginPage = ({ login, logout }: Props) => {
   const { setAuthenticated } = useAuth();
 
   const { t } = useTranslation();
+  const toast = useToast();
 
   async function handleSubmit() {
     try {
@@ -43,6 +45,8 @@ export const LoginPage = ({ login, logout }: Props) => {
       setAuthenticated(true);
 
       navigate('/');
+    } catch (e) {
+      toast.error(e.message);
     } finally {
       setLoading(false);
     }
