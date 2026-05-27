@@ -3,6 +3,7 @@ import { LoginPage } from '@presentation/base/pages/login/login-page';
 import { I18nProvider } from '@presentation/base/i18n/hooks/i18n-provider';
 import { AuthProvider } from '@presentation/base/auth/auth-provider';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastProvider } from '@presentation/base/toast/provider/toast-provider';
 
 describe('LoginPage (i18n aware)', () => {
   const makeStorage = (locale: 'en-US' | 'pt-BR') => ({
@@ -32,11 +33,13 @@ describe('LoginPage (i18n aware)', () => {
 
     render(
       <I18nProvider localeResolver={localeResolver}>
-        <AuthProvider storage={storage as any}>
-          <BrowserRouter>
-            <LoginPage login={login} logout={logout} />
-          </BrowserRouter>
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider storage={storage as any}>
+            <BrowserRouter>
+              <LoginPage login={login} logout={logout} />
+            </BrowserRouter>
+          </AuthProvider>
+        </ToastProvider>
       </I18nProvider>,
     );
 
