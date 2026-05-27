@@ -80,7 +80,7 @@ export const CoreCompanyPage = ({
   }, [page, pageSize, sortBy, sortDesc, filters]);
 
   const handleEdit = (company: Company) => {
-    console.log(company);
+    navigate(`/core/companies/edit/${company.id}`);
   };
   const handleDelete = (company: Company) => {
     console.log(company);

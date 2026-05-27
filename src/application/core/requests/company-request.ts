@@ -20,3 +20,11 @@ export class CreateCompanyRequest {
     readonly status: status,
   ) {}
 }
+
+export class UpdateCompanyRequest {
+  constructor(
+    readonly id: string,
+    readonly name: string,
+    readonly status: status,
+  ) {}
+}

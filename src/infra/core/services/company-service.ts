@@ -3,6 +3,7 @@ import { ICompanyService } from '@application/core/contracts/company-service';
 import {
   CreateCompanyRequest,
   GetCompaniesRequest,
+  UpdateCompanyRequest,
 } from '@application/core/requests/company-request';
 import { PaginatedResponse } from '@application/base/response/paginated-response';
 import { Company } from '@domain/core/entities/company';
@@ -22,7 +23,15 @@ export class CompanyService implements ICompanyService {
     });
   }
 
+  getById(id: string): Promise<Company | null> {
+    return this.http.get(`/core/companies/${id}`);
+  }
+
   create(request: CreateCompanyRequest): Promise<Company | null> {
     return this.http.post('/core/companies', request);
+  }
+
+  update(request: UpdateCompanyRequest): Promise<Company | null> {
+    return this.http.put(`/core/companies/${request.id}`, request);
   }
 }
