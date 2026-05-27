@@ -34,6 +34,7 @@ export function useCompanyForm({ companyService }: Props) {
 
   const [request, setRequest] = useState(initialState);
   const [isPristine, setIsPristine] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Errors>({
     name: '',
     status: '',
@@ -89,6 +90,7 @@ export function useCompanyForm({ companyService }: Props) {
     }
 
     try {
+      setLoading(true);
       await companyService.create(
         new CreateCompanyRequest(
           request.name,
@@ -99,6 +101,8 @@ export function useCompanyForm({ companyService }: Props) {
       navigate('/core/companies');
     } catch (e) {
       toast.error(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,6 +115,7 @@ export function useCompanyForm({ companyService }: Props) {
     hasError,
     isDurty,
     isPristine,
+    loading,
     handleSubmit,
     handleNameChange,
     handleStatusChange,

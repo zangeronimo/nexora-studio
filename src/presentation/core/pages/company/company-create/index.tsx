@@ -22,6 +22,7 @@ export function CoreCompanyCreatePage({ companyService }: Props) {
     errors,
     hasError,
     isPristine,
+    loading,
     request,
     handleNameChange,
     handleStatusChange,
@@ -74,7 +75,7 @@ export function CoreCompanyCreatePage({ companyService }: Props) {
 
             <SaveButton
               title={t('common.button.save')}
-              disabled={hasError || isPristine}
+              disabled={hasError || isPristine || loading}
               onClick={handleSubmit}
             />
           </DataGridActions>
