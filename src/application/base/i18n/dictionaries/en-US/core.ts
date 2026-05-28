@@ -15,5 +15,10 @@ export const core = {
       name: 'Name',
       status: 'Status',
     },
+    delete: {
+      title: 'Delete company',
+      description:
+        'This action will permanently remove the company and cannot be undone.',
+    },
   },
 };

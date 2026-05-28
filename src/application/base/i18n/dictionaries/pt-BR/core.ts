@@ -15,5 +15,10 @@ export const core = {
       name: 'Nome',
       status: 'Situação',
     },
+    delete: {
+      title: 'Excluir empresa',
+      description:
+        'Esta ação removerá permanentemente a empresa e não poderá ser desfeita.',
+    },
   },
 };

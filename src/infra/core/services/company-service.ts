@@ -34,4 +34,8 @@ export class CompanyService implements ICompanyService {
   update(request: UpdateCompanyRequest): Promise<Company | null> {
     return this.http.put(`/core/companies/${request.id}`, request);
   }
+
+  delete(id: string): Promise<void> {
+    return this.http.delete(`/core/companies/${id}`);
+  }
 }

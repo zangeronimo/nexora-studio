@@ -11,4 +11,5 @@ export interface ICompanyService {
   getById: (id: string) => Promise<Company | null>;
   create: (request: CreateCompanyRequest) => Promise<Company | null>;
   update: (request: UpdateCompanyRequest) => Promise<Company | null>;
+  delete: (id: string) => Promise<void>;
 }
