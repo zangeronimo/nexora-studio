@@ -1,0 +1,30 @@
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  p {
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 1.7;
+
+    color: var(--color-text-secondary);
+  }
+}
+
+.alert {
+  flex-shrink: 0;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+
+  background: rgb(245 158 11 / 12%);
+  color: var(--color-warning);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
