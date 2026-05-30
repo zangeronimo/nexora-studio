@@ -28,3 +28,6 @@ export class UpdateCompanyRequest {
     readonly status: status,
   ) {}
 }
+export class UpdateCompanyModulesRequest {
+  constructor(readonly modules: string[]) {}
+}

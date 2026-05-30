@@ -3,6 +3,7 @@ import { ICompanyService } from '@application/core/contracts/company-service';
 import {
   CreateCompanyRequest,
   GetCompaniesRequest,
+  UpdateCompanyModulesRequest,
   UpdateCompanyRequest,
 } from '@application/core/requests/company-request';
 import { PaginatedResponse } from '@application/base/response/paginated-response';
@@ -33,6 +34,13 @@ export class CompanyService implements ICompanyService {
 
   update(request: UpdateCompanyRequest): Promise<Company | null> {
     return this.http.put(`/core/companies/${request.id}`, request);
+  }
+
+  updateModules(
+    id: string,
+    request: UpdateCompanyModulesRequest,
+  ): Promise<void> {
+    return this.http.put(`/core/companies/${id}/modules`, request);
   }
 
   delete(id: string): Promise<void> {
