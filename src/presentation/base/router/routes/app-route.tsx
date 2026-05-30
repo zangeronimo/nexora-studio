@@ -1,10 +1,11 @@
 import { DashboardPage } from '@presentation/base/pages/dashboard';
 import { AppRoute } from '../types/app-route';
 import { CorePage } from '@presentation/core/pages';
-import { CompanyPageFactory } from '@main/factories/core/company-page';
-import { CoreCompanyCreatePageFactory } from '@main/factories/core/company-create-page';
-import { CoreCompanyUpdatePageFactory } from '@main/factories/core/company-update-page';
-import { CoreCompanyModulesPageFactory } from '@main/factories/core/company-modules-page';
+import { CompanyPageFactory } from '@main/factories/core/company/company-page';
+import { CoreCompanyCreatePageFactory } from '@main/factories/core/company/company-create-page';
+import { CoreCompanyUpdatePageFactory } from '@main/factories/core/company/company-update-page';
+import { CoreCompanyModulesPageFactory } from '@main/factories/core/company/company-modules-page';
+import { ModulePageFactory } from '@main/factories/core/module/module-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -62,6 +63,14 @@ export const routes: AppRoute[] = [
         element: <CoreCompanyModulesPageFactory />,
         permission: 'core.company.update',
         showInSidebar: false,
+      },
+
+      {
+        path: 'modulew',
+        labelKey: 'sidebar.core.modulew.title',
+        showInSidebar: true,
+        permission: 'core.module.view',
+        element: <ModulePageFactory />,
       },
     ],
   },
