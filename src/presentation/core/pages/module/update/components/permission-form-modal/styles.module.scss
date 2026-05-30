@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  min-width: 560px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 24px;
+}

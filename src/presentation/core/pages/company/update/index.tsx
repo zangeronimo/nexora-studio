@@ -36,8 +36,8 @@ export function CoreCompanyUpdatePage({ companyService }: Props) {
   const { t } = useTranslation();
 
   return (
-    <Page title={t('core.company.create.title')}>
-      <Card description={t('core.company.create.description')}>
+    <Page title={t('core.company.update.title')}>
+      <Card description={t('core.company.update.description')}>
         <div className={styles.container}>
           <div className={styles.form}>
             <Input

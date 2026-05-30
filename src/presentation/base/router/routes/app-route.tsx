@@ -7,6 +7,7 @@ import { CoreCompanyUpdatePageFactory } from '@main/factories/core/company/compa
 import { CoreCompanyModulesPageFactory } from '@main/factories/core/company/company-modules-page';
 import { ModulePageFactory } from '@main/factories/core/module/module-page';
 import { CoreModuleCreatePageFactory } from '@main/factories/core/module/module-create-page';
+import { CoreModuleUpdatePageFactory } from '@main/factories/core/module/module-update-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -77,6 +78,12 @@ export const routes: AppRoute[] = [
         path: 'modules/create',
         element: <CoreModuleCreatePageFactory />,
         permission: 'core.module.create',
+        showInSidebar: false,
+      },
+      {
+        path: 'modules/edit/:id',
+        element: <CoreModuleUpdatePageFactory />,
+        permission: 'core.module.update',
         showInSidebar: false,
       },
     ],

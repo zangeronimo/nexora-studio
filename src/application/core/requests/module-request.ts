@@ -1,5 +1,6 @@
 import { PaginationRequest } from '@application/base/requests/pagination-request';
 import { status } from '@domain/base/enums/status';
+import { PermissionDto } from '../dto/permission-dto';
 
 export class GetModulesRequest extends PaginationRequest {
   constructor(
@@ -20,11 +21,11 @@ export class CreateModuleRequest {
     readonly status: status,
   ) {}
 }
-
 export class UpdateModuleRequest {
   constructor(
     readonly id: string,
     readonly name: string,
     readonly status: status,
+    readonly permissions: PermissionDto[],
   ) {}
 }

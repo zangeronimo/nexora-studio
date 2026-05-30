@@ -1,0 +1,100 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.permissionsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.permissions {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.resourceGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resourceTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.permissionGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.permissionCard {
+  width: 260px;
+  padding: 14px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+
+  background: var(--color-surface);
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+}
+
+.permissionHeader {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.active {
+  color: #2ecc71;
+}
+
+.inactive {
+  color: #e74c3c;
+  opacity: 0.7;
+}
+
+.permissionBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.code {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.permissionFooter {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -11,6 +11,10 @@ export const core = {
       title: 'Create company',
       description: 'Register a new company in the platform.',
     },
+    update: {
+      title: 'Update company',
+      description: 'Update data about this company in the platform.',
+    },
     fields: {
       name: 'Name',
       status: 'Status',
@@ -33,6 +37,10 @@ export const core = {
       title: 'Create module',
       description: 'Register a new module in the platform.',
     },
+    update: {
+      title: 'Update module',
+      description: 'Update data about this module in the platform.',
+    },
     fields: {
       name: 'Name',
       status: 'Status',
@@ -41,6 +49,20 @@ export const core = {
       title: 'Delete module',
       description:
         'This action will permanently remove the module and cannot be undone.',
+    },
+    permissions: {
+      title: 'Manager permissions to this module',
+      create: {
+        title: 'Create permission',
+      },
+      update: {
+        title: 'Update permission',
+      },
+      fields: {
+        code: 'Code',
+        label: 'Label',
+        status: 'Status',
+      },
     },
   },
 };
