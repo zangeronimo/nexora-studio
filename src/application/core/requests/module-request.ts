@@ -13,3 +13,18 @@ export class GetModulesRequest extends PaginationRequest {
     super(page, pageSize, orderBy, desc);
   }
 }
+
+export class CreateModuleRequest {
+  constructor(
+    readonly name: string,
+    readonly status: status,
+  ) {}
+}
+
+export class UpdateModuleRequest {
+  constructor(
+    readonly id: string,
+    readonly name: string,
+    readonly status: status,
+  ) {}
+}
