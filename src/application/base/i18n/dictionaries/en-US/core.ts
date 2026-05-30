@@ -21,4 +21,26 @@ export const core = {
         'This action will permanently remove the company and cannot be undone.',
     },
   },
+  module: {
+    title: 'Modules',
+    description: 'Modules description',
+    datagrid: {
+      name: 'Name',
+      status: 'Status',
+      created_at: 'Created at',
+    },
+    create: {
+      title: 'Create module',
+      description: 'Register a new module in the platform.',
+    },
+    fields: {
+      name: 'Name',
+      status: 'Status',
+    },
+    delete: {
+      title: 'Delete module',
+      description:
+        'This action will permanently remove the module and cannot be undone.',
+    },
+  },
 };

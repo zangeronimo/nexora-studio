@@ -67,7 +67,7 @@ export const routes: AppRoute[] = [
 
       {
         path: 'modulew',
-        labelKey: 'sidebar.core.modulew.title',
+        labelKey: 'sidebar.core.modules.title',
         showInSidebar: true,
         permission: 'core.module.view',
         element: <ModulePageFactory />,

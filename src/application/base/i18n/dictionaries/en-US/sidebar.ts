@@ -5,5 +5,8 @@ export const sidebar = {
     companies: {
       title: 'Companies',
     },
+    modules: {
+      title: 'Modules',
+    },
   },
 };

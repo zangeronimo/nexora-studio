@@ -127,12 +127,12 @@ export function useModuleList({ moduleService, authorizationProvider }: Props) {
     () => [
       {
         key: 'name',
-        header: t('core.module.name'),
+        header: t('core.module.datagrid.name'),
         orderBy: 'Name',
       },
       {
         key: 'status',
-        header: t('core.module.status'),
+        header: t('core.module.datagrid.status'),
         orderBy: 'Status',
         width: '160px',
         render: (c) => (
@@ -149,7 +149,7 @@ export function useModuleList({ moduleService, authorizationProvider }: Props) {
       },
       {
         key: 'createdAt',
-        header: t('core.module.created_at'),
+        header: t('core.module.datagrid.created_at'),
         width: '180px',
         render: (c) => new Date(c.createdAt).toLocaleDateString(),
       },
