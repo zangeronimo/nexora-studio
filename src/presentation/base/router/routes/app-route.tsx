@@ -9,6 +9,8 @@ import { ModulePageFactory } from '@main/factories/core/module/module-page';
 import { CoreModuleCreatePageFactory } from '@main/factories/core/module/module-create-page';
 import { CoreModuleUpdatePageFactory } from '@main/factories/core/module/module-update-page';
 import { UserPageFactory } from '@main/factories/core/user/user-page';
+import { CoreUserCreatePageFactory } from '@main/factories/core/user/user-create-page';
+import { CoreUserUpdatePageFactory } from '@main/factories/core/user/user-update-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -92,19 +94,19 @@ export const routes: AppRoute[] = [
         path: 'users',
         labelKey: 'sidebar.core.users.title',
         showInSidebar: true,
-        permission: 'core.module.view',
+        permission: 'core.user.view',
         element: <UserPageFactory />,
       },
       {
         path: 'users/create',
-        element: <CoreModuleCreatePageFactory />,
-        permission: 'core.module.create',
+        element: <CoreUserCreatePageFactory />,
+        permission: 'core.user.create',
         showInSidebar: false,
       },
       {
         path: 'users/edit/:id',
-        element: <CoreModuleUpdatePageFactory />,
-        permission: 'core.module.update',
+        element: <CoreUserUpdatePageFactory />,
+        permission: 'core.user.update',
         showInSidebar: false,
       },
     ],

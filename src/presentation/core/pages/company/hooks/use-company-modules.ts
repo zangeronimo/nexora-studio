@@ -54,6 +54,8 @@ export function useCompanyModules({ companyService, moduleService }: Props) {
       setModules(modulesResult.items);
       setSelectedModules(companyModules);
       setInitialModules(companyModules);
+    } catch (e) {
+      toast.error(e.message);
     } finally {
       setLoading(false);
     }

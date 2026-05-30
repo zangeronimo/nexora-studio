@@ -33,7 +33,14 @@ export class UserService implements IUserService {
   }
 
   update(request: UpdateUserRequest): Promise<User | null> {
-    return this.http.put(`/core/users/${request.id}`, request);
+    const body = {
+      id: request.id,
+      name: request.name,
+      email: request.email,
+      status: request.status,
+      ...(request.password ? { password: request.password } : {}),
+    };
+    return this.http.put(`/core/users/${request.id}`, body);
   }
 
   delete(id: string): Promise<void> {

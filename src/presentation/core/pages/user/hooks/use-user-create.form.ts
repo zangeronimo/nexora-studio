@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ICompanyService } from '@application/core/contracts/company-service';
-import { CreateCompanyRequest } from '@application/core/requests/company-request';
+import { IUserService } from '@application/core/contracts/user-service';
+import { CreateUserRequest } from '@application/core/requests/user-request';
 
 import { status } from '@domain/base/enums/status';
 
@@ -12,23 +12,28 @@ import { RequiredValidator } from '@application/base/validation/rules/required';
 import { MaxLengthValidator } from '@application/base/validation/rules/max-length';
 import { validate } from '@application/base/validation/validate';
 import { useToast } from '@presentation/base/toast/hooks/use-toast';
+import { MinLengthValidator } from '@application/base/validation/rules/min-length';
 
 type Props = {
-  companyService: ICompanyService;
+  userService: IUserService;
 };
 
 type Errors = {
   name: string;
+  email: string;
+  password: string;
   status: string;
 };
 
-export function useCompanyCreateForm({ companyService }: Props) {
+export function useUserCreateForm({ userService }: Props) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const toast = useToast();
 
   const initialState = {
     name: '',
+    email: '',
+    password: '',
     status: '',
   };
 
@@ -37,6 +42,8 @@ export function useCompanyCreateForm({ companyService }: Props) {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Errors>({
     name: '',
+    email: '',
+    password: '',
     status: '',
   });
 
@@ -49,6 +56,34 @@ export function useCompanyCreateForm({ companyService }: Props) {
     setErrors((old) => ({
       ...old,
       name: '',
+    }));
+
+    setIsPristine(false);
+  };
+
+  const handleEmailChange = (value: string) => {
+    setRequest((old) => ({
+      ...old,
+      email: value,
+    }));
+
+    setErrors((old) => ({
+      ...old,
+      email: '',
+    }));
+
+    setIsPristine(false);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setRequest((old) => ({
+      ...old,
+      password: value,
+    }));
+
+    setErrors((old) => ({
+      ...old,
+      password: '',
     }));
 
     setIsPristine(false);
@@ -73,11 +108,22 @@ export function useCompanyCreateForm({ companyService }: Props) {
       new RequiredValidator(),
       new MaxLengthValidator(200),
     ]);
+    const emailError = validate(request.email, [
+      new RequiredValidator(),
+      new MaxLengthValidator(200),
+    ]);
+    const passwordError = validate(request.password, [
+      new RequiredValidator(),
+      new MinLengthValidator(8),
+      new MaxLengthValidator(50),
+    ]);
 
     const statusError = validate(request.status, [new RequiredValidator()]);
 
     const nextErrors = {
       name: nameError ? t(nameError.key, nameError.params) : '',
+      email: emailError ? t(emailError.key, emailError.params) : '',
+      password: passwordError ? t(passwordError.key, passwordError.params) : '',
       status: statusError ? t(statusError.key, statusError.params) : '',
     };
 
@@ -91,14 +137,16 @@ export function useCompanyCreateForm({ companyService }: Props) {
 
     try {
       setLoading(true);
-      await companyService.create(
-        new CreateCompanyRequest(
+      await userService.create(
+        new CreateUserRequest(
           request.name,
+          request.email,
+          request.password,
           request.status === '1' ? status.active : status.inactive,
         ),
       );
       toast.success(t('common.toast.success.created'));
-      navigate('/core/companies');
+      navigate('/core/users');
     } catch (e) {
       toast.error(e.message);
     } finally {
@@ -120,7 +168,8 @@ export function useCompanyCreateForm({ companyService }: Props) {
     loading,
     handleSubmit,
     handleNameChange,
-
+    handleEmailChange,
+    handlePasswordChange,
     handleStatusChange,
   };
 }

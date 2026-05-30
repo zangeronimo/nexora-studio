@@ -28,7 +28,7 @@ export class UpdateUserRequest {
     readonly id: string,
     readonly name: string,
     readonly email: string,
-    readonly password: string | null,
     readonly status: status,
+    readonly password?: string,
   ) {}
 }

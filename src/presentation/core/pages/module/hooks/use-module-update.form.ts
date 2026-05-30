@@ -96,6 +96,9 @@ export function useModuleUpdateForm({ moduleService }: Props) {
         setRequest(state);
         setInitialState(state);
       })
+      .catch((e) => {
+        toast.error(e.message);
+      })
       .finally(() => setLoading(false));
   }, [id, moduleService, navigate]);
 

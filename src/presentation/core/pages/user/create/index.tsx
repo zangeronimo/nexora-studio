@@ -9,15 +9,15 @@ import { useNavigate } from 'react-router-dom';
 import * as styles from './styles.module.scss';
 import { CancelButton } from '@presentation/base/components/action-buttons/cancel-button';
 import { SaveButton } from '@presentation/base/components/action-buttons/save-button';
-import { ICompanyService } from '@application/core/contracts/company-service';
+import { IUserService } from '@application/core/contracts/user-service';
 import { status } from '@domain/base/enums/status';
-import { useCompanyCreateForm } from '../hooks/use-company-create.form';
+import { useUserCreateForm } from '../hooks/use-user-create.form';
 
 type Props = {
-  companyService: ICompanyService;
+  userService: IUserService;
 };
 
-export function CoreCompanyCreatePage({ companyService }: Props) {
+export function CoreUserCreatePage({ userService }: Props) {
   const {
     errors,
     hasError,
@@ -25,29 +25,46 @@ export function CoreCompanyCreatePage({ companyService }: Props) {
     loading,
     request,
     handleNameChange,
+    handleEmailChange,
+    handlePasswordChange,
     handleStatusChange,
     handleSubmit,
-  } = useCompanyCreateForm({
-    companyService,
+  } = useUserCreateForm({
+    userService,
   });
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
-    <Page title={t('core.company.create.title')}>
-      <Card description={t('core.company.create.description')}>
+    <Page title={t('core.user.create.title')}>
+      <Card description={t('core.user.create.description')}>
         <div className={styles.container}>
           <div className={styles.form}>
             <Input
-              label={t('core.company.fields.name')}
+              label={t('core.user.fields.name')}
               maxLength={200}
               value={request.name}
               error={errors.name}
               onChange={handleNameChange}
             />
+            <Input
+              label={t('core.user.fields.email')}
+              maxLength={200}
+              value={request.email}
+              error={errors.email}
+              onChange={handleEmailChange}
+            />
+            <Input
+              type="password"
+              label={t('core.user.fields.password')}
+              maxLength={50}
+              value={request.password}
+              error={errors.password}
+              onChange={handlePasswordChange}
+            />
 
             <Select
-              label={t('core.company.fields.status')}
+              label={t('core.user.fields.status')}
               placeholder={t('common.select.empty')}
               value={request.status}
               error={errors.status}
@@ -70,7 +87,7 @@ export function CoreCompanyCreatePage({ companyService }: Props) {
           <DataGridActions>
             <CancelButton
               title={t('common.button.cancel')}
-              onClick={() => navigate('/core/companies')}
+              onClick={() => navigate('/core/users')}
             />
 
             <SaveButton
