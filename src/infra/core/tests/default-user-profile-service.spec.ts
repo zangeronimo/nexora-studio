@@ -34,7 +34,7 @@ describe('UserProfileService', () => {
 
     const sut = new UserProfileService(http as AuthHttpClient);
     const result = await sut.get();
-    expect(get).toHaveBeenCalledWith('/users/profile');
+    expect(get).toHaveBeenCalledWith('/core/users/profile');
     expect(result.user.email).toBe('luciano@test.com');
   });
 });
