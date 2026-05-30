@@ -18,6 +18,8 @@ import { ICompanyService } from '@application/core/contracts/company-service';
 import { GetCompaniesRequest } from '@application/core/requests/company-request';
 
 import * as styles from '../styles.module.scss';
+import { Button } from '@presentation/base/components/button';
+import { Blocks } from 'lucide-react';
 
 type Props = {
   companyService: ICompanyService;
@@ -177,6 +179,19 @@ export function useCompanyList({
               )}
               onClick={() => handleEdit(company)}
             />
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              onClick={() => navigate(`/core/companies/${company.id}/modules`)}
+              disabled={authorizationProvider.hasPermission(
+                'core-company-update',
+              )}
+              aria-label={t('core.company.buttons.module')}
+              title={t('core.company.buttons.module')}
+            >
+              <Blocks size={16} />
+            </Button>
 
             <DataGridAction
               type="delete"
