@@ -4,6 +4,7 @@ import { CorePage } from '@presentation/core/pages';
 import { CompanyPageFactory } from '@main/factories/core/company-page';
 import { CoreCompanyCreatePageFactory } from '@main/factories/core/company-create-page';
 import { CoreCompanyUpdatePageFactory } from '@main/factories/core/company-update-page';
+import { CoreCompanyModulesPageFactory } from '@main/factories/core/company-modules-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -53,6 +54,12 @@ export const routes: AppRoute[] = [
       {
         path: 'companies/edit/:id',
         element: <CoreCompanyUpdatePageFactory />,
+        permission: 'core.company.update',
+        showInSidebar: false,
+      },
+      {
+        path: 'companies/:id/modules',
+        element: <CoreCompanyModulesPageFactory />,
         permission: 'core.company.update',
         showInSidebar: false,
       },
