@@ -5,6 +5,6 @@ import { AuthSession } from '@domain/base/entities/auth-session';
 export class UserProfileService implements IUserProfileService {
   constructor(private readonly http: AuthHttpClient) {}
   get(): Promise<AuthSession> {
-    return this.http.get('/users/profile');
+    return this.http.get('/core/users/profile');
   }
 }

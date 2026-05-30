@@ -8,5 +8,8 @@ export const sidebar = {
     modules: {
       title: 'Modules',
     },
+    users: {
+      title: 'Users',
+    },
   },
 };

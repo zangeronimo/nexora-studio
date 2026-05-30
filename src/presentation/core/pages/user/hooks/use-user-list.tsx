@@ -11,30 +11,26 @@ import {
 import { DataGridAction } from '@presentation/base/components/data-grid/actions/action';
 import { DataGridActions } from '@presentation/base/components/data-grid/actions';
 import { status } from '@domain/base/enums/status';
-import { Company } from '@domain/core/entities/company';
+import { User } from '@domain/core/entities/user';
 import { PaginatedResponse } from '@application/base/response/paginated-response';
 import { AuthorizationProvider } from '@application/base/security/contracts/authorizaton-provider';
-import { ICompanyService } from '@application/core/contracts/company-service';
-import { GetCompaniesRequest } from '@application/core/requests/company-request';
+import { IUserService } from '@application/core/contracts/user-service';
+import { GetUsersRequest } from '@application/core/requests/user-request';
 
 import * as styles from '../styles.module.scss';
-import { Button } from '@presentation/base/components/button';
-import { Blocks } from 'lucide-react';
 
 type Props = {
-  companyService: ICompanyService;
+  userService: IUserService;
   authorizationProvider: AuthorizationProvider;
 };
 
-type CompanyFilter = {
+type UserFilter = {
   name?: string;
+  email?: string;
   status?: string;
 };
 
-export function useCompanyList({
-  companyService,
-  authorizationProvider,
-}: Props) {
+export function useUserList({ userService, authorizationProvider }: Props) {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
@@ -52,23 +48,24 @@ export function useCompanyList({
     setSorting,
     setFilters,
     clearFilters,
-  } = useListSearchParams<CompanyFilter>();
+  } = useListSearchParams<UserFilter>();
 
-  const [response, setResponse] = useState<PaginatedResponse<Company> | null>(
+  const [response, setResponse] = useState<PaginatedResponse<User> | null>(
     null,
   );
 
   const [loading, setLoading] = useState(false);
 
-  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const request = useMemo(() => {
-    return new GetCompaniesRequest(
+    return new GetUsersRequest(
       page.value(),
       pageSize.value(),
       sortBy.value() ?? 'Name',
       sortDesc.value(),
       filters.name ?? '',
+      filters.email ?? '',
       filters.status ? Number(filters.status) : null,
     );
   }, [page, pageSize, sortBy, sortDesc, filters]);
@@ -77,7 +74,7 @@ export function useCompanyList({
     try {
       setLoading(true);
 
-      const result = await companyService.getAll(request);
+      const result = await userService.getAll(request);
 
       setResponse(result);
     } finally {
@@ -90,30 +87,30 @@ export function useCompanyList({
   }, [request]);
 
   const handleCreate = () => {
-    navigate('/core/companies/create');
+    navigate('/core/users/create');
   };
 
-  const handleEdit = (company: Company) => {
-    navigate(`/core/companies/edit/${company.id}`);
+  const handleEdit = (user: User) => {
+    navigate(`/core/users/edit/${user.id}`);
   };
 
-  const handleOpenDelete = (company: Company) => {
-    setSelectedCompany(company);
+  const handleOpenDelete = (user: User) => {
+    setSelectedUser(user);
   };
 
   const handleCloseDelete = () => {
-    setSelectedCompany(null);
+    setSelectedUser(null);
   };
 
   const handleConfirmDelete = async () => {
-    if (!selectedCompany) {
+    if (!selectedUser) {
       return;
     }
 
     try {
       setLoading(true);
 
-      await companyService.delete(selectedCompany.id);
+      await userService.delete(selectedUser.id);
 
       toast.success(t('common.toast.success.deleted'));
 
@@ -134,16 +131,21 @@ export function useCompanyList({
     }
   };
 
-  const columns: TableColumn<Company>[] = useMemo(
+  const columns: TableColumn<User>[] = useMemo(
     () => [
       {
         key: 'name',
-        header: t('core.company.datagrid.name'),
+        header: t('core.user.datagrid.name'),
         orderBy: 'Name',
       },
       {
+        key: 'email',
+        header: t('core.user.datagrid.email'),
+        orderBy: 'Email',
+      },
+      {
         key: 'status',
-        header: t('core.company.datagrid.status'),
+        header: t('core.user.datagrid.status'),
         orderBy: 'Status',
         width: '160px',
         render: (c) => (
@@ -160,7 +162,7 @@ export function useCompanyList({
       },
       {
         key: 'createdAt',
-        header: t('core.company.datagrid.created_at'),
+        header: t('core.user.datagrid.created_at'),
         width: '180px',
         render: (c) => new Date(c.createdAt).toLocaleDateString(),
       },
@@ -169,37 +171,20 @@ export function useCompanyList({
         header: '',
         width: '120px',
         align: 'right',
-        render: (company) => (
+        render: (user) => (
           <DataGridActions>
             <DataGridAction
               type="edit"
               label={t('common.button.edit')}
-              visible={authorizationProvider.hasPermission(
-                'core.company.update',
-              )}
-              onClick={() => handleEdit(company)}
+              visible={authorizationProvider.hasPermission('core.user.update')}
+              onClick={() => handleEdit(user)}
             />
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              onClick={() => navigate(`/core/companies/${company.id}/modules`)}
-              disabled={authorizationProvider.hasPermission(
-                'core-company-update',
-              )}
-              aria-label={t('core.company.buttons.module')}
-              title={t('core.company.buttons.module')}
-            >
-              <Blocks size={16} />
-            </Button>
 
             <DataGridAction
               type="delete"
               label={t('common.button.delete')}
-              visible={authorizationProvider.hasPermission(
-                'core.company.delete',
-              )}
-              onClick={() => handleOpenDelete(company)}
+              visible={authorizationProvider.hasPermission('core.user.delete')}
+              onClick={() => handleOpenDelete(user)}
             />
           </DataGridActions>
         ),
@@ -221,7 +206,7 @@ export function useCompanyList({
     sortBy: sortBy.value(),
     sortDesc: sortDesc.value(),
 
-    selectedCompany,
+    selectedUser,
 
     setPage,
     setPageSize,
@@ -237,6 +222,7 @@ export function useCompanyList({
     toolbar: {
       fields: [
         textFilter('name', t('filter.placeholder.name')),
+        textFilter('email', t('filter.placeholder.email')),
         selectFilter('status', [
           {
             value: status.inactive.toString(),

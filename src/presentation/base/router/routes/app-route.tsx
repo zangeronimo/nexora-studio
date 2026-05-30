@@ -8,6 +8,7 @@ import { CoreCompanyModulesPageFactory } from '@main/factories/core/company/comp
 import { ModulePageFactory } from '@main/factories/core/module/module-page';
 import { CoreModuleCreatePageFactory } from '@main/factories/core/module/module-create-page';
 import { CoreModuleUpdatePageFactory } from '@main/factories/core/module/module-update-page';
+import { UserPageFactory } from '@main/factories/core/user/user-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -82,6 +83,26 @@ export const routes: AppRoute[] = [
       },
       {
         path: 'modules/edit/:id',
+        element: <CoreModuleUpdatePageFactory />,
+        permission: 'core.module.update',
+        showInSidebar: false,
+      },
+
+      {
+        path: 'users',
+        labelKey: 'sidebar.core.users.title',
+        showInSidebar: true,
+        permission: 'core.module.view',
+        element: <UserPageFactory />,
+      },
+      {
+        path: 'users/create',
+        element: <CoreModuleCreatePageFactory />,
+        permission: 'core.module.create',
+        showInSidebar: false,
+      },
+      {
+        path: 'users/edit/:id',
         element: <CoreModuleUpdatePageFactory />,
         permission: 'core.module.update',
         showInSidebar: false,

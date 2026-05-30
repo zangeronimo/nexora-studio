@@ -24,6 +24,9 @@ export const core = {
       description:
         'This action will permanently remove the company and cannot be undone.',
     },
+    buttons: {
+      module: 'Manager company modules',
+    },
   },
   module: {
     title: 'Modules',
@@ -63,6 +66,34 @@ export const core = {
         label: 'Label',
         status: 'Status',
       },
+    },
+  },
+  user: {
+    title: 'Users',
+    description: 'Users description',
+    datagrid: {
+      name: 'Name',
+      email: 'E-mail',
+      status: 'Status',
+      created_at: 'Created at',
+    },
+    create: {
+      title: 'Create user',
+      description: 'Register a new user in the platform.',
+    },
+    update: {
+      title: 'Update user',
+      description: 'Update data about this user in the platform.',
+    },
+    fields: {
+      name: 'Name',
+      email: 'E-mail',
+      status: 'Status',
+    },
+    delete: {
+      title: 'Delete user',
+      description:
+        'This action will permanently remove the user and cannot be undone.',
     },
   },
 };
