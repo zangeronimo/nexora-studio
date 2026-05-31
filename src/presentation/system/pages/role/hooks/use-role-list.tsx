@@ -11,30 +11,27 @@ import {
 import { DataGridAction } from '@presentation/base/components/data-grid/actions/action';
 import { DataGridActions } from '@presentation/base/components/data-grid/actions';
 import { status } from '@domain/base/enums/status';
-import { Company } from '@domain/core/entities/company';
+import { Role } from '@domain/system/entities/role';
 import { PaginatedResponse } from '@application/base/response/paginated-response';
 import { AuthorizationProvider } from '@application/base/security/contracts/authorizaton-provider';
-import { ICompanyService } from '@application/core/contracts/company-service';
-import { GetCompaniesRequest } from '@application/core/requests/company-request';
+import { IRoleService } from '@application/system/contracts/role-service';
+import { GetRolesRequest } from '@application/system/requests/role-request';
 
 import * as styles from '../styles.module.scss';
 import { Button } from '@presentation/base/components/button';
-import { Blocks } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 type Props = {
-  companyService: ICompanyService;
+  roleService: IRoleService;
   authorizationProvider: AuthorizationProvider;
 };
 
-type CompanyFilter = {
+type RoleFilter = {
   name?: string;
   status?: string;
 };
 
-export function useCompanyList({
-  companyService,
-  authorizationProvider,
-}: Props) {
+export function useRoleList({ roleService, authorizationProvider }: Props) {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
@@ -52,18 +49,18 @@ export function useCompanyList({
     setSorting,
     setFilters,
     clearFilters,
-  } = useListSearchParams<CompanyFilter>();
+  } = useListSearchParams<RoleFilter>();
 
-  const [response, setResponse] = useState<PaginatedResponse<Company> | null>(
+  const [response, setResponse] = useState<PaginatedResponse<Role> | null>(
     null,
   );
 
   const [loading, setLoading] = useState(false);
 
-  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
+  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
   const request = useMemo(() => {
-    return new GetCompaniesRequest(
+    return new GetRolesRequest(
       page.value(),
       pageSize.value(),
       sortBy.value() ?? 'Name',
@@ -77,7 +74,7 @@ export function useCompanyList({
     try {
       setLoading(true);
 
-      const result = await companyService.getAll(request);
+      const result = await roleService.getAll(request);
 
       setResponse(result);
     } finally {
@@ -90,30 +87,30 @@ export function useCompanyList({
   }, [request]);
 
   const handleCreate = () => {
-    navigate('/core/companies/create');
+    navigate('/system/roles/create');
   };
 
-  const handleEdit = (company: Company) => {
-    navigate(`/core/companies/edit/${company.id}`);
+  const handleEdit = (role: Role) => {
+    navigate(`/system/roles/edit/${role.id}`);
   };
 
-  const handleOpenDelete = (company: Company) => {
-    setSelectedCompany(company);
+  const handleOpenDelete = (role: Role) => {
+    setSelectedRole(role);
   };
 
   const handleCloseDelete = () => {
-    setSelectedCompany(null);
+    setSelectedRole(null);
   };
 
   const handleConfirmDelete = async () => {
-    if (!selectedCompany) {
+    if (!selectedRole) {
       return;
     }
 
     try {
       setLoading(true);
 
-      await companyService.delete(selectedCompany.id);
+      await roleService.delete(selectedRole.id);
 
       toast.success(t('common.toast.success.deleted'));
 
@@ -134,16 +131,16 @@ export function useCompanyList({
     }
   };
 
-  const columns: TableColumn<Company>[] = useMemo(
+  const columns: TableColumn<Role>[] = useMemo(
     () => [
       {
         key: 'name',
-        header: t('core.company.datagrid.name'),
+        header: t('system.role.datagrid.name'),
         orderBy: 'Name',
       },
       {
         key: 'status',
-        header: t('core.company.datagrid.status'),
+        header: t('system.role.datagrid.status'),
         orderBy: 'Status',
         width: '160px',
         render: (c) => (
@@ -160,7 +157,7 @@ export function useCompanyList({
       },
       {
         key: 'createdAt',
-        header: t('core.company.datagrid.created_at'),
+        header: t('system.role.datagrid.created_at'),
         width: '180px',
         render: (c) => new Date(c.createdAt).toLocaleDateString(),
       },
@@ -169,37 +166,38 @@ export function useCompanyList({
         header: '',
         width: '120px',
         align: 'right',
-        render: (company) => (
+        render: (role) => (
           <DataGridActions>
             <DataGridAction
               type="edit"
               label={t('common.button.edit')}
               visible={authorizationProvider.hasPermission(
-                'core.company.update',
+                'system.role.update',
               )}
-              onClick={() => handleEdit(company)}
+              onClick={() => handleEdit(role)}
             />
+
             <Button
               type="button"
               size="icon"
               variant="ghost"
-              onClick={() => navigate(`/core/companies/${company.id}/modules`)}
+              onClick={() => navigate(`/system/roles/${role.id}/permissions`)}
               disabled={
-                !authorizationProvider.hasPermission('core.company.update')
+                !authorizationProvider.hasPermission('system.role.update')
               }
-              aria-label={t('core.company.buttons.module')}
-              title={t('core.company.buttons.module')}
+              aria-label={t('system.role.buttons.permission')}
+              title={t('system.role.buttons.permission')}
             >
-              <Blocks size={16} />
+              <ShieldCheck size={16} />
             </Button>
 
             <DataGridAction
               type="delete"
               label={t('common.button.delete')}
               visible={authorizationProvider.hasPermission(
-                'core.company.delete',
+                'system.role.delete',
               )}
-              onClick={() => handleOpenDelete(company)}
+              onClick={() => handleOpenDelete(role)}
             />
           </DataGridActions>
         ),
@@ -221,7 +219,7 @@ export function useCompanyList({
     sortBy: sortBy.value(),
     sortDesc: sortDesc.value(),
 
-    selectedCompany,
+    selectedRole,
 
     setPage,
     setPageSize,

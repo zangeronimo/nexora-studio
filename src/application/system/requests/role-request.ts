@@ -1,12 +1,11 @@
 import { PaginationRequest } from '@application/base/requests/pagination-request';
 import { status } from '@domain/base/enums/status';
-import { PermissionDto } from '../dto/permission-dto';
 
-export class GetModulesRequest extends PaginationRequest {
+export class GetRolesRequest extends PaginationRequest {
   constructor(
     readonly page = 1,
     readonly pageSize = 10,
-    readonly orderBy = 'Name',
+    readonly orderBy = 'name',
     readonly desc = false,
     readonly name?: string,
     readonly status?: status,
@@ -15,17 +14,21 @@ export class GetModulesRequest extends PaginationRequest {
   }
 }
 
-export class CreateModuleRequest {
+export class CreateRoleRequest {
   constructor(
     readonly name: string,
     readonly status: status,
   ) {}
 }
-export class UpdateModuleRequest {
+
+export class UpdateRoleRequest {
   constructor(
     readonly id: string,
     readonly name: string,
     readonly status: status,
-    readonly permissions: PermissionDto[],
   ) {}
+}
+
+export class UpdateRolePermissionsRequest {
+  constructor(readonly permissions: string[]) {}
 }

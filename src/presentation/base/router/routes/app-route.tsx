@@ -11,6 +11,11 @@ import { CoreModuleUpdatePageFactory } from '@main/factories/core/module/module-
 import { UserPageFactory } from '@main/factories/core/user/user-page';
 import { CoreUserCreatePageFactory } from '@main/factories/core/user/user-create-page';
 import { CoreUserUpdatePageFactory } from '@main/factories/core/user/user-update-page';
+import { SystemPage } from '@presentation/system';
+import { SystemRolePageFactory } from '@main/factories/system/role/role-page';
+import { SystemRoleCreatePageFactory } from '@main/factories/system/role/role-create-page';
+import { SystemRoleUpdatePageFactory } from '@main/factories/system/role/role-update-page';
+import { SystemRolePermissionPageFactory } from '@main/factories/system/role/role-permissions-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -35,7 +40,7 @@ export const routes: AppRoute[] = [
   },
 
   /**
-   * CULINARY MODULE
+   * CORE MODULE
    */
   {
     path: '/core',
@@ -107,6 +112,44 @@ export const routes: AppRoute[] = [
         path: 'users/edit/:id',
         element: <CoreUserUpdatePageFactory />,
         permission: 'core.user.update',
+        showInSidebar: false,
+      },
+    ],
+  },
+
+  /**
+   * SYSTEM MODULE
+   */
+  {
+    path: '/system',
+    element: <SystemPage />,
+    labelKey: 'sidebar.system.title',
+    showInSidebar: true,
+    isGroupRoute: true,
+    children: [
+      {
+        path: 'roles',
+        labelKey: 'sidebar.system.roles.title',
+        showInSidebar: true,
+        permission: 'system.role.view',
+        element: <SystemRolePageFactory />,
+      },
+      {
+        path: 'roles/create',
+        element: <SystemRoleCreatePageFactory />,
+        permission: 'system.role.create',
+        showInSidebar: false,
+      },
+      {
+        path: 'roles/edit/:id',
+        element: <SystemRoleUpdatePageFactory />,
+        permission: 'system.role.update',
+        showInSidebar: false,
+      },
+      {
+        path: 'roles/:id/permissions',
+        element: <SystemRolePermissionPageFactory />,
+        permission: 'system.role.update',
         showInSidebar: false,
       },
     ],

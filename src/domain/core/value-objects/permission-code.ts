@@ -3,7 +3,19 @@ export class PermissionCode {
     readonly module: string,
     readonly resource: string,
     readonly permission: string,
-  ) {}
+  ) {
+    if (!module?.trim()) {
+      throw new Error('Module is required');
+    }
+
+    if (!resource?.trim()) {
+      throw new Error('Resource is required');
+    }
+
+    if (!permission?.trim()) {
+      throw new Error('Permission is required');
+    }
+  }
 
   toString(): string {
     return [this.module, this.resource, this.permission]

@@ -24,6 +24,10 @@ export class CompanyService implements ICompanyService {
     });
   }
 
+  getModules(): Promise<Company | null> {
+    return this.http.get('/core/companies/modules');
+  }
+
   getById(id: string): Promise<Company | null> {
     return this.http.get(`/core/companies/${id}`);
   }

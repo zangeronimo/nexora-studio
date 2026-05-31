@@ -10,6 +10,7 @@ import { Company } from '@domain/core/entities/company';
 export interface ICompanyService {
   getAll: (request: GetCompaniesRequest) => Promise<PaginatedResponse<Company>>;
   getById: (id: string) => Promise<Company | null>;
+  getModules: () => Promise<Company | null>;
   create: (request: CreateCompanyRequest) => Promise<Company | null>;
   update: (request: UpdateCompanyRequest) => Promise<Company | null>;
   updateModules: (
