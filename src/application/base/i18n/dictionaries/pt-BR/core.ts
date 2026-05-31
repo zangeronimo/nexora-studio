@@ -19,6 +19,9 @@ export const core = {
       name: 'Nome',
       status: 'Situação',
     },
+    modules: {
+      description: 'Selecione a quais módulos a Empresa tem acesso.',
+    },
     delete: {
       title: 'Excluir empresa',
       description:
@@ -49,6 +52,35 @@ export const core = {
       title: 'Excluir módulo',
       description:
         'Esta ação removerá permanentemente o módulo e não poderá ser desfeita.',
+    },
+  },
+  user: {
+    title: 'Usuários',
+    description: 'Usuários descrição',
+    datagrid: {
+      name: 'Nome',
+      email: 'E-mail',
+      status: 'Situação',
+      created_at: 'Criado em',
+    },
+    create: {
+      title: 'Criar usuário',
+      description: 'Cadastre um novo usuário na plataforma.',
+    },
+    update: {
+      title: 'Atualizar usuário',
+      description: 'Atualize os dados deste usuário na plataforma.',
+    },
+    fields: {
+      name: 'Nome',
+      email: 'E-mail',
+      password: 'Senha',
+      status: 'Situação',
+    },
+    delete: {
+      title: 'Excluir usuário',
+      description:
+        'Esta ação removerá permanentemente o usuário e não poderá ser desfeita.',
     },
   },
 };

@@ -19,6 +19,9 @@ export const core = {
       name: 'Name',
       status: 'Status',
     },
+    modules: {
+      description: 'Select which modules the company has access to.',
+    },
     delete: {
       title: 'Delete company',
       description:
@@ -88,6 +91,7 @@ export const core = {
     fields: {
       name: 'Name',
       email: 'E-mail',
+      password: 'Password',
       status: 'Status',
     },
     delete: {

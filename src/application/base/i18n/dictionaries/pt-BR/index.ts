@@ -5,12 +5,14 @@ import { sidebar } from './sidebar';
 import { core } from './core';
 import { filter } from './filter';
 import { validation } from './validation';
+import { system } from './system';
 
 export default {
   login,
   dashboard,
   filter,
   core,
+  system,
   sidebar,
   common,
   validation,

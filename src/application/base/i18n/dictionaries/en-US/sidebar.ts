@@ -12,4 +12,10 @@ export const sidebar = {
       title: 'Users',
     },
   },
+  system: {
+    title: 'System',
+    roles: {
+      title: 'Roles',
+    },
+  },
 };
