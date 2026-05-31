@@ -101,9 +101,14 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
         const newToken = await this.authService.refresh();
         this.storage.set('accessToken', newToken);
         return await execute();
-      } catch (refreshError) {
-        this.storage.remove('accessToken');
-        this.callback?.(false);
+      } catch (refreshError: unknown) {
+        if (
+          refreshError instanceof HttpError &&
+          refreshError.statusCode === 401
+        ) {
+          this.storage.remove('accessToken');
+          this.callback?.(false);
+        }
         throw refreshError;
       }
     }
