@@ -14,12 +14,18 @@ export function Topbar() {
 
       <div className={styles.right}>
         <button className={styles.userButton}>
-          <div className={styles.avatar}>{session?.user.name?.[0]}</div>
+          <div className={styles.avatar}>
+            {session?.userCompany?.user?.name?.[0]}
+          </div>
 
           <div className={styles.userInfo}>
-            <span className={styles.userName}>{session?.user.name}</span>
+            <span className={styles.userName}>
+              {session?.userCompany?.user?.name}
+            </span>
 
-            <span className={styles.userEmail}>{session?.user.email}</span>
+            <span className={styles.userEmail}>
+              {session?.userCompany?.company?.name}
+            </span>
           </div>
         </button>
       </div>

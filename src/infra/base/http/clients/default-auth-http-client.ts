@@ -47,10 +47,6 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
     return this.request<T>('DELETE', url, null, config);
   }
 
-  setUnauthorizedHandler(handler: (authenticated: boolean) => void) {
-    this.callback = handler;
-  }
-
   private buildUrl(url: string, params?: Record<string, unknown>): string {
     const separator = url.startsWith('/') ? '' : '/';
     const fullUrl = new URL(`${this.baseUrl}/api${separator}${url}`);

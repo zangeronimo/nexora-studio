@@ -165,34 +165,6 @@ describe('DefaultAuthHttpClient', () => {
       expect(result).toEqual({ data: 'ok' });
     });
 
-    it('should logout when refresh fails after 401', async () => {
-      const request = jest
-        .fn()
-        .mockRejectedValueOnce(new HttpError(401, 'Unauthorized'));
-
-      const refresh = jest.fn().mockRejectedValue(new Error('refresh failed'));
-
-      const authService = {
-        login: jest.fn(),
-        refresh,
-      } as any;
-
-      const logout = jest.fn();
-
-      const storage = makeStorage('pt-BR');
-
-      const httpClient = new DefaultAuthHttpClient(
-        { request } as any,
-        storage as LocalStorage,
-        baseURL,
-        authService,
-      );
-      httpClient.setUnauthorizedHandler(logout);
-      await expect(httpClient.get('/test', {})).rejects.toThrow();
-
-      expect(logout).toHaveBeenCalled();
-    });
-
     it('should not retry on non-401 errors', async () => {
       const request = jest
         .fn()
