@@ -22,6 +22,7 @@ import { GetUserCompaniesRequest } from '@application/system/requests/user-compa
 import * as styles from '../styles.module.scss';
 import { Button } from '@presentation/base/components/button';
 import { Blocks } from 'lucide-react';
+import { Avatar } from '@presentation/base/components/avatar';
 
 type Props = {
   userCompanyService: IUserCompanyService;
@@ -135,9 +136,29 @@ export function useUserCompanyList({
         key: 'user',
         header: t('system.user_company.datagrid.user'),
         render: (c) => (
-          <div>
-            <div>{c.user?.name}</div>
-            <small>{c.user?.email}</small>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+            }}
+          >
+            <Avatar name={c.user.name} avatarUrl={c.avatarUrl} size="sm" />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <span
+                style={{
+                  fontWeight: 600,
+                }}
+              >
+                {c.user.name}
+              </span>
+              <small>{c.user.email}</small>
+            </div>
           </div>
         ),
       },

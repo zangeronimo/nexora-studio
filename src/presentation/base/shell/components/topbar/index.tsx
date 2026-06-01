@@ -1,3 +1,4 @@
+import { Avatar } from '@presentation/base/components/avatar';
 import { usePageTitle } from '../../context/page-title-context';
 import * as styles from './styles.module.scss';
 import { useAuthSession } from '@presentation/base/session/use-auth-session';
@@ -15,7 +16,10 @@ export function Topbar() {
       <div className={styles.right}>
         <button className={styles.userButton}>
           <div className={styles.avatar}>
-            {session?.userCompany?.user?.name?.[0]}
+            <Avatar
+              name={session?.userCompany?.user?.name}
+              avatarUrl={session?.userCompany?.avatarUrl}
+            />
           </div>
 
           <div className={styles.userInfo}>

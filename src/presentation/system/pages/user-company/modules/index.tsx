@@ -12,6 +12,7 @@ import { useUserCompanyModules } from '../hooks/use-user-company-modules';
 import { IUserCompanyService } from '@application/system/contracts/user-company-service';
 
 import * as styles from './styles.module.scss';
+import { Avatar } from '@presentation/base/components/avatar';
 
 type Props = {
   userCompanyService: IUserCompanyService;
@@ -33,6 +34,7 @@ export function SystemUserCompanyModulesPage({ userCompanyService }: Props) {
         <div className={styles.container}>
           {view && (
             <div className={styles.userInfo}>
+              <Avatar name={view.userName} avatarUrl={view.avatarUrl} />
               <div className={styles.userMain}>
                 <strong>{view.userName}</strong>
                 <small>{view.userEmail}</small>

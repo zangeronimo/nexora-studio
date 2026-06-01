@@ -17,6 +17,7 @@ import { status } from '@domain/base/enums/status';
 import { useUserCompanyUpdateForm } from '../hooks/use-user-company-update.form';
 
 import * as styles from './styles.module.scss';
+import { Avatar } from '@presentation/base/components/avatar';
 
 type Props = {
   userCompanyService: IUserCompanyService;
@@ -48,6 +49,7 @@ export function SystemUserCompanyUpdatePage({ userCompanyService }: Props) {
         <div className={styles.container}>
           {view && (
             <div className={styles.userInfo}>
+              <Avatar name={view.userName} avatarUrl={view.avatarUrl} />
               <div className={styles.userMain}>
                 <strong>{view.userName}</strong>
                 <small>{view.userEmail}</small>
