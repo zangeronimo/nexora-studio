@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+import { ChevronRight } from 'lucide-react';
 
 import * as styles from './styles.module.scss';
 
@@ -18,9 +19,12 @@ export function Accordion({ title, children, defaultOpen = false }: Props) {
         className={styles.header}
         onClick={() => setOpen((old) => !old)}
       >
-        <span className={styles.icon}>{open ? '▼' : '▶'}</span>
-
         <span className={styles.title}>{title}</span>
+
+        <ChevronRight
+          size={16}
+          className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
+        />
       </button>
 
       {open && <div className={styles.content}>{children}</div>}

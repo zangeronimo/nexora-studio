@@ -13,8 +13,7 @@
 .header {
   display: flex;
   align-items: center;
-
-  gap: var(--spacing-3);
+  justify-content: space-between;
 
   width: 100%;
 
@@ -26,7 +25,9 @@
 
   cursor: pointer;
 
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 
   text-align: left;
 }
@@ -35,21 +36,31 @@
   background: var(--color-surface-secondary);
 }
 
-.icon {
-  width: 12px;
-
-  font-size: var(--font-size-xs);
-
-  color: var(--color-text-secondary);
-
-  flex-shrink: 0;
-}
-
 .title {
   font-size: var(--font-size-sm);
   font-weight: 600;
 
   color: var(--color-text-primary);
+}
+
+.chevron {
+  flex-shrink: 0;
+
+  opacity: 0.6;
+
+  color: var(--color-text-secondary);
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.header:hover .chevron {
+  opacity: 1;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
 }
 
 .content {
