@@ -20,6 +20,7 @@ import { SystemUserCompanyPageFactory } from '@main/factories/system/user-compan
 import { SystemUserCompanyCreatePageFactory } from '@main/factories/system/user-company/user-company-create-page';
 import { SystemUserCompanyUpdatePageFactory } from '@main/factories/system/user-company/user-company-update-page';
 import { SystemUserCompanyModulesPageFactory } from '@main/factories/system/user-company/user-company-modules-page';
+import { Boxes, LayoutDashboard, Settings } from 'lucide-react';
 
 /**
  * ROUTES = single source of truth for:
@@ -41,6 +42,7 @@ export const routes: AppRoute[] = [
     element: <DashboardPage />,
     labelKey: 'sidebar.dashboard',
     showInSidebar: true,
+    icon: <LayoutDashboard size={18} />,
   },
 
   /**
@@ -52,6 +54,7 @@ export const routes: AppRoute[] = [
     labelKey: 'sidebar.core.title',
     showInSidebar: true,
     isGroupRoute: true,
+    icon: <Boxes size={18} />,
     children: [
       {
         path: 'companies',
@@ -130,6 +133,7 @@ export const routes: AppRoute[] = [
     labelKey: 'sidebar.system.title',
     showInSidebar: true,
     isGroupRoute: true,
+    icon: <Settings size={18} />,
     children: [
       {
         path: 'roles',

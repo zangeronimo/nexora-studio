@@ -1,6 +1,5 @@
 import { AuthorizationProvider } from '@application/base/security/contracts/authorizaton-provider';
 import { canActivateRoute } from '@presentation/base/router/guards/can-activate-route';
-
 import { AppRoute } from '@presentation/base/router/types/app-route';
 
 export function buildSidebarRoutes(
@@ -8,9 +7,7 @@ export function buildSidebarRoutes(
   authorizationProvider: AuthorizationProvider,
 ): AppRoute[] {
   return routes.reduce<AppRoute[]>((acc, route) => {
-    if (!route.showInSidebar) {
-      return acc;
-    }
+    if (!route.showInSidebar) return acc;
 
     if (route.isGroupRoute) {
       const children = buildSidebarRoutes(
@@ -18,9 +15,7 @@ export function buildSidebarRoutes(
         authorizationProvider,
       );
 
-      if (children.length === 0) {
-        return acc;
-      }
+      if (children.length === 0) return acc;
 
       acc.push({
         ...route,
@@ -36,9 +31,7 @@ export function buildSidebarRoutes(
       allPermissions: route.allPermissions,
     });
 
-    if (!allowed) {
-      return acc;
-    }
+    if (!allowed) return acc;
 
     acc.push(route);
 

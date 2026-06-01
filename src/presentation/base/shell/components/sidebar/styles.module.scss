@@ -3,63 +3,88 @@
   flex-direction: column;
 
   height: 100%;
+  width: 280px;
 
   padding: var(--spacing-6);
 
   background: var(--color-surface);
+
+  overflow-x: hidden;
+
+  transition: width 0.25s ease;
+  flex-shrink: 0;
 }
 
+.collapsed {
+  width: 72px;
+  padding: var(--spacing-4);
+}
+
+/* BRAND */
 .brand {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 
-  gap: var(--spacing-1);
-
-  padding-bottom: var(--spacing-8);
-
+  padding-bottom: var(--spacing-6);
   border-bottom: 1px solid var(--color-border);
 }
 
 .logo {
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-
   color: var(--color-text-primary);
 }
 
-.subtitle {
-  font-size: var(--font-size-xs);
+.collapseButton {
+  background: transparent;
+  border: none;
+
+  cursor: pointer;
 
   color: var(--color-text-secondary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+
+  transition: background 0.2s ease;
 }
 
+.collapseButton:hover {
+  background: var(--color-surface-hover);
+}
+
+/* NAV */
 .navigation {
   flex: 1;
-
   padding-top: var(--spacing-6);
 
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .list {
   display: flex;
   flex-direction: column;
-
   gap: var(--spacing-2);
 }
 
+/* GROUP */
 .groupContainer {
   display: flex;
   flex-direction: column;
-
-  gap: var(--spacing-2);
 }
 
 .groupButton {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
+  gap: var(--spacing-3);
 
   width: 100%;
   min-height: 42px;
@@ -71,49 +96,85 @@
 
   background: transparent;
 
-  font-size: var(--font-size-sm);
-  font-weight: 600;
+  cursor: pointer;
 
   color: var(--color-text-primary);
 
-  cursor: pointer;
+  transition: background 0.2s ease;
 
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  justify-content: flex-start;
 }
 
 .groupButton:hover {
   background: var(--color-surface-hover);
 }
 
-.chevron {
-  flex-shrink: 0;
+.groupButtonActive::before {
+  content: '';
 
-  opacity: 0.6;
+  position: absolute;
 
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+
+  width: 3px;
+
+  border-radius: 999px;
+
+  background: var(--color-primary);
 }
 
-.groupButton:hover .chevron {
-  opacity: 1;
+.groupIcon {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: var(--radius-md);
+
+  background: rgba(255, 255, 255, 0.05);
+
+  font-size: 12px;
+
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
+.groupLabel {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+
+  text-align: left;
+}
+
+.chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
 .chevronOpen {
   transform: rotate(90deg);
 }
 
+/* GROUP LIST */
 .group {
   display: flex;
   flex-direction: column;
-
   gap: var(--spacing-1);
 
   padding-left: var(--spacing-3);
 }
 
+/* LINKS */
 .link {
   display: flex;
   align-items: center;
@@ -132,34 +193,80 @@
   transition:
     background 0.2s ease,
     color 0.2s ease;
+
+  justify-content: flex-start;
+  gap: var(--spacing-3);
 }
 
 .link:hover {
   background: var(--color-surface-hover);
-
   color: var(--color-text-primary);
 }
 
 .active {
-  position: relative;
-
   background: rgba(91, 91, 214, 0.14);
-
   color: var(--color-text-primary);
 }
 
-.active::before {
-  content: '';
+/* ICON ONLY (COLLAPSED) */
+.iconOnly {
+  width: 28px;
+  height: 28px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+
+  border-radius: var(--radius-md);
+
+  background: rgba(255, 255, 255, 0.05);
+
+  flex-shrink: 0;
+}
+
+/* COLLAPSED ALIGN FIX */
+.container.collapsed .link,
+.container.collapsed .groupButton {
+  justify-content: center;
+  padding: 0;
+}
+
+/* =========================
+   MISSING CLASSES (FIX BUILD)
+   ========================= */
+
+.flyoutOverlay {
+  position: fixed;
+  inset: 0;
+
+  background: transparent;
+  z-index: 10;
+}
+
+.flyout {
   position: absolute;
+  left: 72px;
+  top: 120px;
 
-  left: -12px;
-  top: 8px;
-  bottom: 8px;
+  min-width: 200px;
 
-  width: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 
-  border-radius: 999px;
+  padding: var(--spacing-3);
 
-  background: var(--color-primary);
+  z-index: 20;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.flyoutTitle {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+
+  margin-bottom: var(--spacing-2);
 }

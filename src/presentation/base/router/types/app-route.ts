@@ -7,6 +7,8 @@ export type AppRoute = {
   labelKey?: string;
   showInSidebar: boolean;
 
+  icon?: ReactElement;
+
   permission?: string;
   anyPermissions?: string[];
   allPermissions?: string[];
