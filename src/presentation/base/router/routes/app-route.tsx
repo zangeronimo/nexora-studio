@@ -16,6 +16,10 @@ import { SystemRolePageFactory } from '@main/factories/system/role/role-page';
 import { SystemRoleCreatePageFactory } from '@main/factories/system/role/role-create-page';
 import { SystemRoleUpdatePageFactory } from '@main/factories/system/role/role-update-page';
 import { SystemRolePermissionPageFactory } from '@main/factories/system/role/role-permissions-page';
+import { SystemUserCompanyPageFactory } from '@main/factories/system/user-company/user-company-page';
+import { SystemUserCompanyCreatePageFactory } from '@main/factories/system/user-company/user-company-create-page';
+import { SystemUserCompanyUpdatePageFactory } from '@main/factories/system/user-company/user-company-update-page';
+import { SystemUserCompanyModulesPageFactory } from '@main/factories/system/user-company/user-company-modules-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -150,6 +154,32 @@ export const routes: AppRoute[] = [
         path: 'roles/:id/permissions',
         element: <SystemRolePermissionPageFactory />,
         permission: 'system.role.update',
+        showInSidebar: false,
+      },
+
+      {
+        path: 'usercompanies',
+        labelKey: 'sidebar.system.usercompany.title',
+        showInSidebar: true,
+        permission: 'system.usercompany.view',
+        element: <SystemUserCompanyPageFactory />,
+      },
+      {
+        path: 'usercompanies/create',
+        element: <SystemUserCompanyCreatePageFactory />,
+        permission: 'system.usercompany.create',
+        showInSidebar: false,
+      },
+      {
+        path: 'usercompanies/edit/:id',
+        element: <SystemUserCompanyUpdatePageFactory />,
+        permission: 'system.usercompany.update',
+        showInSidebar: false,
+      },
+      {
+        path: 'usercompanies/:id/modules',
+        element: <SystemUserCompanyModulesPageFactory />,
+        permission: 'system.usercompany.update',
         showInSidebar: false,
       },
     ],

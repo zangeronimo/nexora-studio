@@ -17,5 +17,8 @@ export const sidebar = {
     roles: {
       title: 'Roles',
     },
+    usercompany: {
+      title: 'Company Users',
+    },
   },
 };
