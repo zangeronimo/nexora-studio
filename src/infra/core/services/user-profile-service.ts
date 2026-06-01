@@ -7,4 +7,11 @@ export class UserProfileService implements IUserProfileService {
   get(): Promise<AuthSession> {
     return this.http.get('/core/users/profile');
   }
+
+  uploadAvatar(file: File): Promise<void> {
+    const formData = new FormData();
+    formData.append('Avatar', file);
+
+    return this.http.put(`/core/users/profile/avatar`, formData);
+  }
 }

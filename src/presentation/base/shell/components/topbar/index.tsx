@@ -4,7 +4,7 @@ import * as styles from './styles.module.scss';
 import { useAuthSession } from '@presentation/base/session/use-auth-session';
 
 export function Topbar() {
-  const { session } = useAuthSession();
+  const { session, handleAvatarUpload } = useAuthSession();
   const page = usePageTitle();
 
   return (
@@ -19,6 +19,8 @@ export function Topbar() {
             <Avatar
               name={session?.userCompany?.user?.name}
               avatarUrl={session?.userCompany?.avatarUrl}
+              editable
+              onUpload={handleAvatarUpload}
             />
           </div>
 

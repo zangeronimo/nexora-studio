@@ -29,6 +29,7 @@ describe('AuthSessionProvider', () => {
 
     const service = {
       get,
+      uploadAvatar: jest.fn(),
     };
 
     const wrapper = ({ children }: any) => (

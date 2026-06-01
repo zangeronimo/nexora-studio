@@ -3,6 +3,8 @@ import { AuthSessionContext } from './auth-session-context';
 import { AuthSession } from '@domain/base/entities/auth-session';
 import { IUserProfileService } from '@application/core/contracts/user-profile-service';
 import { useAuth } from '@presentation/base/auth/use-auth';
+import { useToast } from '../toast/hooks/use-toast';
+import { useTranslation } from '../i18n/hooks/use-translation';
 
 type Props = {
   children: React.ReactNode;
@@ -13,6 +15,23 @@ export function AuthSessionProvider({ children, service }: Props) {
   const { authenticated, setAuthenticated } = useAuth();
   const [session, setSession] = useState<AuthSession | null>(null);
   const [loading, setLoading] = useState<boolean>(authenticated);
+  const [refresh, setRefresh] = useState(false);
+  const { t } = useTranslation();
+  const toast = useToast();
+
+  const handleAvatarUpload = async (file: File) => {
+    try {
+      setLoading(true);
+
+      await service.uploadAvatar(file);
+      toast.success(t('common.toast.success.updated'));
+    } catch (e: any) {
+      toast.error(e.message);
+    } finally {
+      setLoading(false);
+      setRefresh((old) => !old);
+    }
+  };
 
   useEffect(() => {
     if (!authenticated) {
@@ -31,10 +50,12 @@ export function AuthSessionProvider({ children, service }: Props) {
         setAuthenticated(false);
       })
       .finally(() => setLoading(false));
-  }, [authenticated]);
+  }, [authenticated, refresh]);
 
   return (
-    <AuthSessionContext.Provider value={{ session, loading }}>
+    <AuthSessionContext.Provider
+      value={{ session, loading, handleAvatarUpload }}
+    >
       {children}
     </AuthSessionContext.Provider>
   );

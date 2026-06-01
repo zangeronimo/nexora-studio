@@ -68,19 +68,22 @@ export class DefaultAuthHttpClient implements AuthHttpClient {
     const execute = async (): Promise<T> => {
       const token = this.storage.get<string>('accessToken');
       const language = new StorageLocaleResolver(this.storage);
+      const isFormData = body instanceof FormData;
+      const formDataBody = isFormData ? body : JSON.stringify(body);
       return this.httpClient.request<T>(this.buildUrl(url, config?.params), {
         ...config,
         method,
-        body: body ? JSON.stringify(body) : undefined,
+        body: body == null ? undefined : formDataBody,
         credentials: 'include',
         headers: {
           ...config?.headers,
           ...(language && {
             'Accept-Language': language.resolve(),
           }),
-          ...(body && {
-            'Content-Type': 'application/json',
-          }),
+          ...(!isFormData &&
+            body && {
+              'Content-Type': 'application/json',
+            }),
           Authorization: `Bearer ${token}`,
         },
       });

@@ -1,4 +1,5 @@
-import { getInitials } from './helpers/get-initials';
+import { useRef } from 'react';
+import { Camera } from 'lucide-react';
 
 import * as styles from './styles.module.scss';
 
@@ -8,23 +9,85 @@ type Props = {
 
   size?: 'sm' | 'md' | 'lg' | 'xl';
 
-  className?: string;
+  editable?: boolean;
+  loading?: boolean;
+
+  onUpload?: (file: File) => Promise<void>;
 };
 
-export function Avatar({ name, avatarUrl, size = 'md', className }: Props) {
-  const initials = getInitials(name);
+export function Avatar({
+  name,
+  avatarUrl,
+  size = 'md',
+  editable = false,
+  loading = false,
+  onUpload,
+}: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const initials = name
+    ?.split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((x) => x[0]?.toUpperCase())
+    .join('');
+
+  const imageUrl = avatarUrl ? `${process.env.API_URL}${avatarUrl}` : undefined;
+
+  const handleOpenPicker = () => {
+    if (!editable || loading) {
+      return;
+    }
+
+    inputRef.current?.click();
+  };
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (file.type !== 'image/webp') {
+      event.target.value = '';
+      return;
+    }
+
+    await onUpload?.(file);
+
+    event.target.value = '';
+  };
 
   return (
-    <div className={`${styles.avatar} ${styles[size]} ${className ?? ''}`}>
-      {avatarUrl ? (
-        <img
-          src={`${process.env.API_URL}${avatarUrl}`}
-          alt={name}
-          className={styles.image}
-          draggable={false}
+    <div className={styles.wrapper}>
+      <div
+        className={`${styles.avatar} ${styles[size]} ${
+          editable ? styles.editable : ''
+        }`}
+        onClick={editable ? handleOpenPicker : undefined}
+      >
+        {imageUrl ? (
+          <img src={imageUrl} alt={name} className={styles.image} />
+        ) : (
+          <span className={styles.initials}>{initials}</span>
+        )}
+
+        {editable && (
+          <div className={styles.overlay}>
+            <Camera size={20} />
+          </div>
+        )}
+      </div>
+
+      {editable && (
+        <input
+          ref={inputRef}
+          type="file"
+          accept=".webp,image/webp"
+          hidden
+          onChange={handleChange}
         />
-      ) : (
-        <span className={styles.initials}>{initials}</span>
       )}
     </div>
   );

@@ -4,6 +4,7 @@ import { createContext } from 'react';
 export type AuthSessionContextValue = {
   session: AuthSession | null;
   loading: boolean;
+  handleAvatarUpload: (file: File) => Promise<void>;
 };
 
 export const AuthSessionContext = createContext<AuthSessionContextValue | null>(
