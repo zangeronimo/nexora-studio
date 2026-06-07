@@ -14,4 +14,9 @@ export class UserProfileService implements IUserProfileService {
 
     return this.http.put(`/core/users/profile/avatar`, formData);
   }
+
+  async switchCompany(companyId: string): Promise<void> {
+    const result = await this.http.post<any>(`/switch-company`, { companyId });
+    localStorage.setItem('accessToken', JSON.stringify(result.token));
+  }
 }

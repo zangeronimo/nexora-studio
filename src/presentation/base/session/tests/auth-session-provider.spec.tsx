@@ -32,6 +32,7 @@ describe('AuthSessionProvider', () => {
     const service = {
       get,
       uploadAvatar: jest.fn(),
+      switchCompany: jest.fn(),
     };
 
     const localeResolver = {

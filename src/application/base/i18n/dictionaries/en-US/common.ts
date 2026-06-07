@@ -16,6 +16,9 @@ export const common = {
     active: 'Active',
   },
   toast: {
+    switch_company: {
+      success: 'Company loaded with success',
+    },
     success: {
       title: 'Uhuu!',
       created: 'Resource created with success!',

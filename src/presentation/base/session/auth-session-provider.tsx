@@ -33,6 +33,19 @@ export function AuthSessionProvider({ children, service }: Props) {
     }
   };
 
+  const switchCompany = async (companyId: string) => {
+    try {
+      setLoading(true);
+      await service.switchCompany(companyId);
+      toast.success(t('common.toast.switch_company.success'));
+    } catch (e: any) {
+      toast.error(e.message);
+    } finally {
+      setLoading(false);
+      window.location.reload();
+    }
+  };
+
   useEffect(() => {
     if (!authenticated) {
       setSession(null);
@@ -54,7 +67,7 @@ export function AuthSessionProvider({ children, service }: Props) {
 
   return (
     <AuthSessionContext.Provider
-      value={{ session, loading, handleAvatarUpload }}
+      value={{ session, loading, handleAvatarUpload, switchCompany }}
     >
       {children}
     </AuthSessionContext.Provider>
