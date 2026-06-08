@@ -14,6 +14,7 @@ export function UserMenu() {
   const navigate = useNavigate();
   const { session, handleAvatarUpload, switchCompany } = useAuthSession();
   const { changeLanguage, current } = useTranslation();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -50,7 +51,7 @@ export function UserMenu() {
       {open && (
         <div className={styles.dropdown}>
           <div className={styles.section}>
-            <span className={styles.sectionTitle}>Empresa</span>
+            <span className={styles.sectionTitle}>{t('userMenu.company')}</span>
 
             <CompanySwitcher
               session={session}
@@ -59,7 +60,9 @@ export function UserMenu() {
             />
           </div>
           <div className={styles.section}>
-            <span className={styles.sectionTitle}>Idioma</span>
+            <span className={styles.sectionTitle}>
+              {t('userMenu.language')}
+            </span>
 
             <LocaleSwitcher
               current={current}
@@ -71,7 +74,7 @@ export function UserMenu() {
           <div className={styles.divider} />
 
           <button className={styles.menuItem} disabled>
-            Meu Perfil
+            {t('userMenu.profile')}
           </button>
 
           <div className={styles.divider} />
@@ -83,7 +86,7 @@ export function UserMenu() {
               navigate('/logout');
             }}
           >
-            Sair
+            {t('userMenu.logout')}
           </button>
         </div>
       )}

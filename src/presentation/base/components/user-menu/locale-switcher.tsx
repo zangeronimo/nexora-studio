@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Select } from '../select';
 import { ConfirmModal } from '../confirm-modal';
 import { Locale } from '@application/base/i18n/locale';
+import { useTranslation } from '@presentation/base/i18n/hooks/use-translation';
 
 type Props = {
   current: Locale;
@@ -13,6 +14,7 @@ type Props = {
 export function LocaleSwitcher({ switchLocale, current, onCompleted }: Props) {
   const [loading, setLoading] = useState(false);
   const [pendingLocaleId, setPendingLocaleId] = useState<Locale | null>(null);
+  const { t } = useTranslation();
 
   const options = [
     {
@@ -58,14 +60,10 @@ export function LocaleSwitcher({ switchLocale, current, onCompleted }: Props) {
 
       <ConfirmModal
         open={!!pendingLocaleId}
-        title="Trocar de idioma"
-        description={
-          current
-            ? `Você será redirecionado para "${current}".`
-            : 'Você deseja trocar de idioma?'
-        }
-        confirmLabel="Trocar"
-        cancelLabel="Cancelar"
+        title={t('userMenu.switchLocale.title')}
+        description={t('userMenu.switchLocale.message')}
+        confirmLabel={t('userMenu.switchLocale.confirmButton')}
+        cancelLabel={t('userMenu.switchLocale.cancelButton')}
         loading={loading}
         onConfirm={handleConfirm}
         onClose={handleClose}

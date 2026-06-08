@@ -6,6 +6,7 @@ import { core } from './core';
 import { filter } from './filter';
 import { validation } from './validation';
 import { system } from './system';
+import { userMenu } from './user_menu';
 
 export default {
   login,
@@ -15,5 +16,6 @@ export default {
   system,
   sidebar,
   common,
+  userMenu,
   validation,
 };

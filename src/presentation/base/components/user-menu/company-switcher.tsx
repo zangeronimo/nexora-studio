@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { Select } from '../select';
 import { ConfirmModal } from '../confirm-modal';
 import { AuthSession } from '@domain/base/entities/auth-session';
+import { useTranslation } from '@presentation/base/i18n/hooks/use-translation';
 
 type Props = {
   session: AuthSession;
@@ -17,6 +18,7 @@ export function CompanySwitcher({
 }: Props) {
   const [pendingCompanyId, setPendingCompanyId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const currentCompanyId = session?.userCompany.companyId;
 
@@ -28,8 +30,6 @@ export function CompanySwitcher({
       value: c.id,
     }));
   }, [companies]);
-
-  const selectedCompany = companies.find((c) => c.id === pendingCompanyId);
 
   const handleChange = (companyId: string) => {
     if (companyId === currentCompanyId) return;
@@ -64,14 +64,10 @@ export function CompanySwitcher({
 
       <ConfirmModal
         open={!!pendingCompanyId}
-        title="Trocar de empresa"
-        description={
-          selectedCompany
-            ? `Você será redirecionado para "${selectedCompany.name}".`
-            : 'Você deseja trocar de empresa?'
-        }
-        confirmLabel="Trocar"
-        cancelLabel="Cancelar"
+        title={t('userMenu.switchCompany.title')}
+        description={t('userMenu.switchCompany.message')}
+        confirmLabel={t('userMenu.switchCompany.confirmButton')}
+        cancelLabel={t('userMenu.switchCompany.cancelButton')}
         loading={loading}
         onConfirm={handleConfirm}
         onClose={handleClose}
