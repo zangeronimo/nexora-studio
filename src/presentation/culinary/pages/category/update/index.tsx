@@ -28,6 +28,7 @@ export function CulinaryCategoryUpdatePage({ categoryService }: Props) {
     isPristine,
     loading,
     request,
+    parents,
     handleFieldChange,
     handleSubmit,
   } = useCategoryUpdateForm({
@@ -43,13 +44,25 @@ export function CulinaryCategoryUpdatePage({ categoryService }: Props) {
         <div className={styles.container}>
           <div className={styles.form}>
             <Group>
-              <GroupItem>
+              <GroupItem span={2}>
                 <Input
                   label={t('culinary.category.fields.name')}
                   maxLength={150}
                   value={request.name}
                   error={errors.name}
                   onChange={(e) => handleFieldChange('name', e)}
+                />
+              </GroupItem>
+              <GroupItem span={2}>
+                <Select
+                  label={t('culinary.category.fields.parent')}
+                  placeholder={t('common.select.empty')}
+                  value={request.parentId}
+                  onChange={(e) => handleFieldChange('parentId', e)}
+                  options={parents?.map((parent) => ({
+                    label: parent.name,
+                    value: parent.id,
+                  }))}
                 />
               </GroupItem>
             </Group>

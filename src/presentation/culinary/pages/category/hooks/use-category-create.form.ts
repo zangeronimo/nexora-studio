@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ICategoryService } from '@application/culinary/contracts/category-service';
@@ -12,6 +12,7 @@ import { RequiredValidator } from '@application/base/validation/rules/required';
 import { MaxLengthValidator } from '@application/base/validation/rules/max-length';
 import { validate } from '@application/base/validation/validate';
 import { useToast } from '@presentation/base/toast/hooks/use-toast';
+import { Category } from '@domain/culinary/entities/category';
 
 type Props = {
   categoryService: ICategoryService;
@@ -39,12 +40,28 @@ export function useCategoryCreateForm({ categoryService }: Props) {
   };
 
   const [request, setRequest] = useState(initialState);
+  const [parents, setParents] = useState<Category[]>([]);
   const [isPristine, setIsPristine] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Errors>({
     name: '',
     status: '',
   });
+
+  const getAllParents = async () => {
+    try {
+      setLoading(true);
+      const result = await categoryService.getAllParents();
+
+      setParents(result);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllParents();
+  }, []);
 
   const handleFieldChange = (name: string, value: string) => {
     setRequest((old) => ({
@@ -89,6 +106,7 @@ export function useCategoryCreateForm({ categoryService }: Props) {
         new CreateCategoryRequest(
           request.name,
           request.description,
+          request.parentId,
           request.displayOrder,
           request.metaTitle,
           request.metaDescription,
@@ -118,6 +136,7 @@ export function useCategoryCreateForm({ categoryService }: Props) {
 
   return {
     request,
+    parents,
     errors,
     hasError,
     isDirty,

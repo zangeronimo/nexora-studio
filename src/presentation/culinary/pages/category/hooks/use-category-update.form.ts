@@ -12,6 +12,7 @@ import { RequiredValidator } from '@application/base/validation/rules/required';
 import { MaxLengthValidator } from '@application/base/validation/rules/max-length';
 import { validate } from '@application/base/validation/validate';
 import { useToast } from '@presentation/base/toast/hooks/use-toast';
+import { Category } from '@domain/culinary/entities/category';
 
 type Props = {
   id: string;
@@ -52,6 +53,7 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
     metaDescription: '',
     canonicalUrl: '',
   });
+  const [parents, setParents] = useState<Category[]>([]);
   const [isPristine, setIsPristine] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Errors>({
@@ -85,8 +87,20 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
     }
   };
 
+  const getAllParents = async () => {
+    try {
+      setLoading(true);
+      const result = await categoryService.getAllParents();
+
+      setParents(result);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     load();
+    getAllParents();
   }, []);
 
   const handleFieldChange = (name: string, value: string) => {
@@ -133,6 +147,7 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
           request.id,
           request.name,
           request.description,
+          request.parentId,
           request.displayOrder,
           request.metaTitle,
           request.metaDescription,
@@ -162,6 +177,7 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
 
   return {
     request,
+    parents,
     errors,
     hasError,
     isDirty,

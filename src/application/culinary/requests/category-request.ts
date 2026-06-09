@@ -19,6 +19,7 @@ export class CreateCategoryRequest {
   constructor(
     readonly name: string,
     readonly description: string,
+    readonly parentId: string | null,
     readonly displayOrder: number,
     readonly metaTitle: string,
     readonly metaDescription: string,
@@ -32,6 +33,7 @@ export class UpdateCategoryRequest {
     readonly id: string,
     readonly name: string,
     readonly description: string,
+    readonly parentId: string | null,
     readonly displayOrder: number,
     readonly metaTitle: string,
     readonly metaDescription: string,
