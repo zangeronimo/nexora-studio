@@ -1,5 +1,20 @@
 export const sidebar = {
   dashboard: 'Dashboard',
+  culinary: {
+    title: 'Culinary',
+    categories: {
+      title: 'Category',
+    },
+    ratings: {
+      title: 'Ratings',
+    },
+    Recipes: {
+      title: 'Recipes',
+    },
+    Tags: {
+      title: 'Tags',
+    },
+  },
   core: {
     title: 'Core',
     companies: {

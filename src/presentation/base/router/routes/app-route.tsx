@@ -20,7 +20,11 @@ import { SystemUserCompanyPageFactory } from '@main/factories/system/user-compan
 import { SystemUserCompanyCreatePageFactory } from '@main/factories/system/user-company/user-company-create-page';
 import { SystemUserCompanyUpdatePageFactory } from '@main/factories/system/user-company/user-company-update-page';
 import { SystemUserCompanyModulesPageFactory } from '@main/factories/system/user-company/user-company-modules-page';
-import { Boxes, LayoutDashboard, Settings } from 'lucide-react';
+import { Boxes, LayoutDashboard, Settings, ChefHat } from 'lucide-react';
+import { CulinaryPage } from '@presentation/culinary';
+import { CulinaryCategoryPageFactory } from '@main/factories/culinary/category/category-page';
+import { CulinaryCategoryCreatePageFactory } from '@main/factories/culinary/category/category-create-page';
+import { CulinaryCategoryUpdatePageFactory } from '@main/factories/culinary/category/category-update-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -43,6 +47,39 @@ export const routes: AppRoute[] = [
     labelKey: 'sidebar.dashboard',
     showInSidebar: true,
     icon: <LayoutDashboard size={18} />,
+  },
+
+  /**
+   * CULINARY MODULE
+   */
+  {
+    path: '/culinary',
+    element: <CulinaryPage />,
+    labelKey: 'sidebar.culinary.title',
+    showInSidebar: true,
+    isGroupRoute: true,
+    icon: <ChefHat size={18} />,
+    children: [
+      {
+        path: 'categories',
+        labelKey: 'sidebar.culinary.categories.title',
+        showInSidebar: true,
+        permission: 'culinary.category.view',
+        element: <CulinaryCategoryPageFactory />,
+      },
+      {
+        path: 'categories/create',
+        element: <CulinaryCategoryCreatePageFactory />,
+        permission: 'culinary.category.create',
+        showInSidebar: false,
+      },
+      {
+        path: 'categories/edit/:id',
+        element: <CulinaryCategoryUpdatePageFactory />,
+        permission: 'culinary.category.update',
+        showInSidebar: false,
+      },
+    ],
   },
 
   /**

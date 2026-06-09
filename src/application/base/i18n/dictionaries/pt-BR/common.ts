@@ -3,6 +3,7 @@ export const common = {
     slogan: 'Plataforma Operacional de Negócios',
   },
   button: {
+    cancel: 'Cancelar',
     save: 'Salvar',
     edit: 'Editar',
     delete: 'Excluir',

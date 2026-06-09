@@ -7,9 +7,11 @@ import { filter } from './filter';
 import { validation } from './validation';
 import { system } from './system';
 import { userMenu } from './user_menu';
+import { culinary } from './culinary';
 
 export default {
   login,
+  culinary,
   dashboard,
   filter,
   core,
