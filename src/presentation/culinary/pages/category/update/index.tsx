@@ -15,6 +15,7 @@ import { useCategoryUpdateForm } from '../hooks/use-category-update.form';
 import { GroupItem } from '@presentation/base/components/group-item';
 import { Group } from '@presentation/base/components/group';
 import { Textarea } from '@presentation/base/components/textarea';
+import { ImageUpload } from '@presentation/base/components/image-upload';
 
 type Props = {
   categoryService: ICategoryService;
@@ -37,6 +38,10 @@ export function CulinaryCategoryUpdatePage({ categoryService }: Props) {
   });
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const handleFileUpload = async (file: File) => {
+    console.log(file);
+  };
 
   return (
     <Page title={t('culinary.category.update.title')}>
@@ -133,6 +138,17 @@ export function CulinaryCategoryUpdatePage({ categoryService }: Props) {
                       value: status.inactive.toString(),
                     },
                   ]}
+                />
+              </GroupItem>
+            </Group>
+            <Group>
+              <GroupItem>
+                <ImageUpload
+                  modalTitle="Image Upload"
+                  cancelButtonTitle="Cancel"
+                  onUpload={handleFileUpload}
+                  selectButtonTitle="Select other"
+                  uploadButtonTitle="Upload image"
                 />
               </GroupItem>
             </Group>
