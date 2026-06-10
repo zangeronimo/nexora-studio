@@ -141,21 +141,23 @@ export function CulinaryCategoryUpdatePage({ categoryService }: Props) {
             <Group>
               <GroupItem>
                 <ImageUpload
-                  modalTitle="Image Upload"
-                  cancelButtonTitle="Cancel"
+                  modalTitle={t('imageUpload.modal.title')}
+                  cancelButtonTitle={t('imageUpload.buttons.cancel')}
                   onUpload={handleImageUpload}
-                  selectButtonTitle="Select other"
-                  uploadButtonTitle="Upload image"
+                  selectButtonTitle={t('imageUpload.buttons.select')}
+                  uploadButtonTitle={t('imageUpload.buttons.upload')}
                 />
               </GroupItem>
             </Group>
             {request.featuredImageUrl && (
               <Group>
-                <GroupItem>
+                <GroupItem span={2}>
                   <img
+                    style={{ width: '100%' }}
                     src={`${process.env.API_URL}${request.featuredImageUrl}`}
                   />
                 </GroupItem>
+                <GroupItem span={2}>&nbsp;</GroupItem>
               </Group>
             )}
           </div>

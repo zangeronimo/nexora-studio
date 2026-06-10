@@ -8,16 +8,18 @@ import { validation } from './validation';
 import { system } from './system';
 import { userMenu } from './user_menu';
 import { culinary } from './culinary';
+import { imageUpload } from './image-upload';
 
 export default {
-  login,
+  common,
+  core,
   culinary,
   dashboard,
   filter,
-  core,
+  imageUpload,
+  login,
   system,
   sidebar,
-  common,
   userMenu,
   validation,
 };
