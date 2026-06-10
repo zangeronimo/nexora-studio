@@ -29,6 +29,7 @@ type requestState = {
   metaTitle: string;
   metaDescription: string;
   canonicalUrl: string;
+  featuredImageUrl: string | null;
 };
 
 type Errors = {
@@ -52,6 +53,7 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
     metaTitle: '',
     metaDescription: '',
     canonicalUrl: '',
+    featuredImageUrl: '',
   });
   const [parents, setParents] = useState<Category[]>([]);
   const [isPristine, setIsPristine] = useState(true);
@@ -76,6 +78,7 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
         metaTitle: category.metaTitle,
         metaDescription: category.metaDescription,
         canonicalUrl: category.canonicalUrl,
+        featuredImageUrl: category.featuredImageUrl,
       };
 
       setInitialState(nextState);
@@ -117,6 +120,19 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
     }
 
     setIsPristine(false);
+  };
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      setLoading(true);
+      const imageUrl = await categoryService.imageUpload(request.id, file);
+      setRequest((old) => ({ ...old, featuredImageUrl: imageUrl }));
+      toast.success(t('common.toast.success.updated'));
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -174,6 +190,7 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
   request.metaTitle !== initialState?.metaTitle ||
     request.metaDescription !== initialState?.metaDescription ||
     request.canonicalUrl !== initialState?.canonicalUrl;
+  request.featuredImageUrl !== initialState?.featuredImageUrl;
 
   return {
     request,
@@ -185,5 +202,6 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
     loading,
     handleSubmit,
     handleFieldChange,
+    handleImageUpload,
   };
 }

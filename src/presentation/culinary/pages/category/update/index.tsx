@@ -32,16 +32,13 @@ export function CulinaryCategoryUpdatePage({ categoryService }: Props) {
     parents,
     handleFieldChange,
     handleSubmit,
+    handleImageUpload,
   } = useCategoryUpdateForm({
     id,
     categoryService,
   });
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const handleFileUpload = async (file: File) => {
-    console.log(file);
-  };
 
   return (
     <Page title={t('culinary.category.update.title')}>
@@ -146,12 +143,21 @@ export function CulinaryCategoryUpdatePage({ categoryService }: Props) {
                 <ImageUpload
                   modalTitle="Image Upload"
                   cancelButtonTitle="Cancel"
-                  onUpload={handleFileUpload}
+                  onUpload={handleImageUpload}
                   selectButtonTitle="Select other"
                   uploadButtonTitle="Upload image"
                 />
               </GroupItem>
             </Group>
+            {request.featuredImageUrl && (
+              <Group>
+                <GroupItem>
+                  <img
+                    src={`${process.env.API_URL}${request.featuredImageUrl}`}
+                  />
+                </GroupItem>
+              </Group>
+            )}
           </div>
         </div>
 

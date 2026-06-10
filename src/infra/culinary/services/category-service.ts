@@ -44,4 +44,15 @@ export class CategoryService implements ICategoryService {
   delete(id: string): Promise<void> {
     return this.http.delete(`/culinary/categories/${id}`);
   }
+
+  async imageUpload(id: string, file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('FeaturedImage', file);
+
+    const result = await this.http.put<Category>(
+      `/culinary/categories/${id}/featured_image`,
+      formData,
+    );
+    return result.featuredImageUrl;
+  }
 }

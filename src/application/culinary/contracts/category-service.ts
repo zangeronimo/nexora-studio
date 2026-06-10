@@ -15,4 +15,5 @@ export interface ICategoryService {
   create: (request: CreateCategoryRequest) => Promise<Category | null>;
   update: (request: UpdateCategoryRequest) => Promise<Category | null>;
   delete: (id: string) => Promise<void>;
+  imageUpload: (id: string, file: File) => Promise<string>;
 }
