@@ -8,10 +8,10 @@ export const sidebar = {
     ratings: {
       title: 'Avaliações',
     },
-    Recipes: {
+    recipes: {
       title: 'Receitas',
     },
-    Tags: {
+    tags: {
       title: 'Tags',
     },
   },

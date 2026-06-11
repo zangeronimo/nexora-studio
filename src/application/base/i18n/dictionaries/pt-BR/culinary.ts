@@ -35,4 +35,36 @@ export const culinary = {
         'Remova permanentemente esta categoria do catálogo culinário. Esta ação não poderá ser desfeita.',
     },
   },
+
+  tag: {
+    title: 'Tags',
+    description:
+      'Estruture seu acervo de receitas com tags personalizadas para uma organização consistente e escalável.',
+    datagrid: {
+      slug: 'Slug',
+      name: 'Nome',
+      status: 'Situação',
+      created_at: 'Criado em',
+    },
+    create: {
+      title: 'Criar Tag',
+      description:
+        'Crie uma nova tag para organizar receitas e manter seu conteúdo culinário estruturado.',
+    },
+    update: {
+      title: 'Atualizar Tag',
+      description:
+        'Edite as informações da tag para manter a organização e a consistência do seu catálogo de receitas.',
+    },
+    fields: {
+      name: 'Nome',
+      description: 'Descrição',
+      status: 'Situação',
+    },
+    delete: {
+      title: 'Excluir Tag',
+      description:
+        'Remova permanentemente esta tag do catálogo culinário. Esta ação não poderá ser desfeita.',
+    },
+  },
 };
