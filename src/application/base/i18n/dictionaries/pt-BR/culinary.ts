@@ -67,4 +67,49 @@ export const culinary = {
         'Remova permanentemente esta tag do catálogo culinário. Esta ação não poderá ser desfeita.',
     },
   },
+
+  recipe: {
+    title: 'Receitas',
+    description: 'Estruture seu acervo de receitas.',
+    datagrid: {
+      slug: 'Slug',
+      name: 'Nome',
+      status: 'Situação',
+      created_at: 'Criado em',
+    },
+    create: {
+      title: 'Criar Receita',
+      description:
+        'Crie uma nova receita para organizar seu conteúdo culinário estruturado.',
+    },
+    update: {
+      title: 'Atualizar Receita',
+      description:
+        'Edite as informações da receita para manter a organização e a consistência do seu catálogo.',
+    },
+    fields: {
+      name: 'Nome',
+      shortDescription: 'Descrição curta',
+      fullDescription: 'Descrição longa',
+      ingredients: 'Ingredientes',
+      steps: 'Passos',
+      notes: 'Dicas do chef',
+      prepTime: 'Tempo de preparo',
+      cookTime: 'Tempo de cozimento',
+      restTime: 'Tempo de descanso',
+      yieldTotal: 'Rendimento',
+      difficulty: 'Dificuldade',
+      cuisine: 'Tipo de cozinha',
+      metaTitle: 'Título meta',
+      metaDescription: 'Descrição meta',
+      canonicalUrl: 'Url canônica',
+      category: 'Categoria',
+      status: 'Situação',
+    },
+    delete: {
+      title: 'Excluir Receita',
+      description:
+        'Remova permanentemente esta receita do catálogo culinário. Esta ação não poderá ser desfeita.',
+    },
+  },
 };

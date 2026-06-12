@@ -60,7 +60,7 @@ export function useTagCreateForm({ tagService }: Props) {
   const handleSubmit = async () => {
     const nameError = validate(request.name, [
       new RequiredValidator(),
-      new MaxLengthValidator(150),
+      new MaxLengthValidator(100),
     ]);
 
     const statusError = validate(request.status, [new RequiredValidator()]);

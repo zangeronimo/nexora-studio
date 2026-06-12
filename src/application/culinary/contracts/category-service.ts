@@ -11,6 +11,7 @@ export interface ICategoryService {
     request: GetCategoriesRequest,
   ) => Promise<PaginatedResponse<Category>>;
   getAllParents: () => Promise<Category[]>;
+  getAllChildren: (parentId: string) => Promise<Category[]>;
   getById: (id: string) => Promise<Category | null>;
   create: (request: CreateCategoryRequest) => Promise<Category | null>;
   update: (request: UpdateCategoryRequest) => Promise<Category | null>;

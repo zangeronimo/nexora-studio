@@ -29,6 +29,12 @@ export class CategoryService implements ICategoryService {
     return this.http.get('/culinary/categories/parents');
   }
 
+  getAllChildren(parentId: string): Promise<Category[]> {
+    return this.http.get('/culinary/categories/children', {
+      params: { parentId },
+    });
+  }
+
   getById(id: string): Promise<Category | null> {
     return this.http.get(`/culinary/categories/${id}`);
   }

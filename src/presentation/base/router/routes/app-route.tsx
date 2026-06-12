@@ -22,12 +22,15 @@ import { SystemUserCompanyUpdatePageFactory } from '@main/factories/system/user-
 import { SystemUserCompanyModulesPageFactory } from '@main/factories/system/user-company/user-company-modules-page';
 import { Boxes, LayoutDashboard, Settings, ChefHat } from 'lucide-react';
 import { CulinaryPage } from '@presentation/culinary';
-import { CulinaryTagPageFactory } from '@main/factories/culinary/category/category-page';
-import { CulinaryTagCreatePageFactory } from '@main/factories/culinary/category/category-create-page';
-import { CulinaryTagUpdatePageFactory } from '@main/factories/culinary/category/category-update-page';
-import { CulinaryCategoryPageFactory } from '@main/factories/culinary/tag/tag-page';
-import { CulinaryCategoryCreatePageFactory } from '@main/factories/culinary/tag/tag-create-page';
-import { CulinaryCategoryUpdatePageFactory } from '@main/factories/culinary/tag/tag-update-page';
+import { CulinaryCategoryPageFactory } from '@main/factories/culinary/category/category-page';
+import { CulinaryCategoryCreatePageFactory } from '@main/factories/culinary/category/category-create-page';
+import { CulinaryCategoryUpdatePageFactory } from '@main/factories/culinary/category/category-update-page';
+import { CulinaryTagPageFactory } from '@main/factories/culinary/tag/tag-page';
+import { CulinaryTagCreatePageFactory } from '@main/factories/culinary/tag/tag-create-page';
+import { CulinaryTagUpdatePageFactory } from '@main/factories/culinary/tag/tag-update-page';
+import { CulinaryRecipePageFactory } from '@main/factories/culinary/recipe/recipe-page';
+import { CulinaryRecipeCreatePageFactory } from '@main/factories/culinary/recipe/recipe-create-page';
+import { CulinaryRecipeUpdatePageFactory } from '@main/factories/culinary/recipe/recipe-update-page';
 
 /**
  * ROUTES = single source of truth for:
@@ -100,6 +103,26 @@ export const routes: AppRoute[] = [
         path: 'tags/edit/:id',
         element: <CulinaryTagUpdatePageFactory />,
         permission: 'culinary.tag.update',
+        showInSidebar: false,
+      },
+
+      {
+        path: 'recipes',
+        labelKey: 'sidebar.culinary.recipes.title',
+        showInSidebar: true,
+        permission: 'culinary.recipe.view',
+        element: <CulinaryRecipePageFactory />,
+      },
+      {
+        path: 'recipes/create',
+        element: <CulinaryRecipeCreatePageFactory />,
+        permission: 'culinary.recipe.create',
+        showInSidebar: false,
+      },
+      {
+        path: 'recipes/edit/:id',
+        element: <CulinaryRecipeUpdatePageFactory />,
+        permission: 'culinary.recipe.update',
         showInSidebar: false,
       },
     ],

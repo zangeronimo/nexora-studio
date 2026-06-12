@@ -1,0 +1,137 @@
+.field {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--spacing-2);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+
+  color: var(--color-text-primary);
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--spacing-2);
+}
+
+.input {
+  width: 100%;
+  height: 44px;
+
+  padding: 0 var(--spacing-4);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+
+  color: var(--color-text-primary);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 120px;
+
+  padding: var(--spacing-3) var(--spacing-4);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+
+  resize: vertical;
+
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+
+  color: var(--color-text-primary);
+}
+
+.input:hover,
+.textarea:hover {
+  border-color: var(--color-border-hover);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+
+  border-color: var(--color-primary);
+
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.addButton {
+  align-self: flex-end;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--spacing-2);
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: var(--spacing-4);
+
+  padding: var(--spacing-3);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+}
+
+.itemText {
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  font-size: var(--font-size-sm);
+
+  color: var(--color-text-primary);
+}
+
+.removeButton {
+  flex-shrink: 0;
+
+  border: none;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  font-size: var(--font-size-lg);
+
+  color: var(--color-danger);
+}
+
+.emptyMessage,
+.helperText {
+  font-size: var(--font-size-xs);
+
+  color: var(--color-text-secondary);
+}
+
+.errorMessage {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+
+  color: var(--color-danger);
+}

@@ -1,12 +1,12 @@
-import { CulinaryTagPage } from '@presentation/culinary/pages/tag';
+import { CulinaryCategoryPage } from '@presentation/culinary/pages/category';
 import { JSX } from 'react';
-import { makeTagService } from '../services/make-tag-service';
+import { makeCategoryService } from '../services/make-category-service';
 import { makeAuthorizationProvider } from '@infra/base/provider/make-authorization-provider';
 
-export const CulinaryTagPageFactory = (): JSX.Element => {
+export const CulinaryCategoryPageFactory = (): JSX.Element => {
   return (
-    <CulinaryTagPage
-      tagService={makeTagService()}
+    <CulinaryCategoryPage
+      categoryService={makeCategoryService()}
       authorizationProvider={makeAuthorizationProvider()}
     />
   );

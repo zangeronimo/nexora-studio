@@ -10,7 +10,6 @@ export class FetchHttpClient implements HttpClient {
     const body = text ? JSON.parse(text) : null;
 
     if (!result.ok) {
-      console.error(body);
       throw new HttpError(result.status, body?.message ?? result.statusText);
     }
     return body;

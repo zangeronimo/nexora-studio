@@ -46,7 +46,7 @@ export function CulinaryTagUpdatePage({ tagService }: Props) {
               <GroupItem span={2}>
                 <Input
                   label={t('culinary.tag.fields.name')}
-                  maxLength={150}
+                  maxLength={100}
                   value={request.name}
                   error={errors.name}
                   onChange={(e) => handleFieldChange('name', e)}
@@ -58,7 +58,7 @@ export function CulinaryTagUpdatePage({ tagService }: Props) {
               <GroupItem>
                 <Textarea
                   label={t('culinary.tag.fields.description')}
-                  maxLength={500}
+                  maxLength={300}
                   value={request.description}
                   onChange={(e) => handleFieldChange('description', e)}
                 />

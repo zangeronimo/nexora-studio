@@ -1,7 +1,7 @@
 import { JSX } from 'react';
-import { makeCategoryService } from '../services/make-category-service';
-import { CulinaryCategoryUpdatePage } from '@presentation/culinary/pages/category/update';
+import { makeTagService } from '../services/make-tag-service';
+import { CulinaryTagUpdatePage } from '@presentation/culinary/pages/tag/update';
 
-export const CulinaryCategoryUpdatePageFactory = (): JSX.Element => {
-  return <CulinaryCategoryUpdatePage categoryService={makeCategoryService()} />;
+export const CulinaryTagUpdatePageFactory = (): JSX.Element => {
+  return <CulinaryTagUpdatePage tagService={makeTagService()} />;
 };

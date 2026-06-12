@@ -67,4 +67,49 @@ export const culinary = {
         'Permanently remove this tag from the culinary catalog. This action cannot be undone.',
     },
   },
+
+  recipe: {
+    title: 'Recipes',
+    description: 'Structure your recipe collection.',
+    dareciperid: {
+      slug: 'Slug',
+      name: 'Name',
+      status: 'Status',
+      created_at: 'Created at',
+    },
+    create: {
+      title: 'Create Recipe',
+      description:
+        'Create a new recipe to your culinary content well structured.',
+    },
+    update: {
+      title: 'Update Recipe',
+      description:
+        'Edit recipe details to maintain organization and consistency across your collection.',
+    },
+    fields: {
+      name: 'Name',
+      shortDescription: 'Short description',
+      fullDescription: 'Full description',
+      ingredients: 'Ingredients',
+      steps: 'Steps',
+      notes: 'Notes',
+      prepTime: 'Preparation time',
+      cookTime: 'Cook time',
+      restTime: 'Rest time',
+      yieldTotal: 'Yield',
+      difficulty: 'Difficulty',
+      cuisine: 'Cuisine',
+      metaTitle: 'Meta title',
+      metaDescription: 'Meta desription',
+      canonicalUrl: 'Canonical url',
+      category: 'Category',
+      status: 'Status',
+    },
+    delete: {
+      title: 'Delete Recipe',
+      description:
+        'Permanently remove this recipe from the culinary catalog. This action cannot be undone.',
+    },
+  },
 };
