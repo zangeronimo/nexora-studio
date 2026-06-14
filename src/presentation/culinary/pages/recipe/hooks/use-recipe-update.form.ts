@@ -18,6 +18,8 @@ import { useToast } from '@presentation/base/toast/hooks/use-toast';
 import { recipeDifficulty } from '@domain/culinary/enums/recipe-difficulty';
 import { Category } from '@domain/culinary/entities/category';
 import { ICategoryService } from '@application/culinary/contracts/category-service';
+import { RecipeImportJson } from '@presentation/culinary/models/recipe-import-json';
+import { mapImportedRecipeToRequest } from '@presentation/culinary/mapping/imported-recipe-to-request';
 
 type Props = {
   id: string;
@@ -260,6 +262,35 @@ export function useRecipeUpdateForm({
     }
   };
 
+  const handleImportJson = (data: RecipeImportJson) => {
+    try {
+      setLoading(true);
+
+      const importedData = mapImportedRecipeToRequest(data);
+      setRequest((old) => ({
+        ...old,
+        name: importedData.name,
+        shortDescription: importedData.shortDescription,
+        fullDescription: importedData.fullDescription,
+        sections: importedData.sections,
+        notes: importedData.notes,
+        prepTime: importedData.prepTime,
+        cookTime: importedData.cookTime,
+        restTime: importedData.restTime,
+        yieldTotal: importedData.yieldTotal,
+        difficulty: importedData.difficulty,
+        cuisine: importedData.cuisine,
+        metaTitle: importedData.metaTitle,
+        metaDescription: importedData.metaDescription,
+      }));
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setLoading(false);
+      setIsPristine(false);
+    }
+  };
+
   const hasError = Object.values(errors).some(Boolean);
   const isDirty =
     request.name !== initialState?.name ||
@@ -295,5 +326,6 @@ export function useRecipeUpdateForm({
     handleNotesChange,
     handleSectionsChange,
     handleImageUpload,
+    handleImportJson,
   };
 }

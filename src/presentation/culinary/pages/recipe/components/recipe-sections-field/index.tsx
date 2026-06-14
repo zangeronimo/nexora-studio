@@ -15,6 +15,7 @@ export type Step = {
 };
 
 export type Section = {
+  id?: string;
   title: string | null;
   ingredients: Ingredient[];
   steps: Step[];
@@ -37,6 +38,7 @@ const createStep = (): Step => ({
 });
 
 const createSection = (): Section => ({
+  id: crypto.randomUUID(),
   title: '',
   ingredients: [createIngredient()],
   steps: [createStep()],
@@ -69,7 +71,7 @@ export function RecipeSectionsField({ value, onChange }: Props) {
 
       {value.map((section, index) => (
         <RecipeSectionCard
-          key={index}
+          key={section.id}
           section={section}
           canDelete={value.length > 1}
           onDelete={() => removeSection(index)}

@@ -54,7 +54,7 @@ export class UpdateRecipeRequest {
     readonly cookTime: number,
     readonly restTime: number,
     readonly yieldTotal: string,
-    readonly difficult: recipeDifficulty,
+    readonly difficulty: recipeDifficulty,
     readonly cuisine: string,
     readonly metaTitle: string,
     readonly metaDescription: string,

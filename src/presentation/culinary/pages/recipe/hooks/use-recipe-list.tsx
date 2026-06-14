@@ -18,6 +18,8 @@ import { IRecipeService } from '@application/culinary/contracts/recipe-service';
 import { GetRecipesRequest } from '@application/culinary/requests/recipe-request';
 
 import * as styles from '../styles.module.scss';
+import { Button } from '@presentation/base/components/button';
+import { FileJson } from 'lucide-react';
 
 type Props = {
   recipeService: IRecipeService;
@@ -86,8 +88,10 @@ export function useRecipeList({ recipeService, authorizationProvider }: Props) {
     navigate('/culinary/recipes/create');
   };
 
-  const handleEdit = (recipe: Recipe) => {
-    navigate(`/culinary/recipes/edit/${recipe.id}`);
+  const handleEdit = (recipe: Recipe, importJson: boolean = false) => {
+    let params = '';
+    if (importJson) params = '?import=true';
+    navigate(`/culinary/recipes/edit/${recipe.id}${params}`);
   };
 
   const handleOpenDelete = (recipe: Recipe) => {
@@ -172,6 +176,22 @@ export function useRecipeList({ recipeService, authorizationProvider }: Props) {
               )}
               onClick={() => handleEdit(recipe)}
             />
+
+            {recipe.status === status.inactive && (
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                onClick={() => handleEdit(recipe, true)}
+                disabled={
+                  !authorizationProvider.hasPermission('culinary.recipe.update')
+                }
+                aria-label={t('culinary.recipe.buttons.importJson')}
+                title={t('culinary.recipe.buttons.importJson')}
+              >
+                <FileJson size={16} />
+              </Button>
+            )}
 
             <DataGridAction
               type="delete"

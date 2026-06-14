@@ -13,4 +13,10 @@ export namespace recipeDifficulty {
         value,
       }));
   }
+
+  export function numberToEnum(n: number): recipeDifficulty {
+    return recipeDifficulty[n]
+      ? (n as recipeDifficulty)
+      : recipeDifficulty.medium;
+  }
 }
