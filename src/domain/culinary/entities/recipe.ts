@@ -1,6 +1,7 @@
 import { Entity } from '@domain/base/entities/entity';
 import { status } from '@domain/base/enums/status';
 import { recipeDifficulty } from '../enums/recipe-difficulty';
+import { Category } from './category';
 
 export class Recipe extends Entity {
   constructor(
@@ -31,6 +32,7 @@ export class Recipe extends Entity {
     readonly tagIds: string[],
     readonly categoryId: string,
     readonly publishedAt: Date | null,
+    readonly category: Category | null,
     createdAt: Date,
     updatedAt: Date,
   ) {

@@ -41,7 +41,6 @@ export function CulinaryRecipeUpdatePage({
     request,
     categoriesParent,
     categoriesChildren,
-    parent,
     setParent,
     handleFieldChange,
     handleNotesChange,
@@ -77,7 +76,7 @@ export function CulinaryRecipeUpdatePage({
                   <Select
                     label={t('culinary.recipe.fields.parent')}
                     placeholder={t('common.select.empty')}
-                    value={parent}
+                    value={request.category?.parentId ?? request.categoryId}
                     onChange={setParent}
                     options={categoriesParent?.map((parent) => ({
                       label: parent.name,

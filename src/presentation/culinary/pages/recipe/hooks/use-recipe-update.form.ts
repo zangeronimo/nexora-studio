@@ -45,6 +45,7 @@ type requestState = {
   canonicalUrl: string;
   status: string;
   categoryId: string;
+  category: Category | null;
   imageUrl: string | null;
 };
 
@@ -82,6 +83,7 @@ export function useRecipeUpdateForm({
     status: '',
     imageUrl: '',
     categoryId: null,
+    category: null,
   });
   const [parent, setParent] = useState<string>('');
   const [categoriesParent, setCategoriesParent] = useState<Category[]>([]);
@@ -147,10 +149,12 @@ export function useRecipeUpdateForm({
         status: recipe.status.toString(),
         imageUrl: recipe.imageUrl,
         categoryId: recipe.categoryId,
+        category: recipe.category,
       };
 
       setInitialState(nextState);
       setRequest(nextState);
+      setParent(nextState.category?.parentId ?? nextState.categoryId);
     } catch (e) {
       toast.error(e.message);
     } finally {
@@ -319,7 +323,6 @@ export function useRecipeUpdateForm({
     isDirty,
     isPristine,
     loading,
-    parent,
     setParent,
     handleSubmit,
     handleFieldChange,
