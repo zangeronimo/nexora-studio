@@ -44,6 +44,8 @@ export function RecipeStepsField({ value, onChange }: Props) {
     next[index] = { ...next[index], instruction };
 
     sync(next); // 👈 sem commit aqui
+
+    commit(next);
   };
 
   return (
