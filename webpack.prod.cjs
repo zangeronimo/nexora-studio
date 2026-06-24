@@ -44,7 +44,7 @@ module.exports = merge(common, {
   plugins: [
     new DefinePlugin({
       'process.env.API_URL': JSON.stringify(
-        'https://webeditor-node.tudolinux.com.br',
+        'https://nexora-api.tudolinux.com.br',
       ),
     }),
     new HtmlWebpackPlugin({
