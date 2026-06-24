@@ -42,7 +42,7 @@ export class RecipeService implements IRecipeService {
 
   async imageUpload(id: string, file: File): Promise<string> {
     const formData = new FormData();
-    formData.append('FeaturedImage', file);
+    formData.append('Image', file);
 
     const result = await this.http.put<Recipe>(
       `/culinary/recipes/${id}/image`,
