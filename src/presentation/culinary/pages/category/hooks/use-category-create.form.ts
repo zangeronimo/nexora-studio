@@ -36,7 +36,6 @@ export function useCategoryCreateForm({ categoryService }: Props) {
     status: '',
     metaTitle: '',
     metaDescription: '',
-    canonicalUrl: '',
   };
 
   const [request, setRequest] = useState(initialState);
@@ -110,7 +109,6 @@ export function useCategoryCreateForm({ categoryService }: Props) {
           request.displayOrder,
           request.metaTitle,
           request.metaDescription,
-          request.canonicalUrl,
           request.status === '1' ? status.active : status.inactive,
         ),
       );
@@ -131,8 +129,7 @@ export function useCategoryCreateForm({ categoryService }: Props) {
     request.displayOrder !== initialState.displayOrder ||
     request.status !== initialState.status;
   request.metaTitle !== initialState.metaTitle ||
-    request.metaDescription !== initialState.metaDescription ||
-    request.canonicalUrl !== initialState.canonicalUrl;
+    request.metaDescription !== initialState.metaDescription;
 
   return {
     request,

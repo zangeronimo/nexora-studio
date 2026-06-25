@@ -27,7 +27,6 @@ export const culinary = {
       status: 'Situação',
       metaTitle: 'Meta título',
       metaDescription: 'Meta descrição',
-      canonicalUrl: 'Url canônica',
     },
     delete: {
       title: 'Excluir Categoria',
@@ -102,7 +101,6 @@ export const culinary = {
       cuisine: 'Tipo de cozinha',
       metaTitle: 'Título meta',
       metaDescription: 'Descrição meta',
-      canonicalUrl: 'Url canônica',
       category: 'Categoria',
       status: 'Situação',
     },

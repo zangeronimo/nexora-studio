@@ -14,7 +14,6 @@ export class Category extends Entity {
     readonly parentId?: string,
     readonly metaTitle?: string,
     readonly metaDescription?: string,
-    readonly canonicalUrl?: string,
     readonly featuredImageUrl?: string,
   ) {
     super(id, createdAt, updatedAt);

@@ -23,7 +23,6 @@ export class CreateCategoryRequest {
     readonly displayOrder: number,
     readonly metaTitle: string,
     readonly metaDescription: string,
-    readonly canonicalUrl: string,
     readonly status: status,
   ) {}
 }
@@ -37,7 +36,6 @@ export class UpdateCategoryRequest {
     readonly displayOrder: number,
     readonly metaTitle: string,
     readonly metaDescription: string,
-    readonly canonicalUrl: string,
     readonly status: status,
   ) {}
 }

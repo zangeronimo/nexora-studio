@@ -217,15 +217,6 @@ export function CulinaryRecipeCreatePage({
                   onChange={(e) => handleFieldChange('metaTitle', e)}
                 />
               </GroupItem>
-
-              <GroupItem span={2}>
-                <Input
-                  label={t('culinary.recipe.fields.canonicalUrl')}
-                  maxLength={500}
-                  value={request.canonicalUrl}
-                  onChange={(e) => handleFieldChange('canonicalUrl', e)}
-                />
-              </GroupItem>
             </Group>
             <Group>
               <GroupItem>

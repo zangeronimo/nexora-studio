@@ -24,7 +24,6 @@ export class Recipe extends Entity {
     readonly cuisine: string,
     readonly metaTitle: string,
     readonly metaDescription: string,
-    readonly canonicalUrl: string | null,
     readonly imageUrl: string | null,
     readonly averageRating: number,
     readonly totalRatings: number,

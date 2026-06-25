@@ -42,7 +42,6 @@ type requestState = {
   cuisine: string;
   metaTitle: string;
   metaDescription: string;
-  canonicalUrl: string;
   status: string;
   categoryId: string;
   category: Category | null;
@@ -79,7 +78,6 @@ export function useRecipeUpdateForm({
     cuisine: '',
     metaTitle: '',
     metaDescription: '',
-    canonicalUrl: '',
     status: '',
     imageUrl: '',
     categoryId: null,
@@ -145,7 +143,6 @@ export function useRecipeUpdateForm({
         cuisine: recipe.cuisine,
         metaTitle: recipe.metaTitle,
         metaDescription: recipe.metaDescription,
-        canonicalUrl: recipe.canonicalUrl,
         status: recipe.status.toString(),
         imageUrl: recipe.imageUrl,
         categoryId: recipe.categoryId,
@@ -252,7 +249,6 @@ export function useRecipeUpdateForm({
           request.cuisine,
           request.metaTitle,
           request.metaDescription,
-          request.canonicalUrl,
           request.status === '1' ? status.active : status.inactive,
           request.categoryId,
         ),
@@ -310,7 +306,6 @@ export function useRecipeUpdateForm({
     request.cuisine !== initialState?.cuisine ||
     request.metaTitle !== initialState?.metaTitle ||
     request.metaDescription !== initialState?.metaDescription ||
-    request.canonicalUrl !== initialState?.canonicalUrl ||
     request.status !== initialState?.status ||
     request.categoryId !== initialState?.categoryId;
 

@@ -88,15 +88,6 @@ export function CulinaryCategoryUpdatePage({ categoryService }: Props) {
                   onChange={(e) => handleFieldChange('metaTitle', e)}
                 />
               </GroupItem>
-
-              <GroupItem span={2}>
-                <Input
-                  label={t('culinary.category.fields.canonicalUrl')}
-                  maxLength={500}
-                  value={request.canonicalUrl}
-                  onChange={(e) => handleFieldChange('canonicalUrl', e)}
-                />
-              </GroupItem>
             </Group>
             <Group>
               <GroupItem>

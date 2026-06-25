@@ -28,7 +28,6 @@ type requestState = {
   status: string;
   metaTitle: string;
   metaDescription: string;
-  canonicalUrl: string;
   featuredImageUrl: string | null;
 };
 
@@ -52,7 +51,6 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
     status: '',
     metaTitle: '',
     metaDescription: '',
-    canonicalUrl: '',
     featuredImageUrl: '',
   });
   const [parents, setParents] = useState<Category[]>([]);
@@ -77,7 +75,6 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
         status: category.status.toString(),
         metaTitle: category.metaTitle,
         metaDescription: category.metaDescription,
-        canonicalUrl: category.canonicalUrl,
         featuredImageUrl: category.featuredImageUrl,
       };
 
@@ -167,7 +164,6 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
           request.displayOrder,
           request.metaTitle,
           request.metaDescription,
-          request.canonicalUrl,
           request.status === '1' ? status.active : status.inactive,
         ),
       );
@@ -186,11 +182,10 @@ export function useCategoryUpdateForm({ id, categoryService }: Props) {
     request.description !== initialState?.description ||
     request.parentId !== initialState?.parentId ||
     request.displayOrder !== initialState?.displayOrder ||
-    request.status !== initialState?.status;
-  request.metaTitle !== initialState?.metaTitle ||
+    request.status !== initialState?.status ||
+    request.metaTitle !== initialState?.metaTitle ||
     request.metaDescription !== initialState?.metaDescription ||
-    request.canonicalUrl !== initialState?.canonicalUrl;
-  request.featuredImageUrl !== initialState?.featuredImageUrl;
+    request.featuredImageUrl !== initialState?.featuredImageUrl;
 
   return {
     request,

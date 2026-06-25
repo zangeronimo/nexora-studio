@@ -30,7 +30,6 @@ export class CreateRecipeRequest {
     readonly cuisine: string,
     readonly metaTitle: string,
     readonly metaDescription: string,
-    readonly canonicalUrl: string,
     readonly status: status,
     readonly categoryId: string,
   ) {}
@@ -58,7 +57,6 @@ export class UpdateRecipeRequest {
     readonly cuisine: string,
     readonly metaTitle: string,
     readonly metaDescription: string,
-    readonly canonicalUrl: string,
     readonly status: status,
     readonly categoryId: string,
   ) {}

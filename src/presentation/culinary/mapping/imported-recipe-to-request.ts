@@ -53,7 +53,6 @@ export const mapImportedRecipeToRequest = (
 
     metaTitle: data.metaTitle,
     metaDescription: data.metaDescription,
-    canonicalUrl: '',
     categoryId: null,
     status: 0,
   };
