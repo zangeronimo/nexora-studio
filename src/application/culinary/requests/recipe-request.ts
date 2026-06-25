@@ -6,7 +6,7 @@ export class GetRecipesRequest extends PaginationRequest {
   constructor(
     readonly page = 1,
     readonly pageSize = 10,
-    readonly orderBy = 'status',
+    readonly orderBy = 'Status',
     readonly desc = false,
     readonly name?: string,
     readonly status?: status,

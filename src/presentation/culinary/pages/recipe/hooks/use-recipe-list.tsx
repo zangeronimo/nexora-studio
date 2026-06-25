@@ -61,7 +61,7 @@ export function useRecipeList({ recipeService, authorizationProvider }: Props) {
     return new GetRecipesRequest(
       page.value(),
       pageSize.value(),
-      sortBy.value() ?? 'Name',
+      sortBy.value() ?? 'Status',
       sortDesc.value(),
       filters.name ?? '',
       filters.status ? Number(filters.status) : null,
