@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { AddButton } from '@presentation/base/components/action-buttons/add-button';
 import { DeleteButton } from '@presentation/base/components/action-buttons/delete-button';
 import { DraggableList } from '@presentation/base/components/draggable-list';
-import { Textarea } from '@presentation/base/components/textarea';
 
 import * as styles from './styles.module.scss';
+import { Input } from '@presentation/base/components/input';
 
 type Step = {
   order: number;
@@ -63,7 +63,7 @@ export function RecipeStepsField({ value, onChange }: Props) {
           <div className={styles.rowDraggable}>
             <div className={styles.order}>{index + 1}</div>
 
-            <Textarea
+            <Input
               value={step.instruction}
               onChange={(v) => update(index, v)}
             />

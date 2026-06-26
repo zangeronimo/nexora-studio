@@ -1,9 +1,9 @@
 import { Card } from '@presentation/base/components/card';
 import { AddButton } from '@presentation/base/components/action-buttons/add-button';
 import { DeleteButton } from '@presentation/base/components/action-buttons/delete-button';
-import { Textarea } from '@presentation/base/components/textarea';
 
 import * as styles from './styles.module.scss';
+import { Input } from '@presentation/base/components/input';
 
 type Props = {
   value: string[];
@@ -51,10 +51,9 @@ export function RecipeNotesField({ value, onChange }: Props) {
               )}
             </div>
 
-            <Textarea
+            <Input
               value={note}
               maxLength={500}
-              placeholder="Example: For a stronger flavor, add one extra tablespoon of..."
               onChange={(value) => handleChange(index, value)}
             />
           </div>

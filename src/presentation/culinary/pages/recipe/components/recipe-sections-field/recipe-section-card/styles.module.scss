@@ -11,6 +11,10 @@
   border-radius: var(--radius-lg);
 
   background: var(--color-surface-hover);
+
+  & input {
+    width: 500px;
+  }
 }
 
 .sectionHeader {
@@ -75,6 +79,10 @@
   gap: 12px;
 
   padding: 8px 0;
+
+  & input {
+    width: 500px;
+  }
 }
 
 .order {
